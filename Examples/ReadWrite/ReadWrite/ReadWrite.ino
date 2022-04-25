@@ -31,7 +31,7 @@
 // Variables
 int data = 0;
 int counter = 0;
-const int rw_delay = 60; // number of seconds per write/read 
+const int rw_delay = 60; // number of seconds between each write/read 
 
 
 void setup() {
