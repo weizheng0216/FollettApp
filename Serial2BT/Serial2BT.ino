@@ -31,9 +31,9 @@ class ServerCallbacks: public BLEServerCallbacks {
     }
 };
 
-class InputReceivedCallbacks: public BLECharacteristicCallbacks {
-    void onWrite(BLECharacteristic *pCharWriteState) {
-        uint8_t *inputValues = pCharWriteState->getData();
+class InputReceivedCallbacks: public BLECharacteristicCallbacks {    //we need this class but we need to change it somehow
+    void onWrite(BLECharacteristic *pCharWriteState) {               //Currently using code from calculator example
+        uint8_t *inputValues = pCharWriteState->getData();           // TODO: figure out what actually goes in here
 
         switch(inputValues[2]) {
           case 0x00: // add
