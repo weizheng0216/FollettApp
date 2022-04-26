@@ -78,7 +78,7 @@ void loop()
       
       //Send Bluetooth Data Message
       for (int i = 0; i < 7; i++){
-        SerialBT.write(data[i]); // TODO convert to hex/bin first then write so it is readable in serial monitor 
+        SerialBT.write(data[i]);
       }
       Serial.print("\n");
       
@@ -88,12 +88,18 @@ void loop()
       data[0] = 255;
       data[1] = 255;
 
-    //TODO: figure out why not working when connected to icebox/any device that's not the computer that uploaded it.
-
       //Send Bluetooth Error message: 
-      SerialBT.write(97); // 'a' 
-      SerialBT.write(10); // '\n' 
+      SerialBT.write(97);
+      SerialBT.write(10); 
 
     }
   }
+
+  // if (Serial.available()) {
+  //   SerialBT.write(Serial.read());
+  // }
+  // if (SerialBT.available()) {
+  //   Serial.write(SerialBT.read());
+  // }
+  // delay(20);
 }
