@@ -15,7 +15,7 @@ unsigned long mainMillis = millis(); // Used to track time between measurements
 
 void setup()
 {
-  Serial.begin(14400);    // ht5; Baud Rate of Ice machine. Hard set.
+  Serial.begin(9600);    // ht5; Baud Rate of Ice machine. Hard set.
   Serial.setTimeout(200); // ht5
 
   SerialBT.begin("Follett Dongle"); // Bluetooth device name
@@ -77,24 +77,23 @@ void loop()
       data[8] = reply[155]; // mymode was 152
       
       //Send Bluetooth Data Message
-      //[TODO]
+      for (int i = 0; i < 7; i++){
+        SerialBT.write(data[i]); // TODO convert to hex/bin first then write so it is readable in serial monitor 
+      }
+      Serial.print("\n");
+      
     }
     else
     {
       data[0] = 255;
       data[1] = 255;
 
+    //TODO: figure out why not working when connected to icebox/any device that's not the computer that uploaded it.
+
       //Send Bluetooth Error message: 
-      // [TODO]
+      SerialBT.write(97); // 'a' 
+      SerialBT.write(10); // '\n' 
 
     }
   }
-
-  // if (Serial.available()) {
-  //   SerialBT.write(Serial.read());
-  // }
-  // if (SerialBT.available()) {
-  //   Serial.write(SerialBT.read());
-  // }
-  // delay(20);
 }
