@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A89C81A2819E7F20022FB97 /* StatusLightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C8192819E7F20022FB97 /* StatusLightViewModel.swift */; };
+		4A89C820281AD8DD0022FB97 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C81F281AD8DD0022FB97 /* ViewModel.swift */; };
+		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */; };
 		4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */; };
 		4A93ABE02808AA1D00ACAB72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93ABDF2808AA1D00ACAB72 /* Assets.xcassets */; };
@@ -17,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A89C8192819E7F20022FB97 /* StatusLightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLightViewModel.swift; sourceTree = "<group>"; };
+		4A89C81F281AD8DD0022FB97 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
+		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Follett Ice Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follett_Ice_MachineApp.swift; sourceTree = "<group>"; };
 		4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,12 +64,16 @@
 		4A93ABDA2808AA1B00ACAB72 /* Follett Ice Machine */ = {
 			isa = PBXGroup;
 			children = (
+				4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */,
 				4AEBEE9C2818C8F000E57E78 /* DateValueFormatter.swift */,
 				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
 				4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */,
 				4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */,
+				4A89C821281ADA930022FB97 /* BLEManager.swift */,
 				4A93ABDF2808AA1D00ACAB72 /* Assets.xcassets */,
 				4A93ABE12808AA1D00ACAB72 /* Preview Content */,
+				4A89C8192819E7F20022FB97 /* StatusLightViewModel.swift */,
+				4A89C81F281AD8DD0022FB97 /* ViewModel.swift */,
 			);
 			path = "Follett Ice Machine";
 			sourceTree = "<group>";
@@ -151,9 +162,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A89C81A2819E7F20022FB97 /* StatusLightViewModel.swift in Sources */,
 				4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */,
+				4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */,
 				4AEBEE9F2818C8F000E57E78 /* DateValueFormatter.swift in Sources */,
 				4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */,
+				4A89C820281AD8DD0022FB97 /* ViewModel.swift in Sources */,
 				4AEBEE9D2818C8F000E57E78 /* LineChart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +279,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				"INFOPLIST_FILE[sdk=*]" = " <key>NSBluetoothAlwaysUsageDescription</key>\n    <string>This app uses Bluetooth to connect to the calculator peripheral.</string>\n    <key>NSBluetoothPeripheralUsageDescription</key>\n    <string>This app uses Bluetooth to connect to the calculator peripheral.</string>";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -286,6 +301,8 @@
 				DEVELOPMENT_TEAM = WZKTZ75KN2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Follett-Ice-Machine-Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The will use the bluetooth to scan the ice machine";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +332,8 @@
 				DEVELOPMENT_TEAM = WZKTZ75KN2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Follett-Ice-Machine-Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The will use the bluetooth to scan the ice machine";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
