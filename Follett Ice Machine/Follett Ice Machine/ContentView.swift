@@ -31,16 +31,6 @@ struct ContentView: View {
                         }
                     }
                     
-                    // Status goes here
-                    if bleManager.isSwitchedOn {
-                        Text("Bluetooth is switched on")
-                            .foregroundColor(.green)
-                    }
-                    else {
-                        Text("Bluetooth is NOT switched on")
-                            .foregroundColor(.red)
-                    }
-                    
                 }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -70,7 +60,7 @@ struct ContentView: View {
                     Image(systemName: "waveform.path.ecg")
                     Text("Amp charts")
                 }}.tag(1)
-            ScanView().tabItem { Group{
+            ScanView(BTManager: bleManager).tabItem { Group{
                     Image(systemName: "chart.pie")
                     Text("Pie charts")
                 }}.tag(2)
@@ -107,7 +97,11 @@ struct ChartsLineChart: View {
 }
 
 
+
+
 struct ScanView: View {
+    
+    @ObservedObject var BTManager: BLEManager
 
     var body: some View {
         VStack (spacing: 10) {
@@ -115,9 +109,12 @@ struct ScanView: View {
             Text("Bluetooth Devices")
                 .font(.largeTitle)
                 .frame(maxWidth: .infinity, alignment: .center)
-            List() {
-                Text("placeholder 1")
-                Text("placeholder 2")
+            List(BTManager.peripherals) { peripheral in
+                HStack {
+                    Text(peripheral.name)
+                    Spacer()
+                    Text(String(peripheral.rssi))
+                }
             }.frame(height: 300)
 
             Spacer()
@@ -126,20 +123,26 @@ struct ScanView: View {
                 .font(.headline)
 
             // Status goes here
-            Text("Bluetooth status here")
-                .foregroundColor(.red)
+            if BTManager.isSwitchedOn {
+                Text("Bluetooth is switched on")
+                    .foregroundColor(.green)
+            }
+            else {
+                Text("Bluetooth is NOT switched on")
+                    .foregroundColor(.red)
+            }
 
             Spacer()
 
             HStack {
                 VStack (spacing: 10) {
                     Button(action: {
-                        print("Start Scanning")
+                        self.BTManager.startScanning()
                     }) {
                         Text("Start Scanning")
                     }
                     Button(action: {
-                        print("Stop Scanning")
+                        self.BTManager.stopScanning()
                     }) {
                         Text("Stop Scanning")
                     }
