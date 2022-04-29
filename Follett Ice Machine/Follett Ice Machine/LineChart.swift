@@ -40,6 +40,7 @@ struct LineChart: UIViewRepresentable {
     
     func updateUIView(_ uiView: LineChartView, context: Context) {
         let dataSet = LineChartDataSet(entries: entries)
+    
         dataSet.label = "Transactions"
         dataSet.colors = [.red]
         dataSet.valueColors = [.blue]
