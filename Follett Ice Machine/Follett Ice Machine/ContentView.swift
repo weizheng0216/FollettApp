@@ -5,6 +5,7 @@ struct ContentView: View {
     let statusLight = ["Cleaner Full", "Drain Clog", "High Pres", "High Amps", "Service", "Maint/Clean", "Low Water", "Time Delay", "Sleep Cycle", "Making Ice", "Low Bin", "Power On"]
     
     @State var tabIndex:Int = 0
+    @State private var showingModel = false
     @ObservedObject var bleManager = BLEManager()
     
     var body: some View {
@@ -29,6 +30,18 @@ struct ContentView: View {
                                     .frame(width: 130, alignment: .leading)
                             }
                         }
+                    }
+                    
+                    Button(action: {
+                        self.bleManager.startScanning()
+                        showingModel = true }) {
+                            Text("Connect to a Ice Machine")
+                        }
+                    .sheet(isPresented: $showingModel, onDismiss: {
+                        self.bleManager.stopScanning()
+                        self.bleManager.peripherals.removeAll()
+                    }) {
+                        ScanView(BTManager: bleManager, isPresented: $showingModel)
                     }
                     
                 }
@@ -60,10 +73,11 @@ struct ContentView: View {
                     Image(systemName: "waveform.path.ecg")
                     Text("Amp charts")
                 }}.tag(1)
-            ScanView(BTManager: bleManager).tabItem { Group{
-                    Image(systemName: "chart.pie")
-                    Text("Pie charts")
-                }}.tag(2)
+            
+//            ScanView(BTManager: bleManager, isPresented: $showingModel).tabItem { Group{
+//                    Image(systemName: "chart.pie")
+//                    Text("Pie charts")
+//                }}.tag(2)
 //            LineChartsFull().tabItem { Group{
 //                Image(systemName: "waveform.path.ecg")
 //                Text("Data Graph")
@@ -102,13 +116,11 @@ struct ChartsLineChart: View {
 struct ScanView: View {
     
     @ObservedObject var BTManager: BLEManager
+    @Binding var isPresented: Bool
 
     var body: some View {
-        VStack (spacing: 10) {
-
-            Text("Bluetooth Devices")
-                .font(.largeTitle)
-                .frame(maxWidth: .infinity, alignment: .center)
+        
+        NavigationView {
             List(BTManager.peripherals) { peripheral in
                 HStack {
                     Text(peripheral.name)
@@ -116,54 +128,12 @@ struct ScanView: View {
                     Text(String(peripheral.rssi))
                 }
             }.frame(height: 300)
-
-            Spacer()
-
-            Text("STATUS")
-                .font(.headline)
-
-            // Status goes here
-            if BTManager.isSwitchedOn {
-                Text("Bluetooth is switched on")
-                    .foregroundColor(.green)
-            }
-            else {
-                Text("Bluetooth is NOT switched on")
-                    .foregroundColor(.red)
-            }
-
-            Spacer()
-
-            HStack {
-                VStack (spacing: 10) {
-                    Button(action: {
-                        self.BTManager.startScanning()
-                    }) {
-                        Text("Start Scanning")
-                    }
-                    Button(action: {
-                        self.BTManager.stopScanning()
-                    }) {
-                        Text("Stop Scanning")
-                    }
-                }.padding()
-
-                Spacer()
-
-                VStack (spacing: 10) {
-                    Button(action: {
-                        print("Start Advertising")
-                    }) {
-                        Text("Start Advertising")
-                    }
-                    Button(action: {
-                        print("Stop Advertising")
-                    }) {
-                        Text("Stop Advertising")
-                    }
-                }.padding()
-            }
-            Spacer()
+            .navigationBarTitle(Text("Sheet View"), displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                    isPresented = false
+                }) {
+                    Text("Done").bold()
+                })
         }
     }
 }

@@ -44,8 +44,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 
         if let name = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
             peripheralName = name
-        }
-        else {
+        } else {
             peripheralName = "Unknown"
             return
         }
@@ -65,6 +64,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             self.myCentral.connect(myPeripheral, options: nil)
         }
         
+    }
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        self.myPeripheral.discoverServices(nil)
     }
     
     func startScanning() {
