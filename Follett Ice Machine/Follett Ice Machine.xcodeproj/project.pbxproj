@@ -53,6 +53,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A89C834281CADC80022FB97 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */,
+				4A89C832281CAC910022FB97 /* ChartsLineChart.swift */,
+				4A89C82E281CAC050022FB97 /* ChartsMultipleLineChart.swift */,
+				4A89C830281CAC6D0022FB97 /* ScanView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4A93ABCF2808AA1B00ACAB72 = {
 			isa = PBXGroup;
 			children = (
@@ -76,11 +87,8 @@
 				4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */,
 				4AEBEE9C2818C8F000E57E78 /* DateValueFormatter.swift */,
 				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
+				4A89C834281CADC80022FB97 /* Views */,
 				4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */,
-				4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */,
-				4A89C832281CAC910022FB97 /* ChartsLineChart.swift */,
-				4A89C830281CAC6D0022FB97 /* ScanView.swift */,
-				4A89C82E281CAC050022FB97 /* ChartsMultipleLineChart.swift */,
 				4A89C821281ADA930022FB97 /* BLEManager.swift */,
 				4A93ABE12808AA1D00ACAB72 /* Preview Content */,
 				4A89C8192819E7F20022FB97 /* StatusLightViewModel.swift */,

@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         
         TabView(selection: $tabIndex) {
-            
+        
             NavigationView{
                 VStack(spacing: 40) {
                     VStack {
@@ -43,43 +43,46 @@ struct ContentView: View {
                     }) {
                         ScanView(BTManager: bleManager, isPresented: $showingModel)
                     }
-                    
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image("logo-blue")
+                    }
                 }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            HStack {
-                                Image("logo-blue")
-                            }
-                        }
-                    }
-                }.tabItem {
-                    Group{
-                        Image(systemName: "chart.bar")
-                        Text("Status")
-                    }
-                }.tag(0)
+            }
+        }.tabItem {
+            Group{
+                Image(systemName: "chart.bar")
+                Text("Status")
+            }
+        }.tag(0)
+            
+        NavigationView{
 
             VStack{
-                Spacer()
-                VStack{
-                    Text("Amp Graph")
-                    ChartsLineChart()
-                }
-                
-                Spacer()
-                
-            }.tabItem { Group{
-                    Image(systemName: "waveform.path.ecg")
-                    Text("Amp charts")
-                }}.tag(1)
+                ChartsLineChart()
+                    .navigationTitle("Amp Graph")
+            }
+        }
+            .tabItem { Group{
+                Image(systemName: "waveform.path.ecg")
+                Text("Amp charts")
+        }}.tag(1)
+        
             
 //            ScanView(BTManager: bleManager, isPresented: $showingModel).tabItem { Group{
 //                    Image(systemName: "chart.pie")
 //                    Text("Pie charts")
 //                }}.tag(2)
-            ChartsMultipleLineChart().tabItem { Group{
-                Image(systemName: "waveform.path.ecg")
+            
+        NavigationView{
+            ChartsMultipleLineChart()
+                .navigationTitle("State Graph")
+        }
+            .tabItem { Group{
+                Image(systemName: "clock")
                 Text("State Graph")
             }}.tag(2)
         }

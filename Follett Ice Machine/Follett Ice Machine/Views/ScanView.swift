@@ -20,7 +20,12 @@ struct ScanView: View {
                     Text(peripheral.name)
                     Spacer()
                 }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print(peripheral.rssi)
+                }
             }
+            
             .navigationBarTitle(Text("Scanning..."), displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     isPresented = false
