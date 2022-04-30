@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import CoreBluetooth
 
 struct Peripheral: Identifiable {
@@ -66,6 +67,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         let newPeripheral = Peripheral(id: peripherals.count, name: peripheralName, rssi: RSSI.intValue)
 
+        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
         print(newPeripheral)
         peripherals.append(newPeripheral)
         peripherals.sort(by: { $0.rssi > $1.rssi} )
@@ -175,6 +177,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         if myPeripheral != nil {
             myCentral?.cancelPeripheralConnection(myPeripheral!)
         }
+    }
+    
+    @objc func fireTimer() {
+        peripherals.removeAll()
     }
 
 }
