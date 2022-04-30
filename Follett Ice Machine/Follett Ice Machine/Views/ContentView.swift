@@ -43,6 +43,13 @@ struct ContentView: View {
                     }) {
                         ScanView(BTManager: bleManager, isPresented: $showingModel)
                     }
+                    
+                    Button(action: {
+                        self.bleManager.disconnect()
+                        showingModel = false }) {
+                            Text("Disconnect from the Ice Machine")
+                        }
+                    
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
