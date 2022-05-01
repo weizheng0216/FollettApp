@@ -31,24 +31,26 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
-                    Button(action: {
-                        self.bleManager.startScanning()
-                        showingModel = true }) {
-                            Text("Connect to a Ice Machine")
+                    VStack(spacing: 5){
+                        Button(action: {
+                            self.bleManager.startScanning()
+                            showingModel = true }) {
+                                Text("Connect to a Ice Machine")
+                            }
+                        .sheet(isPresented: $showingModel, onDismiss: {
+                            self.bleManager.stopScanning()
+                            self.bleManager.peripherals.removeAll()
+                        }) {
+                            ScanView(BTManager: bleManager, isPresented: $showingModel)
                         }
-                    .sheet(isPresented: $showingModel, onDismiss: {
-                        self.bleManager.stopScanning()
-                        self.bleManager.peripherals.removeAll()
-                    }) {
-                        ScanView(BTManager: bleManager, isPresented: $showingModel)
+                        
+                        Button(action: {
+                            self.bleManager.disconnect()
+                            showingModel = false }) {
+                                Text("Disconnect from the Ice Machine")
+                            }
                     }
                     
-                    Button(action: {
-                        self.bleManager.disconnect()
-                        showingModel = false }) {
-                            Text("Disconnect from the Ice Machine")
-                        }
                     
             }
             .navigationBarTitleDisplayMode(.inline)

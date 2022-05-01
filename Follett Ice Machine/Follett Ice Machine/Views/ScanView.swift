@@ -18,6 +18,7 @@ struct ScanView: View {
             List(BTManager.peripherals) { peripheral in
                 HStack {
                     Text(peripheral.name)
+                    
                     Spacer()
                 }
                 .contentShape(Rectangle())

@@ -66,8 +66,13 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         }
         
         let newPeripheral = Peripheral(id: peripherals.count, name: peripheralName, rssi: RSSI.intValue)
-
-        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
+        
+        for existing in peripherals {
+            if existing.name == peripheral.name {
+                return
+            }
+        }
+        
         print(newPeripheral)
         peripherals.append(newPeripheral)
         peripherals.sort(by: { $0.rssi > $1.rssi} )
@@ -164,8 +169,9 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func startScanning() {
-         print("startScanning")
-         myCentral.scanForPeripherals(withServices: nil, options: nil)
+        print("startScanning")
+        myCentral.scanForPeripherals(withServices: nil, options: nil)
+        Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
      }
     
     func stopScanning() {
