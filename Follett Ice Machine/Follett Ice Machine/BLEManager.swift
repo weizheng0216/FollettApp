@@ -13,6 +13,7 @@ struct Peripheral: Identifiable {
     let id: Int
     let name: String
     let rssi: Int
+    let cbPerpheral: CBPeripheral
 }
 //
 //struct CBUUIDs{
@@ -59,13 +60,12 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 
         if let name = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
             peripheralName = name
-            
         } else {
             peripheralName = "Unknown"
             return
         }
         
-        let newPeripheral = Peripheral(id: peripherals.count, name: peripheralName, rssi: RSSI.intValue)
+        let newPeripheral = Peripheral(id: peripherals.count, name: peripheralName, rssi: RSSI.intValue, cbPerpheral: peripheral)
         
         for existing in peripherals {
             if existing.name == peripheral.name {
@@ -90,6 +90,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        // to do, throw error when connect to nonesp32
         self.myPeripheral.discoverServices(nil)
     }
     
@@ -177,6 +178,16 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func stopScanning() {
         print("stopScanning")
         myCentral.stopScan()
+    }
+    
+    func connect(peripheralName: String){
+        
+        if let peripheralToConnect = peripherals.first(where: {$0.name == peripheralName}) {
+            self.myCentral.connect(peripheralToConnect.cbPerpheral, options: nil)
+        }
+        
+        print("hello");
+        
     }
     
     func disconnect () {

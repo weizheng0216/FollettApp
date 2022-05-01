@@ -24,7 +24,9 @@ struct ScanView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
 //                    print(peripheral.rssi)
-                    BTManager.writeOutgoingValue(data: "Hello World")
+//                    BTManager.writeOutgoingValue(data: "Hello World")
+                    BTManager.connect(peripheralName: peripheral.name)
+                        
                 }
             }
             
