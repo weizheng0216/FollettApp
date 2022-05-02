@@ -7,6 +7,9 @@
 
 import Foundation
 
-class iceMachineStatus: ObservableObject {
-    let status: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0]
+class IceMachineStatus: ObservableObject {
+    
+    static let shared = IceMachineStatus()
+    
+    @Published var statusArray: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0]
 }

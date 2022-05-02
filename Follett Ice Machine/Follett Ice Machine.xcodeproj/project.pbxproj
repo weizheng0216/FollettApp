@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C4282040FD004A74A9 /* StatusLightView.swift */; };
-		4A76E1C72820441A004A74A9 /* iceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* iceMachineStatus.swift */; };
+		4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */; };
 		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C828281C71E90022FB97 /* MultipleLineChart.swift */; };
 		4A89C82B281C73D70022FB97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A89C82A281C73D70022FB97 /* Assets.xcassets */; };
@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		4A76E1C4282040FD004A74A9 /* StatusLightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLightView.swift; sourceTree = "<group>"; };
-		4A76E1C62820441A004A74A9 /* iceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iceMachineStatus.swift; sourceTree = "<group>"; };
+		4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceMachineStatus.swift; sourceTree = "<group>"; };
 		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A89C828281C71E90022FB97 /* MultipleLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChart.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		4A93ABDA2808AA1B00ACAB72 /* Follett Ice Machine */ = {
 			isa = PBXGroup;
 			children = (
-				4A76E1C62820441A004A74A9 /* iceMachineStatus.swift */,
+				4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */,
 				4A89C82A281C73D70022FB97 /* Assets.xcassets */,
 				4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */,
 				4AEBEE9C2818C8F000E57E78 /* DateValueFormatter.swift */,
@@ -187,7 +187,7 @@
 				4A89C833281CAC910022FB97 /* AmpChartView.swift in Sources */,
 				4A89C82F281CAC050022FB97 /* MultipleLineChartView.swift in Sources */,
 				4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */,
-				4A76E1C72820441A004A74A9 /* iceMachineStatus.swift in Sources */,
+				4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */,
 				4AEBEE9F2818C8F000E57E78 /* DateValueFormatter.swift in Sources */,
 				4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */,
 				4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */,

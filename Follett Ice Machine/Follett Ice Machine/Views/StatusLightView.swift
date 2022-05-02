@@ -11,7 +11,7 @@ struct StatusLightView: View {
     
     @ObservedObject var BTManager: BLEManager
     
-    @ObservedObject var iceMachineState: iceMachineStatus
+    @ObservedObject var status = IceMachineStatus.shared
     @State private var showingModel = false
     
     let statusLight = ["Cleaner Full", "Drain Clog", "High Pres", "High Amps", "Service", "Maint/Clean", "Low Water", "Time Delay", "Sleep Cycle", "Making Ice", "Low Bin", "Power On"]
@@ -25,11 +25,25 @@ struct StatusLightView: View {
             }
             
             VStack{
-                ForEach(Array(zip(statusLight, iceMachineState.status)), id: \.0) { item in
+                ForEach(Array(zip(statusLight, status.statusArray).enumerated()), id: \.0) { index, item in
+                    
+                    
+                    
                     HStack{
-                        Circle()
-                            .fill(item.1==1 ? Color.green : Color.red)
-                            .frame(width: 10, height: 10)
+                        if 0...4 ~= index {
+                            Circle()
+                                .fill(item.1==1 ? Color.red : Color.red.opacity(0.2))
+                                .frame(width: 10, height: 10)
+                        } else if 4...9 ~= index {
+                            Circle()
+                                .fill(item.1==1 ? Color.yellow : Color.yellow.opacity(0.2))
+                                .frame(width: 10, height: 10)
+                        } else {
+                            Circle()
+                                .fill(item.1==1 ? Color.green : Color.green.opacity(0.2))
+                                .frame(width: 10, height: 10)
+                        }
+                        
                         Text(item.0.uppercased())
                             .frame(width: 130, alignment: .leading)
                     }
@@ -53,6 +67,7 @@ struct StatusLightView: View {
                     self.BTManager.disconnect()
                     showingModel = false
                 }) { Text("Disconnect from the Ice Machine") }
+        
             }
         }
         .navigationBarTitleDisplayMode(.inline)

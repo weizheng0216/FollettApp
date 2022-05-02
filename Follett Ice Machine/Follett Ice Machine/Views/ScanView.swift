@@ -25,7 +25,9 @@ struct ScanView: View {
                 .onTapGesture {
 //                    print(peripheral.rssi)
 //                    BTManager.writeOutgoingValue(data: "Hello World")
-                    BTManager.connect(peripheralName: peripheral.name)
+                    
+                    // comment out this if dynamic, change in blemanager
+//                    BTManager.connect(peripheralName: peripheral.name)
                         
                 }
             }

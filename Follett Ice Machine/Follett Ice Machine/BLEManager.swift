@@ -39,6 +39,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
     
+    var status = IceMachineStatus.shared
     
 
     override init() {
@@ -83,7 +84,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         if peripheralName == "Follett Ice Machine" {
             print(true)
             self.stopScanning()
-            
             self.myPeripheral = peripheral
             self.myPeripheral.delegate = self
             self.myCentral.connect(myPeripheral, options: nil)
@@ -175,6 +175,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         print("startScanning")
         myCentral.scanForPeripherals(withServices: nil, options: nil)
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
+    
+        status.statusArray = [0,0,0,1,0,0,1,0,0,0,1,0]
      }
     
     func stopScanning() {

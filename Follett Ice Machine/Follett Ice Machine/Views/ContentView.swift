@@ -6,14 +6,14 @@ struct ContentView: View {
     
     @State var tabIndex:Int = 0
     @ObservedObject var bleManager = BLEManager()
-    @ObservedObject var iceMachineState = iceMachineStatus()
+    @ObservedObject var iceMachineState = IceMachineStatus()
     
     var body: some View {
         
         TabView(selection: $tabIndex) {
         
             NavigationView{
-                StatusLightView(BTManager: self.bleManager, iceMachineState: iceMachineState)
+                StatusLightView(BTManager: self.bleManager)
             }
             .tabItem {
                 Group{
