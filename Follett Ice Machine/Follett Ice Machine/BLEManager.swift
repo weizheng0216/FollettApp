@@ -38,6 +38,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
+    
+    
 
     override init() {
         super.init()
@@ -184,9 +186,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if let peripheralToConnect = peripherals.first(where: {$0.name == peripheralName}) {
             self.myCentral.connect(peripheralToConnect.cbPerpheral, options: nil)
+            peripheralToConnect.cbPerpheral.readValue(for: rxCharacteristic)
         }
         
-        print("hello");
+        
         
     }
     

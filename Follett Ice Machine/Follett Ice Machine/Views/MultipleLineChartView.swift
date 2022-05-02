@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 
-struct ChartsMultipleLineChart: View {
+struct StateChartView: View {
     @State private var data1: [ChartDataEntry] = [
         ChartDataEntry(x: 1650504066, y: 1, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 1, data: "My data"),
@@ -146,6 +146,6 @@ struct ChartsMultipleLineChart: View {
 
 struct ChartsMultipleLineChart_Previews: PreviewProvider {
     static var previews: some View {
-        ChartsMultipleLineChart()
+        StateChartView()
     }
 }

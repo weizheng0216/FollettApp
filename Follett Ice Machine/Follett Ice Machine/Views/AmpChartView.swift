@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct ChartsLineChart: View {
+struct AmpChartView: View {
     @State private var data: [ChartDataEntry] = [
         ChartDataEntry(x: 1650504066, y: 312, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 189, data: "My data"),
@@ -34,6 +34,6 @@ struct ChartsLineChart: View {
 
 struct ChartsLineChart_Previews: PreviewProvider {
     static var previews: some View {
-        ChartsLineChart()
+        AmpChartView()
     }
 }
