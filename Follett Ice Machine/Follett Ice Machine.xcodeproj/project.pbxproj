@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C4282040FD004A74A9 /* StatusLightView.swift */; };
 		4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */; };
+		4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C8282095CA004A74A9 /* PieChart.swift */; };
+		4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */; };
 		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C828281C71E90022FB97 /* MultipleLineChart.swift */; };
 		4A89C82B281C73D70022FB97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A89C82A281C73D70022FB97 /* Assets.xcassets */; };
-		4A89C82F281CAC050022FB97 /* MultipleLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C82E281CAC050022FB97 /* MultipleLineChartView.swift */; };
+		4A89C82F281CAC050022FB97 /* StateChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C82E281CAC050022FB97 /* StateChartView.swift */; };
 		4A89C831281CAC6D0022FB97 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C830281CAC6D0022FB97 /* ScanView.swift */; };
 		4A89C833281CAC910022FB97 /* AmpChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C832281CAC910022FB97 /* AmpChartView.swift */; };
 		4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */; };
@@ -26,11 +28,13 @@
 /* Begin PBXFileReference section */
 		4A76E1C4282040FD004A74A9 /* StatusLightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLightView.swift; sourceTree = "<group>"; };
 		4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceMachineStatus.swift; sourceTree = "<group>"; };
+		4A76E1C8282095CA004A74A9 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
+		4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilizationChartView.swift; sourceTree = "<group>"; };
 		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A89C828281C71E90022FB97 /* MultipleLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChart.swift; sourceTree = "<group>"; };
 		4A89C82A281C73D70022FB97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../../Downloads/AppIcons-2/Assets.xcassets"; sourceTree = "<group>"; };
-		4A89C82E281CAC050022FB97 /* MultipleLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChartView.swift; sourceTree = "<group>"; };
+		4A89C82E281CAC050022FB97 /* StateChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateChartView.swift; sourceTree = "<group>"; };
 		4A89C830281CAC6D0022FB97 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		4A89C832281CAC910022FB97 /* AmpChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpChartView.swift; sourceTree = "<group>"; };
 		4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Follett Ice Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,14 +57,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A76E1CA282095D9004A74A9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4A89C828281C71E90022FB97 /* MultipleLineChart.swift */,
+				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
+				4A76E1C8282095CA004A74A9 /* PieChart.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4A89C834281CADC80022FB97 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */,
 				4A89C832281CAC910022FB97 /* AmpChartView.swift */,
-				4A89C82E281CAC050022FB97 /* MultipleLineChartView.swift */,
+				4A89C82E281CAC050022FB97 /* StateChartView.swift */,
 				4A89C830281CAC6D0022FB97 /* ScanView.swift */,
 				4A76E1C4282040FD004A74A9 /* StatusLightView.swift */,
+				4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -84,13 +99,12 @@
 		4A93ABDA2808AA1B00ACAB72 /* Follett Ice Machine */ = {
 			isa = PBXGroup;
 			children = (
-				4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */,
 				4A89C82A281C73D70022FB97 /* Assets.xcassets */,
 				4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */,
 				4AEBEE9C2818C8F000E57E78 /* DateValueFormatter.swift */,
-				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
-				4A89C828281C71E90022FB97 /* MultipleLineChart.swift */,
+				4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */,
 				4A89C821281ADA930022FB97 /* BLEManager.swift */,
+				4A76E1CA282095D9004A74A9 /* Model */,
 				4A89C834281CADC80022FB97 /* Views */,
 				4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */,
 				4A93ABE12808AA1D00ACAB72 /* Preview Content */,
@@ -183,9 +197,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */,
+				4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */,
 				4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */,
 				4A89C833281CAC910022FB97 /* AmpChartView.swift in Sources */,
-				4A89C82F281CAC050022FB97 /* MultipleLineChartView.swift in Sources */,
+				4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */,
+				4A89C82F281CAC050022FB97 /* StateChartView.swift in Sources */,
 				4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */,
 				4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */,
 				4AEBEE9F2818C8F000E57E78 /* DateValueFormatter.swift in Sources */,

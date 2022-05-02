@@ -44,6 +44,16 @@ struct ContentView: View {
                 Text("State Graph")
             }}
             .tag(2)
+            
+            NavigationView{
+                UtilizationChartView ()
+                    .navigationTitle("Utilization Graph")
+            }
+            .tabItem { Group{
+                Image(systemName: "chart.pie")
+                Text("Utilization Graph")
+            }}
+            .tag(3)
         }
     }
 }

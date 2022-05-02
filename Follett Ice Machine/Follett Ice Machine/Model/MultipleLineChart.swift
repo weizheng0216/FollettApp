@@ -64,7 +64,7 @@ struct MultipleLineChart: UIViewRepresentable {
         let dataSet11 = LineChartDataSet(entries: lowBin)
         let dataSet12 = LineChartDataSet(entries: powerOn)
         
-        dataSet1.label = "Transactions"
+        dataSet1.label = "CLEANER FULL"
 //        dataSet1.colors = [.red]
         dataSet1.colors = [.red]
         dataSet1.valueFormatter = DefaultValueFormatter(decimals: 0)
@@ -73,7 +73,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet1.highlightEnabled = false
         dataSet1.drawValuesEnabled = false
         
-        dataSet2.label = "Transactions"
+        dataSet2.label = "DRAIN CLOG"
         dataSet2.colors = [.orange]
         dataSet2.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet2.drawCirclesEnabled = false
@@ -81,7 +81,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet2.highlightEnabled = false
         dataSet2.drawValuesEnabled = false
         
-        dataSet3.label = "Transactions"
+        dataSet3.label = "HIGH PRES"
         dataSet3.colors = [.yellow]
         dataSet3.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet3.drawCirclesEnabled = false
@@ -89,7 +89,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet3.highlightEnabled = false
         dataSet3.drawValuesEnabled = false
         
-        dataSet4.label = "Transactions"
+        dataSet4.label = "HIGH AMPS"
         dataSet4.colors = [.green]
         dataSet4.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet4.drawCirclesEnabled = false
@@ -97,7 +97,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet4.highlightEnabled = false
         dataSet4.drawValuesEnabled = false
         
-        dataSet5.label = "Transactions"
+        dataSet5.label = "SERVICE"
         dataSet5.colors = [.blue]
         dataSet5.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet5.drawCirclesEnabled = false
@@ -105,7 +105,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet5.highlightEnabled = false
         dataSet5.drawValuesEnabled = false
         
-        dataSet6.label = "Transactions"
+        dataSet6.label = "MAINT/CLEAN"
         dataSet6.colors = [.brown]
         dataSet6.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet6.drawCirclesEnabled = false
@@ -113,7 +113,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet6.highlightEnabled = false
         dataSet6.drawValuesEnabled = false
         
-        dataSet7.label = "Transactions"
+        dataSet7.label = "LOW WATER"
         dataSet7.colors = [.purple]
         dataSet7.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet7.drawCirclesEnabled = false
@@ -121,7 +121,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet7.highlightEnabled = false
         dataSet7.drawValuesEnabled = false
         
-        dataSet8.label = "Transactions"
+        dataSet8.label = "TIME DELAY"
         dataSet8.colors = [.systemIndigo]
         dataSet8.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet8.drawCirclesEnabled = false
@@ -129,7 +129,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet8.highlightEnabled = false
         dataSet8.drawValuesEnabled = false
         
-        dataSet9.label = "Transactions"
+        dataSet9.label = "SLEEP CYCLE"
         dataSet9.colors = [.gray]
         dataSet9.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet9.drawCirclesEnabled = false
@@ -137,7 +137,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet9.highlightEnabled = false
         dataSet9.drawValuesEnabled = false
         
-        dataSet10.label = "Transactions"
+        dataSet10.label = "MAKING ICE"
         dataSet10.colors = [.systemMint]
         dataSet10.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet10.drawCirclesEnabled = false
@@ -145,7 +145,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet10.highlightEnabled = false
         dataSet10.drawValuesEnabled = false
         
-        dataSet11.label = "Transactions"
+        dataSet11.label = "LOW BIN"
         dataSet11.colors = [.systemTeal]
         dataSet11.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet11.drawCirclesEnabled = false
@@ -153,7 +153,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet11.highlightEnabled = false
         dataSet11.drawValuesEnabled = false
         
-        dataSet12.label = "Transactions"
+        dataSet12.label = "POWER"
         dataSet12.colors = [.systemCyan]
         dataSet12.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet12.drawCirclesEnabled = false
