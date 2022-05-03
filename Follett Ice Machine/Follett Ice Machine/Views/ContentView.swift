@@ -35,7 +35,7 @@ struct ContentView: View {
             }
             .tabItem { Group{
                 Image(systemName: "waveform.path.ecg")
-                Text("Amp charts")
+                Text("Amp Graph")
             }}
             .tag(1)
             
@@ -57,7 +57,6 @@ struct ContentView: View {
                     Spacer()
                 }
                 .navigationTitle("Graph")
-                
             }
             .tabItem { Group{
                 Image(systemName: "clock")
@@ -66,35 +65,37 @@ struct ContentView: View {
             .tag(2)
             
             NavigationView {
-                    Form {
-                        Section(header: Text("States")) {
-                            
-                            NavigationLink(destination: AmpChartView()) {
-                                Text("Show Detail View")
-                            }.navigationBarTitle("Data")
-                            
-                            
-                           
-                        }
-                        Section(header: Text("Auger Current")) {
-                            
-                            
-                            NavigationLink(destination: AmpChartView().navigationBarTitle("Max Auger Current")) {
-                                Text("Max Auger Current")
-                            }
-                            
-                            NavigationLink(destination: AmpChartView().navigationBarTitle("Min Auger Current")) {
-                                Text("Min Auger Current")
-                            }
-                            
-                            
-                           
-                        }
+                Form {
+                    Section(header: Text("States")) {
+                        
+                        NavigationLink(
+                            destination: AmpChartView()
+                        ) { Text("Mode Detail") }
+                            .navigationBarTitle("Data")
+                        NavigationLink(
+                            destination: AmpChartView()
+                        ) { Text("Error Statesy") }
+                            .navigationBarTitle("Data")
+                       
+                    }
+                    Section(header: Text("Auger Current")) {
+                        
+                        NavigationLink(
+                            destination: AmpChartView()
+                                .navigationBarTitle("Max Auger Current")
+                        ) { Text("Max Auger Current")}
+                        
+                        NavigationLink(
+                            destination: AmpChartView()
+                                .navigationBarTitle("Min Auger Current")
+                        ) {Text("Min Auger Current")}
+                        
                     }
                 }
+            }
             .tabItem { Group{
-                Image(systemName: "chart.pie")
-                Text("Utilization Graph")
+                Image(systemName: "tablecells.badge.ellipsis")
+                Text("Data")
             }}
             .tag(3)
             
