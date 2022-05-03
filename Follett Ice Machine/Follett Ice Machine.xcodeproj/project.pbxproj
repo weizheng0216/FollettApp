@@ -11,6 +11,8 @@
 		4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */; };
 		4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C8282095CA004A74A9 /* PieChart.swift */; };
 		4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */; };
+		4A76E1CE28215F68004A74A9 /* TestChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1CD28215F68004A74A9 /* TestChart.swift */; };
+		4A76E1DB28218E66004A74A9 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A76E1DA28218E66004A74A9 /* Charts */; };
 		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C828281C71E90022FB97 /* MultipleLineChart.swift */; };
 		4A89C82B281C73D70022FB97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A89C82A281C73D70022FB97 /* Assets.xcassets */; };
@@ -20,7 +22,6 @@
 		4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */; };
 		4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */; };
 		4A93ABE32808AA1D00ACAB72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93ABE22808AA1D00ACAB72 /* Preview Assets.xcassets */; };
-		4AEBEE812818B90700E57E78 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4AEBEE802818B90700E57E78 /* Charts */; };
 		4AEBEE9D2818C8F000E57E78 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBEE9A2818C8F000E57E78 /* LineChart.swift */; };
 		4AEBEE9F2818C8F000E57E78 /* DateValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBEE9C2818C8F000E57E78 /* DateValueFormatter.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceMachineStatus.swift; sourceTree = "<group>"; };
 		4A76E1C8282095CA004A74A9 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilizationChartView.swift; sourceTree = "<group>"; };
+		4A76E1CD28215F68004A74A9 /* TestChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestChart.swift; sourceTree = "<group>"; };
 		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A89C828281C71E90022FB97 /* MultipleLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChart.swift; sourceTree = "<group>"; };
@@ -50,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AEBEE812818B90700E57E78 /* Charts in Frameworks */,
+				4A76E1DB28218E66004A74A9 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +64,7 @@
 			children = (
 				4A89C828281C71E90022FB97 /* MultipleLineChart.swift */,
 				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
+				4A76E1CD28215F68004A74A9 /* TestChart.swift */,
 				4A76E1C8282095CA004A74A9 /* PieChart.swift */,
 			);
 			path = Model;
@@ -137,7 +140,7 @@
 			);
 			name = "Follett Ice Machine";
 			packageProductDependencies = (
-				4AEBEE802818B90700E57E78 /* Charts */,
+				4A76E1DA28218E66004A74A9 /* Charts */,
 			);
 			productName = "Follett Ice Machine";
 			productReference = 4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */;
@@ -168,7 +171,7 @@
 			);
 			mainGroup = 4A93ABCF2808AA1B00ACAB72;
 			packageReferences = (
-				4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */,
+				4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 4A93ABD92808AA1B00ACAB72 /* Products */;
 			projectDirPath = "";
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A76E1CE28215F68004A74A9 /* TestChart.swift in Sources */,
 				4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */,
 				4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */,
 				4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */,
@@ -416,20 +420,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */ = {
+		4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4AEBEE802818B90700E57E78 /* Charts */ = {
+		4A76E1DA28218E66004A74A9 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */;
+			package = 4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
 /* End XCSwiftPackageProductDependency section */

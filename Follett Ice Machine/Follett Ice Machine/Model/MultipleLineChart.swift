@@ -154,14 +154,16 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet11.drawValuesEnabled = false
         
         dataSet12.label = "POWER"
-        dataSet12.colors = [.systemCyan]
+        dataSet12.colors = [.white]
         dataSet12.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet12.drawCirclesEnabled = false
         dataSet12.mode = .stepped
         dataSet12.highlightEnabled = false
         dataSet12.drawValuesEnabled = false
         
+        
         uiView.data = LineChartData(dataSets: [dataSet1,dataSet2,dataSet3,dataSet4,dataSet5,dataSet6,dataSet7,dataSet8,dataSet9,dataSet10,dataSet11,dataSet12])
+//        uiView.data = LineChartData(dataSets: [dataSet1,dataSet2,dataSet3,dataSet4,dataSet5,dataSet6,dataSet7,dataSet8,dataSet9,dataSet10,dataSet11,dataSet12])
         
         uiView.notifyDataSetChanged()
         

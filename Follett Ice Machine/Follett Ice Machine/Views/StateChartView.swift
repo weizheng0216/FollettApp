@@ -13,29 +13,29 @@ struct StateChartView: View {
     @State private var data1: [ChartDataEntry] = [
         ChartDataEntry(x: 1650504066, y: 1, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 1, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 1, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 1, data: "My data"),
         ChartDataEntry(x: 1651022466, y: 1, data: "My data")
     ]
     
     @State private var data2: [ChartDataEntry] = [
         ChartDataEntry(x: 1650504066, y: 2, data: "My data"),
-        ChartDataEntry(x: 1650590466, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650763266, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650590466, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650763266, y: -10, data: "My data"),
         ChartDataEntry(x: 1650849666, y: 2, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 2, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data3: [ChartDataEntry] = [
-        ChartDataEntry(x: 1650504066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650590466, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650504066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650590466, y: -10, data: "My data"),
         ChartDataEntry(x: 1650676866, y: 3, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 3, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 3, data: "My data"),
         ChartDataEntry(x: 1651022466, y: 3, data: "My data")
     ]
@@ -45,15 +45,15 @@ struct StateChartView: View {
         ChartDataEntry(x: 1650590466, y: 4, data: "My data"),
         ChartDataEntry(x: 1650676866, y: 4, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 4, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 4, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data5: [ChartDataEntry] = [
-        ChartDataEntry(x: 1650504066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650590466, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650504066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650590466, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 5, data: "My data"),
         ChartDataEntry(x: 1650849666, y: 5, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 5, data: "My data"),
@@ -71,13 +71,13 @@ struct StateChartView: View {
     ]
     
     @State private var data7: [ChartDataEntry] = [
-        ChartDataEntry(x: 1650504066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650590466, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650763266, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650504066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650590466, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650763266, y: -10, data: "My data"),
         ChartDataEntry(x: 1650849666, y: 7, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 7, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data8: [ChartDataEntry] = [
@@ -85,26 +85,26 @@ struct StateChartView: View {
         ChartDataEntry(x: 1650590466, y: 8, data: "My data"),
         ChartDataEntry(x: 1650676866, y: 8, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 8, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650936066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650936066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data9: [ChartDataEntry] = [
-        ChartDataEntry(x: 1650504066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650590466, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650763266, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650936066, y: 0, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1650504066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650590466, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650763266, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650936066, y: -10, data: "My data"),
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data10: [ChartDataEntry] = [
         ChartDataEntry(x: 1650504066, y: 10, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 10, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650763266, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650763266, y: -10, data: "My data"),
         ChartDataEntry(x: 1650849666, y: 10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 10, data: "My data"),
         ChartDataEntry(x: 1651022466, y: 10, data: "My data")
@@ -114,20 +114,20 @@ struct StateChartView: View {
         ChartDataEntry(x: 1650504066, y: 11, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 11, data: "My data"),
         ChartDataEntry(x: 1650676866, y: 11, data: "My data"),
-        ChartDataEntry(x: 1650763266, y: 0, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650763266, y: -10, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 11, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
     
     @State private var data12: [ChartDataEntry] = [
-        ChartDataEntry(x: 1650504066, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650504066, y: -10, data: "My data"),
         ChartDataEntry(x: 1650590466, y: 12, data: "My data"),
-        ChartDataEntry(x: 1650676866, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650676866, y: -10, data: "My data"),
         ChartDataEntry(x: 1650763266, y: 12, data: "My data"),
-        ChartDataEntry(x: 1650849666, y: 0, data: "My data"),
+        ChartDataEntry(x: 1650849666, y: -10, data: "My data"),
         ChartDataEntry(x: 1650936066, y: 12, data: "My data"),
-        ChartDataEntry(x: 1651022466, y: 0, data: "My data")
+        ChartDataEntry(x: 1651022466, y: -10, data: "My data")
     ]
 
     var body: some View {
