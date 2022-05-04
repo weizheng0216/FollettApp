@@ -26,6 +26,15 @@
         "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
         "version" : "1.0.2"
       }
+    },
+    {
+      "identity" : "swifttabler",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openalloc/SwiftTabler",
+      "state" : {
+        "revision" : "1c97c370ce3964605d4ff9a1540254a06e739eab",
+        "version" : "0.9.4"
+      }
     }
   ],
   "version" : 2

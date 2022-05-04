@@ -15,6 +15,8 @@
 		4A76E1DB28218E66004A74A9 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A76E1DA28218E66004A74A9 /* Charts */; };
 		4A76E1DE2821E248004A74A9 /* ChooseGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */; };
 		4A76E1E02821E67E004A74A9 /* GanttView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1DF2821E67D004A74A9 /* GanttView.swift */; };
+		4A76E1E22822D728004A74A9 /* DataTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1E12822D727004A74A9 /* DataTableView.swift */; };
+		4A76E1E52822D763004A74A9 /* Tabler in Frameworks */ = {isa = PBXBuildFile; productRef = 4A76E1E42822D763004A74A9 /* Tabler */; };
 		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C828281C71E90022FB97 /* MultipleLineChart.swift */; };
 		4A89C82B281C73D70022FB97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A89C82A281C73D70022FB97 /* Assets.xcassets */; };
@@ -36,6 +38,7 @@
 		4A76E1CD28215F68004A74A9 /* TestChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestChart.swift; sourceTree = "<group>"; };
 		4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGraphView.swift; sourceTree = "<group>"; };
 		4A76E1DF2821E67D004A74A9 /* GanttView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GanttView.swift; sourceTree = "<group>"; };
+		4A76E1E12822D727004A74A9 /* DataTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableView.swift; sourceTree = "<group>"; };
 		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A89C828281C71E90022FB97 /* MultipleLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChart.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A76E1E52822D763004A74A9 /* Tabler in Frameworks */,
 				4A76E1DB28218E66004A74A9 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +89,7 @@
 				4A89C830281CAC6D0022FB97 /* ScanView.swift */,
 				4A76E1C4282040FD004A74A9 /* StatusLightView.swift */,
 				4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */,
+				4A76E1E12822D727004A74A9 /* DataTableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			name = "Follett Ice Machine";
 			packageProductDependencies = (
 				4A76E1DA28218E66004A74A9 /* Charts */,
+				4A76E1E42822D763004A74A9 /* Tabler */,
 			);
 			productName = "Follett Ice Machine";
 			productReference = 4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */;
@@ -178,6 +184,7 @@
 			mainGroup = 4A93ABCF2808AA1B00ACAB72;
 			packageReferences = (
 				4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */,
+				4A76E1E32822D763004A74A9 /* XCRemoteSwiftPackageReference "SwiftTabler" */,
 			);
 			productRefGroup = 4A93ABD92808AA1B00ACAB72 /* Products */;
 			projectDirPath = "";
@@ -215,6 +222,7 @@
 				4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */,
 				4A89C82F281CAC050022FB97 /* StateChartView.swift in Sources */,
 				4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */,
+				4A76E1E22822D728004A74A9 /* DataTableView.swift in Sources */,
 				4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */,
 				4AEBEE9F2818C8F000E57E78 /* DateValueFormatter.swift in Sources */,
 				4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */,
@@ -436,6 +444,14 @@
 				kind = branch;
 			};
 		};
+		4A76E1E32822D763004A74A9 /* XCRemoteSwiftPackageReference "SwiftTabler" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openalloc/SwiftTabler";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -443,6 +459,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
+		};
+		4A76E1E42822D763004A74A9 /* Tabler */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A76E1E32822D763004A74A9 /* XCRemoteSwiftPackageReference "SwiftTabler" */;
+			productName = Tabler;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

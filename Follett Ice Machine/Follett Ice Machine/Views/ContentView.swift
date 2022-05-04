@@ -11,6 +11,9 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     @ObservedObject var iceMachineState = IceMachineStatus()
     
+    var minAmpData: [[Int]] = [[0,0], [1,2], [5,5]]
+    var maxAmpData: [[Int]] = [[3,7], [2,12], [7,7]]
+    
     var body: some View {
         
         
@@ -74,21 +77,21 @@ struct ContentView: View {
                             .navigationBarTitle("Data")
                         NavigationLink(
                             destination: AmpChartView()
-                        ) { Text("Error Statesy") }
+                        ) { Text("Error States") }
                             .navigationBarTitle("Data")
                        
                     }
                     Section(header: Text("Auger Current")) {
                         
                         NavigationLink(
-                            destination: AmpChartView()
+                            destination: DataTableView(rawData: maxAmpData)
                                 .navigationBarTitle("Max Auger Current")
                         ) { Text("Max Auger Current")}
                         
                         NavigationLink(
-                            destination: AmpChartView()
+                            destination: DataTableView(rawData: minAmpData)
                                 .navigationBarTitle("Min Auger Current")
-                        ) {Text("Min Auger Current")}
+                        ) { Text("Min Auger Current")}
                         
                     }
                 }
@@ -99,47 +102,20 @@ struct ContentView: View {
             }}
             .tag(3)
             
-            NavigationView {
-                ScrollView {
-                VStack{
-                    
-                        HStack(alignment: .center, spacing: nil) {
-                            Text("Time")
-                            Divider()
-                            Text("Amp")
-                        }
-                        HStack(alignment: .center, spacing: nil) {
-                            Text("Time")
-                            Divider()
-                            Text("Amp")
-                        }
-                        HStack(alignment: .center, spacing: nil) {
-                            Text("Time")
-                            Divider()
-                            Text("Amp")
-                        }
-                        HStack(alignment: .center, spacing: nil) {
-                            Text("Time")
-                            Divider()
-                            Text("Amp")
-                        }
-                        HStack(alignment: .center, spacing: nil) {
-                            Text("Time")
-                            Divider()
-                            Text("Amp")
-                        }
-                    }
-                    .navigationBarTitle("Max Auger Current")
-                }
-                
-            }
-            .tabItem { Group{
-                Image(systemName: "tablecells.badge.ellipsis")
-                Text("Data")
-            }}
-            .tag(4)
+//            NavigationView {
+//
+//                DataTableView(rawData: [[1,2], [3,4]])
+//                .navigationBarTitle("Max Auger Current")
+//
+//
+//            }
+//            .tabItem { Group{
+//                Image(systemName: "tablecells.badge.ellipsis")
+//                Text("Data")
+//            }}
+//            .tag(4)
             
-            
+        
         }
     }
 }
