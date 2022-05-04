@@ -99,6 +99,46 @@ struct ContentView: View {
             }}
             .tag(3)
             
+            NavigationView {
+                ScrollView {
+                VStack{
+                    
+                        HStack(alignment: .center, spacing: nil) {
+                            Text("Time")
+                            Divider()
+                            Text("Amp")
+                        }
+                        HStack(alignment: .center, spacing: nil) {
+                            Text("Time")
+                            Divider()
+                            Text("Amp")
+                        }
+                        HStack(alignment: .center, spacing: nil) {
+                            Text("Time")
+                            Divider()
+                            Text("Amp")
+                        }
+                        HStack(alignment: .center, spacing: nil) {
+                            Text("Time")
+                            Divider()
+                            Text("Amp")
+                        }
+                        HStack(alignment: .center, spacing: nil) {
+                            Text("Time")
+                            Divider()
+                            Text("Amp")
+                        }
+                    }
+                    .navigationBarTitle("Max Auger Current")
+                }
+                
+            }
+            .tabItem { Group{
+                Image(systemName: "tablecells.badge.ellipsis")
+                Text("Data")
+            }}
+            .tag(4)
+            
             
         }
     }
