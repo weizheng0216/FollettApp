@@ -9,7 +9,11 @@ import Charts
 import SwiftUI
 
 struct LineChart: UIViewRepresentable {
-    let entries: [ChartDataEntry]
+    
+    var rawData: [Int]
+    @State var entries: [ChartDataEntry] = []
+    @State var x: Double = 0.0
+    
     let lineChart = LineChartView()
     
     func makeCoordinator() -> Coordinator {
@@ -39,6 +43,12 @@ struct LineChart: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: LineChartView, context: Context) {
+        
+//        for (index, element) in rawData.enumerated() {
+//            
+//            self.entries.append(ChartDataEntry(x: rawData[, y: Double(data), data: "My data"))
+//        }
+        
         let dataSet = LineChartDataSet(entries: entries)
     
         dataSet.label = "Transactions"

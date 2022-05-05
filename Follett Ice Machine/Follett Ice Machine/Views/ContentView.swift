@@ -11,8 +11,12 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     @ObservedObject var iceMachineState = IceMachineStatus()
     
-    var minAmpData: [[Int]] = [[0,0], [1,2], [5,5]]
-    var maxAmpData: [[Int]] = [[3,7], [2,12], [7,7]]
+    @State private var passHello = ""
+    
+    @State private var data: [ChartDataEntry] = []
+    
+    @State var minAmpData: [[Int]] = [[0,0], [1,2], [5,5]]
+    @State var maxAmpData: [[Int]] = [[3,7], [2,12], [7,7]]
     
     var body: some View {
         
@@ -20,7 +24,7 @@ struct ContentView: View {
         TabView(selection: $tabIndex) {
         
             NavigationView{
-                StatusLightView(BTManager: self.bleManager)
+                StatusLightView(BTManager: self.bleManager, passHello: $passHello)
             }
             .tabItem {
                 Group{
@@ -32,8 +36,10 @@ struct ContentView: View {
             NavigationView{
 
                 VStack{
-                    AmpChartView()
+                    AmpChartView(BTManager: bleManager, data: $data)
                         .navigationTitle("Amp Graph")
+                    
+                    Text("\(passHello)")
                 }
             }
             .tabItem { Group{
@@ -69,18 +75,18 @@ struct ContentView: View {
             
             NavigationView {
                 Form {
-                    Section(header: Text("States")) {
-                        
-                        NavigationLink(
-                            destination: AmpChartView()
-                        ) { Text("Mode Detail") }
-                            .navigationBarTitle("Data")
-                        NavigationLink(
-                            destination: AmpChartView()
-                        ) { Text("Error States") }
-                            .navigationBarTitle("Data")
-                       
-                    }
+//                    Section(header: Text("States")) {
+//
+//                        NavigationLink(
+////                            destination: AmpChartView()
+//                        ) { Text("Mode Detail") }
+//                            .navigationBarTitle("Data")
+//                        NavigationLink(
+////                            destination: AmpChartView()
+//                        ) { Text("Error States") }
+//                            .navigationBarTitle("Data")
+//
+//                    }
                     Section(header: Text("Auger Current")) {
                         
                         NavigationLink(

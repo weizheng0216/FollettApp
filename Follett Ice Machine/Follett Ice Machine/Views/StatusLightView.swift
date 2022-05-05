@@ -13,6 +13,7 @@ struct StatusLightView: View {
     
     @ObservedObject var status = IceMachineStatus.shared
     @State private var showingModel = false
+    @Binding var passHello:String
     
     let statusLight = ["Cleaner Full", "Drain Clog", "High Pres", "High Amps", "Service", "Maint/Clean", "Low Water", "Time Delay", "Sleep Cycle", "Making Ice", "Low Bin", "Power On"]
     
@@ -26,8 +27,6 @@ struct StatusLightView: View {
             
             VStack{
                 ForEach(Array(zip(statusLight, status.statusArray).enumerated()), id: \.0) { index, item in
-                    
-                    
                     
                     HStack{
                         if 0...4 ~= index {
@@ -60,7 +59,7 @@ struct StatusLightView: View {
                     self.BTManager.stopScanning()
                     self.BTManager.peripherals.removeAll()
                 }) {
-                    ScanView(BTManager: BTManager, isPresented: $showingModel)
+                    ScanView(BTManager: BTManager, isPresented: $showingModel, passHello: $passHello)
                 }
                 
                 Button(action: {

@@ -8,6 +8,7 @@
 import Foundation
 
 import CoreBluetooth
+import Charts
 
 struct Peripheral: Identifiable {
     let id: Int
@@ -39,6 +40,9 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
     
+//    @Published var minAmpData: [[Int]] = []
+    @Published var ampData: [Int] = []
+    @Published var hello: String = ""
     var status = IceMachineStatus.shared
     
 
@@ -146,17 +150,30 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+//        var characteristicASCIIValue = NSString()
+//        guard characteristic == rxCharacteristic,
+//
+//        let characteristicValue = characteristic.value,
+//        let ASCIIstring = NSString(data: characteristicValue, encoding: String.Encoding.utf8.rawValue) else { return }
 
-          var characteristicASCIIValue = NSString()
+//        characteristicASCIIValue = ASCIIstring
 
-          guard characteristic == rxCharacteristic,
+//        hello = (characteristicASCIIValue as String)
+        
+//        ampData = hello.components(separatedBy: ", ").map { Int($0)!}
 
-          let characteristicValue = characteristic.value,
-          let ASCIIstring = NSString(data: characteristicValue, encoding: String.Encoding.utf8.rawValue) else { return }
 
-          characteristicASCIIValue = ASCIIstring
-
-          print("Value Recieved: \((characteristicASCIIValue as String))")
+//        print("Value Recieved: \(hello)")
+        
+        guard let characteristicValue = characteristic.value else {
+            // no data transmitted, handle if needed
+            return
+        }
+        
+        let test = characteristicValue.first
+        print("test value:", test!)
+        
     }
     
     func writeOutgoingValue(data: String){
@@ -190,9 +207,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             self.myCentral.connect(peripheralToConnect.cbPerpheral, options: nil)
             peripheralToConnect.cbPerpheral.readValue(for: rxCharacteristic)
         }
-        
-        
-        
     }
     
     func disconnect () {
@@ -200,6 +214,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             myCentral?.cancelPeripheralConnection(myPeripheral!)
         }
     }
+    
+    
     
     @objc func fireTimer() {
         peripherals.removeAll()

@@ -11,6 +11,8 @@ struct ScanView: View {
     
     @ObservedObject var BTManager: BLEManager
     @Binding var isPresented: Bool
+    
+    @Binding var passHello:String
 
     var body: some View {
         
@@ -23,12 +25,13 @@ struct ScanView: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
+                    print(BTManager.hello)
+                    passHello = BTManager.hello
 //                    print(peripheral.rssi)
 //                    BTManager.writeOutgoingValue(data: "Hello World")
                     
                     // comment out this if dynamic, change in blemanager
 //                    BTManager.connect(peripheralName: peripheral.name)
-                        
                 }
             }
             
