@@ -27,9 +27,9 @@ void setup() {
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
 
-  uint8_t to_send[3][2] = {{5,3},{2,2},{7,8}};
+  uint8_t to_send[6][2] = {{2,102},{4,100},{5,88},{6,123},{7,99},{8,111}};
 
-  pCharacteristic->setValue((uint8_t *)to_send, 15);
+  pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
   
   pService->start();
   // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility

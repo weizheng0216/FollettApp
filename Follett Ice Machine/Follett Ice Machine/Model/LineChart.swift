@@ -10,8 +10,8 @@ import SwiftUI
 
 struct LineChart: UIViewRepresentable {
     
-    var rawData: [Int]
-    @State var entries: [ChartDataEntry] = []
+    
+    var entries: [ChartDataEntry]
     @State var x: Double = 0.0
     
     let lineChart = LineChartView()
@@ -44,10 +44,7 @@ struct LineChart: UIViewRepresentable {
     
     func updateUIView(_ uiView: LineChartView, context: Context) {
         
-//        for (index, element) in rawData.enumerated() {
-//            
-//            self.entries.append(ChartDataEntry(x: rawData[, y: Double(data), data: "My data"))
-//        }
+//      
         
         let dataSet = LineChartDataSet(entries: entries)
     

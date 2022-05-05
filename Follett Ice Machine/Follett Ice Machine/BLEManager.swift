@@ -43,6 +43,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 //    @Published var minAmpData: [[Int]] = []
     @Published var ampData: [Int] = []
     @Published var hello: String = ""
+    @Published var entries: [ChartDataEntry] = []
     var status = IceMachineStatus.shared
     
 
@@ -166,13 +167,19 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 
 //        print("Value Recieved: \(hello)")
         
+        
+        
         guard let characteristicValue = characteristic.value else {
             // no data transmitted, handle if needed
             return
         }
         
-        let test = characteristicValue.first
-        print("test value:", test!)
+//        let test = characteristicValue
+        
+        for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+            self.entries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "My data"))
+        }
+        
         
     }
     

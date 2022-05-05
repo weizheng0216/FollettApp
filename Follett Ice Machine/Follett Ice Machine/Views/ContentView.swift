@@ -36,7 +36,7 @@ struct ContentView: View {
             NavigationView{
 
                 VStack{
-                    AmpChartView(BTManager: bleManager, data: $data)
+                    AmpChartView(BTManager: bleManager, entries: $data)
                         .navigationTitle("Amp Graph")
                     
                     Text("\(passHello)")
