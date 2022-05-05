@@ -25,8 +25,6 @@ struct ScanView: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print(BTManager.hello)
-                    passHello = BTManager.hello
 //                    print(peripheral.rssi)
 //                    BTManager.writeOutgoingValue(data: "Hello World")
                     

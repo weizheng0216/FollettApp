@@ -11,8 +11,6 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     @ObservedObject var iceMachineState = IceMachineStatus()
     
-    @State private var passHello = ""
-    
     @State private var data: [ChartDataEntry] = []
     
     @State var minAmpData: [[Int]] = []
@@ -107,21 +105,6 @@ struct ContentView: View {
                 Text("Data")
             }}
             .tag(3)
-            
-//            NavigationView {
-//
-//                DataTableView(rawData: [[1,2], [3,4]])
-//                .navigationBarTitle("Max Auger Current")
-//
-//
-//            }
-//            .tabItem { Group{
-//                Image(systemName: "tablecells.badge.ellipsis")
-//                Text("Data")
-//            }}
-//            .tag(4)
-            
-        
         }
     }
 }

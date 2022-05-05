@@ -41,7 +41,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var peripherals = [Peripheral]()
     
     @Published var maxAmpData: [[Int]] = []
-    @Published var hello: String = ""
+//    @Published var minAmpData: [[Int]] = []
+//    @ObservedObject var iceMachineState = IceMachineStatus()
     @Published var entries: [ChartDataEntry] = []
     var status = IceMachineStatus.shared
     

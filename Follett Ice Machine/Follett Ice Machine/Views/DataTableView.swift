@@ -60,13 +60,3 @@ struct DataTableView: View {
                    results: convertToDataPoint(rawData: rawData))
     }
 }
-
-
-//struct DataTableView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            DataTableView(rawData: [[1,2], [3,3]])
-//        }
-//    }
-//}
-//

@@ -11,7 +11,6 @@
 		4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */; };
 		4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C8282095CA004A74A9 /* PieChart.swift */; };
 		4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */; };
-		4A76E1CE28215F68004A74A9 /* TestChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1CD28215F68004A74A9 /* TestChart.swift */; };
 		4A76E1DB28218E66004A74A9 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A76E1DA28218E66004A74A9 /* Charts */; };
 		4A76E1DE2821E248004A74A9 /* ChooseGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */; };
 		4A76E1E02821E67E004A74A9 /* GanttView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1DF2821E67D004A74A9 /* GanttView.swift */; };
@@ -35,7 +34,6 @@
 		4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceMachineStatus.swift; sourceTree = "<group>"; };
 		4A76E1C8282095CA004A74A9 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilizationChartView.swift; sourceTree = "<group>"; };
-		4A76E1CD28215F68004A74A9 /* TestChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestChart.swift; sourceTree = "<group>"; };
 		4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGraphView.swift; sourceTree = "<group>"; };
 		4A76E1DF2821E67D004A74A9 /* GanttView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GanttView.swift; sourceTree = "<group>"; };
 		4A76E1E12822D727004A74A9 /* DataTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableView.swift; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 			children = (
 				4A89C828281C71E90022FB97 /* MultipleLineChart.swift */,
 				4AEBEE9A2818C8F000E57E78 /* LineChart.swift */,
-				4A76E1CD28215F68004A74A9 /* TestChart.swift */,
 				4A76E1C8282095CA004A74A9 /* PieChart.swift */,
 			);
 			path = Model;
@@ -212,7 +209,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A76E1CE28215F68004A74A9 /* TestChart.swift in Sources */,
 				4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */,
 				4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */,
 				4A76E1E02821E67E004A74A9 /* GanttView.swift in Sources */,

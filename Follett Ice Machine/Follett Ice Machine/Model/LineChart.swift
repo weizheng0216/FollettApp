@@ -10,7 +10,6 @@ import SwiftUI
 
 struct LineChart: UIViewRepresentable {
     
-    
     var entries: [ChartDataEntry]
     @State var x: Double = 0.0
     
@@ -44,8 +43,6 @@ struct LineChart: UIViewRepresentable {
     
     func updateUIView(_ uiView: LineChartView, context: Context) {
         
-//      
-        
         let dataSet = LineChartDataSet(entries: entries)
     
         dataSet.label = "Transactions"
@@ -57,7 +54,7 @@ struct LineChart: UIViewRepresentable {
         dataSet.highlightEnabled = false
         
         uiView.data = LineChartData(dataSet: dataSet)
-        
+
         uiView.notifyDataSetChanged()
         
     }
