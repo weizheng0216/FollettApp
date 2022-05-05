@@ -15,8 +15,8 @@ struct ContentView: View {
     
     @State private var data: [ChartDataEntry] = []
     
-    @State var minAmpData: [[Int]] = [[0,0], [1,2], [5,5]]
-    @State var maxAmpData: [[Int]] = [[3,7], [2,12], [7,7]]
+    @State var minAmpData: [[Int]] = []
+    @State var maxAmpData: [[Int]] = []
     
     var body: some View {
         
@@ -90,7 +90,7 @@ struct ContentView: View {
                     Section(header: Text("Auger Current")) {
                         
                         NavigationLink(
-                            destination: DataTableView(rawData: maxAmpData)
+                            destination: DataTableView(rawData: bleManager.maxAmpData)
                                 .navigationBarTitle("Max Auger Current")
                         ) { Text("Max Auger Current")}
                         
