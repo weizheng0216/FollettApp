@@ -8,8 +8,18 @@
 
 
 unsigned long mainMillis = millis(); // Initialize start time
-const unsigned long loopTimer = 2; // Handles rate in seconds at which values are read and stored from ice machine to dongle. CHANGE to 60 Left at 2 for testing
-unsigned long addr = 0; // Address for next write to flash memory
+const unsigned long loopTimer = 60; // Handles rate in seconds at which values are read and stored from ice machine to dongle. CHANGE to 60 Left at 2 for testing
+unsigned long addr = EEPROM.read(0); // Address for next write to flash memory
+uint8_t to_send[6][2] = {{0,0},{0,0},{0,0}, // Byte array to be transmitted over BT
+                          {0,0},{0,0},{0,0}}; 
+unsigned short counter = 0; //Tracks if to_send array is newly updated
+
+// Initialize Bluetooth objects
+BLEServer *pServer; 
+BLEService *pService; 
+BLECharacteristic *pCharacteristic;
+__uint8_t to_send[6][2]; 
+BLEAdvertising *pAdvertising; 
 
 
 
@@ -25,14 +35,23 @@ byte condenseData(byte allData[]) {
 
 
 /*
- * This function is for testing purposes.
- * The goal of this function is to check if there have been 20+ values written to the flash memory 
- * If so, write to the serial monitor a warning followed by all values stored. 
+ * The goal of this function is to check if there have been 1000+ values written to the flash memory 
+ * If so, write to the serial monitor a warning followed clearing them. 
  */
 void checkLocalStorage(){
-  if(addr > 20)
-    Serial.println("Many have been saved!");
+  if(addr == 1000){
+    Serial.println("Clearing data");
+    for(int i = 1; i < 1001; i+=4){ // Loop unroll 4x1 for performance :) 
+      EEPROM.write(i, 0);
+      EEPROM.write(i+1, 0);
+      EEPROM.write(i+2, 0);
+      EEPROM.write(i+3, 0);
+      EEPROM.commit();
+    }
+  }
 }
+
+void updateArr(u_int)
 
 void setup() {
 
@@ -42,10 +61,10 @@ void setup() {
   Serial.println("Starting Bluetooth Connection");
 
 
-  BLEDevice::init("Follett Dongle");
-  BLEServer *pServer = BLEDevice::createServer();
-  BLEService *pService = pServer->createService(SERVICE_UUID);
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
+  BLEDevice::init("Follett Ice Machine");
+  *pServer = BLEDevice::createServer();
+  *pService = pServer->createService(SERVICE_UUID);
+  *pCharacteristic = pService->createCharacteristic(
                                          CHARACTERISTIC_UUID,
                                          BLECharacteristic::PROPERTY_READ |
                                          BLECharacteristic::PROPERTY_WRITE
@@ -54,7 +73,7 @@ void setup() {
   pCharacteristic->setValue("Follett message!!!");
   pService->start();
   // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
-  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->setScanResponse(true);
   pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
@@ -115,22 +134,20 @@ void loop() {
     data[1] = 255;
   }
 
-  // Condense data[] into single byte for storage [TODO]
-  // byte allData = condenseData(data);
 
-  // As of now for testing purposes, only write the high amp value locally and transmit that over BT
-  EEPROM.write(addr, data[1]); //Write locally; change data[1] to allData when condenseData() is finished
-  EEPROM.commit(); // Save changes
-  
-  addr++; //update pointer
+// Update byte array for tranmission
+if(counter == 5){
+  counter = 0;
+  //Update BT advertising message; Full array for graphing 
+  pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+}
+else{
+  to_send[counter][0] = addr;
+  to_send[counter][1] = data[1];
+  addr++;
+  EEPROM.write(addr);
+  EEPROM.commit();
+}
 
-
-  // FOR TESTING PURPOSES 
-  if(addr > 20){
-    for(int i = 0; i < 20; i++){
-      //put write through bluetooth function for iPhone here
-    }
-  }
-  
   delay(loopTimer * 1000);
 }
