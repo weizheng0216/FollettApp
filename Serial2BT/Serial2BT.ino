@@ -8,17 +8,19 @@
 
 
 unsigned long mainMillis = millis(); // Initialize start time
-const unsigned long loopTimer = 60; // Handles rate in seconds at which values are read and stored from ice machine to dongle. CHANGE to 60 Left at 2 for testing
+const unsigned long loopTimer = 1; // Handles rate in seconds at which values are read and stored from ice machine to dongle. CHANGE to 60 Left at 2 for testing
 unsigned long addr = EEPROM.read(0); // Address for next write to flash memory
-uint8_t to_send[6][2] = {{0,0},{0,0},{0,0}, // Byte array to be transmitted over BT
-                          {0,0},{0,0},{0,0}}; 
+
 unsigned short counter = 0; //Tracks if to_send array is newly updated
+unsigned short id = 0; 
 
 // Initialize Bluetooth objects
-BLEServer *pServer; 
-BLEService *pService; 
+BLEServer* pServer; 
+BLEService* pService; 
 BLECharacteristic *pCharacteristic;
-__uint8_t to_send[6][2]; 
+//__uint8_t to_send[5][2] = {{1,50},{2,105},{3,24},{4,140},{5,120}}; // Byte array to be transmitted over BT
+__uint8_t to_send[5][2] = {{1,10},{2,20},{3,15},{4,20},{5,180}};
+
 BLEAdvertising *pAdvertising; 
 
 
@@ -51,7 +53,8 @@ void checkLocalStorage(){
   }
 }
 
-void updateArr(u_int)
+
+//void updateArr(u_int)(){}
 
 void setup() {
 
@@ -61,24 +64,30 @@ void setup() {
   Serial.println("Starting Bluetooth Connection");
 
 
+
+
   BLEDevice::init("Follett Ice Machine");
-  *pServer = BLEDevice::createServer();
-  *pService = pServer->createService(SERVICE_UUID);
-  *pCharacteristic = pService->createCharacteristic(
+  pServer = BLEDevice::createServer();
+  pService = pServer->createService(SERVICE_UUID);
+  pCharacteristic = pService->createCharacteristic(
                                          CHARACTERISTIC_UUID,
                                          BLECharacteristic::PROPERTY_READ |
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
 
-  pCharacteristic->setValue("Follett message!!!");
+  // pCharacteristic->setValue("Follett message!!!");
   pService->start();
   // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
-  *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->setScanResponse(true);
   pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
   pAdvertising->setMinPreferred(0x12);
-  BLEDevice::startAdvertising();
+
+ //pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+  
+
+  
   Serial.println("Characteristic defined! Now you can read it in your phone!");
 }
 
@@ -135,19 +144,34 @@ void loop() {
   }
 
 
-// Update byte array for tranmission
-if(counter == 5){
-  counter = 0;
-  //Update BT advertising message; Full array for graphing 
-  pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
-}
-else{
-  to_send[counter][0] = addr;
-  to_send[counter][1] = data[1];
-  addr++;
-  EEPROM.write(addr);
-  EEPROM.commit();
-}
+// // Update byte array for tranmission
+// if(counter == 60){
+//   counter = 0;
+//   //Update BT advertising message; Full array for graphing 
+//   pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+// }
+// else{
+//   to_send[counter][0] = addr;
+//   to_send[counter][1] = data[1];
+//   addr++;
+//   counter++;
+//   EEPROM.write(0, addr);
+//   EEPROM.commit();
+// }
 
+//  to_send[counter][0] = id;
+//  to_send[counter][1] = data[1];
+//  if(counter == 10){
+//    pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+//    counter = 0;
+//  }
+
+  to_send[4][1] = (__uint8_t)data[8];
+
+  delay(5* 1000);
+  
+  pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+  BLEDevice::startAdvertising();
+ 
   delay(loopTimer * 1000);
 }
