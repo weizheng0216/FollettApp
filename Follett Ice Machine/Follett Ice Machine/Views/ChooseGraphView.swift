@@ -64,7 +64,8 @@ struct ChooseGraphView: View {
         case 1:
             UtilizationChartView()
         default:
-            StateChartView()
+//            StateChartView()
+            GanttView(htmlString: $htmlString)
         }
     }
         

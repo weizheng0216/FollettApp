@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A32056E28C7DD9600408985 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A32056D28C7DD9600408985 /* Charts */; };
+		4A32057128C7DDB300408985 /* Tabler in Frameworks */ = {isa = PBXBuildFile; productRef = 4A32057028C7DDB300408985 /* Tabler */; };
 		4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C4282040FD004A74A9 /* StatusLightView.swift */; };
 		4A76E1C72820441A004A74A9 /* IceMachineStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */; };
 		4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C8282095CA004A74A9 /* PieChart.swift */; };
@@ -57,7 +59,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A32057128C7DDB300408985 /* Tabler in Frameworks */,
 				4A76E1E52822D763004A74A9 /* Tabler in Frameworks */,
+				4A32056E28C7DD9600408985 /* Charts in Frameworks */,
 				4A76E1DB28218E66004A74A9 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +154,8 @@
 			packageProductDependencies = (
 				4A76E1DA28218E66004A74A9 /* Charts */,
 				4A76E1E42822D763004A74A9 /* Tabler */,
+				4A32056D28C7DD9600408985 /* Charts */,
+				4A32057028C7DDB300408985 /* Tabler */,
 			);
 			productName = "Follett Ice Machine";
 			productReference = 4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */;
@@ -182,6 +188,8 @@
 			packageReferences = (
 				4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */,
 				4A76E1E32822D763004A74A9 /* XCRemoteSwiftPackageReference "SwiftTabler" */,
+				4A32056C28C7DD9600408985 /* XCRemoteSwiftPackageReference "Charts" */,
+				4A32056F28C7DDB300408985 /* XCRemoteSwiftPackageReference "SwiftTabler" */,
 			);
 			productRefGroup = 4A93ABD92808AA1B00ACAB72 /* Products */;
 			projectDirPath = "";
@@ -432,6 +440,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4A32056C28C7DD9600408985 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		4A32056F28C7DDB300408985 /* XCRemoteSwiftPackageReference "SwiftTabler" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openalloc/SwiftTabler";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
@@ -451,6 +475,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4A32056D28C7DD9600408985 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+		4A32057028C7DDB300408985 /* Tabler */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A32056F28C7DDB300408985 /* XCRemoteSwiftPackageReference "SwiftTabler" */;
+			productName = Tabler;
+		};
 		4A76E1DA28218E66004A74A9 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4A76E1D928218E66004A74A9 /* XCRemoteSwiftPackageReference "Charts" */;

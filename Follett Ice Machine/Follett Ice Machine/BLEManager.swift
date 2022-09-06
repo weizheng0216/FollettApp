@@ -171,8 +171,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         guard let characteristicValue = characteristic.value else {
             // no data transmitted, handle if needed
+            print("error")
             return
         }
+        print("This is \(characteristicValue)")
         
 //        let test = characteristicValue
         

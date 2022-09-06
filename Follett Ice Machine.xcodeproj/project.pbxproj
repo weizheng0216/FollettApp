@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A32056828C7D54300408985 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A32056728C7D54300408985 /* Charts */; };
 		4A93ABDC2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */; };
 		4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A93ABDD2808AA1B00ACAB72 /* ContentView.swift */; };
 		4A93ABE02808AA1D00ACAB72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93ABDF2808AA1D00ACAB72 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AEBEE812818B90700E57E78 /* Charts in Frameworks */,
+				4A32056828C7D54300408985 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +95,7 @@
 			name = "Follett Ice Machine";
 			packageProductDependencies = (
 				4AEBEE802818B90700E57E78 /* Charts */,
+				4A32056728C7D54300408985 /* Charts */,
 			);
 			productName = "Follett Ice Machine";
 			productReference = 4A93ABD82808AA1B00ACAB72 /* Follett Ice Machine.app */;
@@ -124,6 +127,7 @@
 			mainGroup = 4A93ABCF2808AA1B00ACAB72;
 			packageReferences = (
 				4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */,
+				4A32056628C7D54200408985 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 4A93ABD92808AA1B00ACAB72 /* Products */;
 			projectDirPath = "";
@@ -357,6 +361,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4A32056628C7D54200408985 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
@@ -368,6 +380,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4A32056728C7D54300408985 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A32056628C7D54200408985 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
 		4AEBEE802818B90700E57E78 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4AEBEE7F2818B90700E57E78 /* XCRemoteSwiftPackageReference "Charts" */;

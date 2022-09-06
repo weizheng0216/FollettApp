@@ -11,6 +11,8 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     @ObservedObject var iceMachineState = IceMachineStatus()
     
+    @State private var passHello = ""
+    
     @State private var data: [ChartDataEntry] = []
     
     @State var minAmpData: [[Int]] = []

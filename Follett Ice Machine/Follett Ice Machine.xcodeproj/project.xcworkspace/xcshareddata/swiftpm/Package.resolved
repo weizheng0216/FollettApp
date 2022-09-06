@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openalloc/SwiftTabler",
       "state" : {
-        "revision" : "1c97c370ce3964605d4ff9a1540254a06e739eab",
-        "version" : "0.9.4"
+        "branch" : "main",
+        "revision" : "ee12fc9a10b94e109b9d1d6c03325f2761b5355b"
       }
     }
   ],
