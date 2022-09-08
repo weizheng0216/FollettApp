@@ -36,6 +36,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     
     private var txCharacteristic: CBCharacteristic!
     private var rxCharacteristic: CBCharacteristic!
+    private var txCharacteristic2: CBCharacteristic!
+    private var rxCharacteristic2: CBCharacteristic!
 
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
@@ -126,28 +128,32 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         }
             
         print("Found \(characteristics.count) characteristics.")
-//        print("\(characteristics[0])")
-//        print("\(characteristics[1])")
+        print("\(characteristics[0])")
+        print("\(characteristics[1])")
 
-        for characteristic in characteristics {
+//        for characteristic in characteristics {
         
 //            if characteristic.uuid.isEqual(CBUUIDs.BLE_Characteristic_uuid_Rx)  {
 
-                rxCharacteristic = characteristic
+                rxCharacteristic = characteristics[0]
+                rxCharacteristic2 = characteristics[1]
 
                 peripheral.setNotifyValue(true, for: rxCharacteristic!)
-                peripheral.readValue(for: characteristic)
+                peripheral.setNotifyValue(true, for: rxCharacteristic2!)
+                peripheral.readValue(for: characteristics[0])
+                peripheral.readValue(for: characteristics[1])
 
-                print("RX Characteristic: \(rxCharacteristic.uuid)")
+//                print("RX Characteristic: \(rxCharacteristic.uuid)")
 //            }
     
 //            if characteristic.uuid.isEqual(CBUUIDs.BLE_Characteristic_uuid_Tx){
 
-                txCharacteristic = characteristic
-
-                print("TX Characteristic: \(txCharacteristic.uuid)")
+                txCharacteristic = characteristics[0]
+                txCharacteristic2 = characteristics[1]
+                
+//                print("TX Characteristic: \(txCharacteristic.uuid)")
 //            }
-        }
+//        }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -174,14 +180,30 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             print("error")
             return
         }
-        print("This is \(characteristicValue)")
+        
+        print("This is \(characteristicValue.count)")
+        
+        
         
 //        let test = characteristicValue
-        
-        for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
-            self.entries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "My data"))
-            self.maxAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
+        var temp: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0];
+        if(characteristicValue.count == 14){
+            
+            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+                self.entries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "My data"))
+                self.maxAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
+            }
+            
+        } else {
+
+            for i in stride(from: 0, through: characteristicValue.count - 1, by: 1) {
+                temp[i] = Int(characteristicValue[i]);
+                status.statusArray = temp;
+                
+            }
         }
+        
+        
         
         
     }

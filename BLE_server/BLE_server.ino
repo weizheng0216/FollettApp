@@ -13,8 +13,11 @@
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+#define CHARACTERISTIC_UUID_2 "beb5483e-36e1-4688-b7f5-ea07361b26a9"
 BLECharacteristic *pCharacteristic;
-uint8_t to_send[6][2] = {{9,79},{10,99},{11,67},{12,88},{13,120},{14,131}};
+BLECharacteristic *pCharacteristic2;
+uint8_t to_send[7][2] = {{9,79},{10,99},{11,67},{12,88},{13,120},{14,131}, {15, 111}};
+uint8_t temp[12] = {1,1,0,0,1,0,1,0,0,0,0,1};
 
 void setup() {
   Serial.begin(115200);
@@ -28,7 +31,12 @@ void setup() {
                                          BLECharacteristic::PROPERTY_READ |
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
-
+                                      
+  pCharacteristic2 = pService->createCharacteristic(
+                                         CHARACTERISTIC_UUID_2,
+                                         BLECharacteristic::PROPERTY_READ |
+                                         BLECharacteristic::PROPERTY_WRITE
+                                       );
   pService->start();
   // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
@@ -50,7 +58,11 @@ void loop() {
   
   to_send[5][0] = to_send[5][0] + 1;
   to_send[5][1] = to_send[5][1] + 10;
+  
+  temp[random(11)] =0;
   pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
+  pCharacteristic2->setValue((uint8_t *)temp, 12);
   pCharacteristic->notify();
-  delay(200);
+  pCharacteristic2->notify();
+  delay(5000);
 }
