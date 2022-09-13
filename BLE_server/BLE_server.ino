@@ -181,8 +181,12 @@ void loop()
 
   ampsLow->setValue((uint8_t *)to_send, sizeof(to_send) / sizeof(to_send[0]) * 2);
 
+  //[TODO] 
+  // 1. Create multiple to_send* arrays for each data point
+  // 2. Fill in to_send* arrays every second until full
+  // 3. Send the to_send* arrays once they are full 
+  // 4. Ensure the data extracted from test box is accurate
 
 
-
-  delay(5000);
+  delay(1000); // Update every second 
 }
