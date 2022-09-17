@@ -12,15 +12,17 @@
 // https://www.uuidgenerator.net/
 
 /**
- * @brief Updates a given array to contain the values extracted from the ice machine
- *
- * @param myArray size 8 array that will hold values for mode, amp rate, error states, etc.
- */
+   @brief Updates a given array to contain the values extracted from the ice machine
+
+   @param data size 8 array that will hold values for mode, amp rate, error states, etc.
+
+*/
 void getData(byte data[])
 {
 
   byte request[] = {
-      90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171};
+    90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171
+  };
   byte reply[170]; // was 167
   byte i;
   bool flag = false;
@@ -70,11 +72,12 @@ void getData(byte data[])
   }
 }
 
+
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 #define CHARACTERISTIC_UUID_2 "beb5483e-36e1-4688-b7f5-ea07361b26a9"
 // BLECharacteristic *pCharacteristic;
-// BLECharacteristic *pCharacteristic2; 
+// BLECharacteristic *pCharacteristic2;
 BLECharacteristic *ampsLow;
 BLECharacteristic *ampsHigh;
 BLECharacteristic *mergedin0_7;
@@ -84,10 +87,96 @@ BLECharacteristic *dout0;
 BLECharacteristic *errLow;
 BLECharacteristic *errHigh;
 BLECharacteristic *mode;
+uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, -1}}; // -1 indicates array is not full.
+uint8_t ampsHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t dout0_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t errLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t errHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t mode_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+int timeCounter = 7; // next data point counter.
 
-uint8_t to_send[7][2] = {{9, 79}, {10, 99}, {11, 67}, {12, 88}, {13, 120}, {14, 131}, {15, 111}};
-uint8_t temp[12] = {1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1};
+// Updates advertising value
+int updateData() {
+  ampsLow->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
+  ampsHigh->setValue((uint8_t *)ampsHigh_TS, sizeof(ampsHigh_TS) / sizeof(ampsHigh_TS[0]) * 2);
+  mergedin0_7->setValue((uint8_t *)mergedin0_7_TS, sizeof(mergedin0_7_TS) / sizeof(mergedin0_7_TS) * 2);
+  mergedin8_12->setValue((uint8_t *)mergedin8_12_TS, sizeof(mergedin8_12_TS) / sizeof(mergedin8_12_TS[0]) * 2);
+  dipSwitches->setValue((uint8_t *)dipSwitches, sizeof(dipSwitches) / sizeof(dipSwitches[0]) * 2);
+  dout0->setValue((uint8_t *)dout0_TS, sizeof(dout0_TS) / sizeof(dout0_TS[0]) * 2);
+  errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
+  errHigh->setValue((uint8_t *)errHigh_TS, sizeof(errHigh_TS) / sizeof(errHigh_TS[0]) * 2);
+  mode->setValue((uint8_t *)mode_TS, sizeof(mode_TS) / sizeof(mode_TS[0]) * 2);
+}
 
+// Notifies iPhone about information for each data entry
+void sendData() {
+
+  ampsLow->notify();
+  ampsHigh->notify();
+  mergedin0_7->notify();
+  mergedin8_12->notify();
+  dipSwitches->notify();
+  dout0->notify();
+  errLow->notify();
+  errHigh->notify();
+  mode->notify();
+
+}
+
+bool addData(byte data[]) {
+  if (ampsLow_TS[6][1] == -1) { // If array is not full then add value
+
+    int i = timeCounter % 7;
+    ampsLow_TS[i][2] = data[0];
+    ampsHigh_TS[i][2] = data[1];
+    mergedin0_7_TS[i][2] = data[2];
+    mergedin8_12_TS[i][2] = data[3];
+    dipSwitches_TS[i][2] = data[4];
+    dout0_TS[i][2] = data[5];
+    errLow_TS[i][2] = data[6];
+    errHigh_TS[i][2] = data[7];
+    mode_TS[i][2] = data[8];
+    timeCounter++;
+    return true;
+
+  }
+  else {
+    return false;
+  }
+
+}
+
+void resetData() {
+  int c = timeCounter;
+
+  for (int i = 0; i < 8; i++) {
+
+    ampsLow_TS[i][0] = c;
+    ampsHigh_TS[i][0] = c;
+    mergedin0_7_TS[i][0] = c;
+    mergedin8_12_TS[i][0] = c;
+    dipSwitches_TS[i][0] = c;
+    dout0_TS[i][0] = c;
+    errLow_TS[i][0] = c;
+    errHigh_TS[i][0] = c;
+    mode_TS[i][0] = c;
+    c++;
+
+    ampsLow_TS[i][1] = 0;
+    ampsHigh_TS[i][1] = 0;
+    mergedin0_7_TS[i][1] = 0;
+    mergedin8_12_TS[i][1] = 0;
+    dipSwitches_TS[i][1] = 0;
+    dout0_TS[i][1] = 0;
+    errLow_TS[i][1] = 0;
+    errHigh_TS[i][1] = 0;
+    mode_TS[i][1] = -1;
+  }
+  timeCounter = c; 
+}
 
 void setup()
 {
@@ -99,52 +188,42 @@ void setup()
   BLEService *pService = pServer->createService(SERVICE_UUID);
 
   // Intialize Bluetooth Characteristics
-  // pCharacteristic = pService->createCharacteristic(
-  //     CHARACTERISTIC_UUID,
-  //     BLECharacteristic::PROPERTY_READ |
-  //         BLECharacteristic::PROPERTY_WRITE);
-
-  // pCharacteristic2 = pService->createCharacteristic(
-  //     CHARACTERISTIC_UUID_2,
-  //     BLECharacteristic::PROPERTY_READ |
-  //         BLECharacteristic::PROPERTY_WRITE);
-
   ampsLow = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+              CHARACTERISTIC_UUID,
+              BLECharacteristic::PROPERTY_READ |
+              BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+               CHARACTERISTIC_UUID,
+               BLECharacteristic::PROPERTY_READ |
+               BLECharacteristic::PROPERTY_WRITE);
   mergedin0_7 = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+                  CHARACTERISTIC_UUID,
+                  BLECharacteristic::PROPERTY_READ |
+                  BLECharacteristic::PROPERTY_WRITE);
   mergedin8_12 = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+                   CHARACTERISTIC_UUID,
+                   BLECharacteristic::PROPERTY_READ |
+                   BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+                  CHARACTERISTIC_UUID,
+                  BLECharacteristic::PROPERTY_READ |
+                  BLECharacteristic::PROPERTY_WRITE);
   dout0 = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+            CHARACTERISTIC_UUID,
+            BLECharacteristic::PROPERTY_READ |
+            BLECharacteristic::PROPERTY_WRITE);
   errLow = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+             CHARACTERISTIC_UUID,
+             BLECharacteristic::PROPERTY_READ |
+             BLECharacteristic::PROPERTY_WRITE);
   errHigh = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+              CHARACTERISTIC_UUID,
+              BLECharacteristic::PROPERTY_READ |
+              BLECharacteristic::PROPERTY_WRITE);
   mode = pService->createCharacteristic(
-      CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+           CHARACTERISTIC_UUID,
+           BLECharacteristic::PROPERTY_READ |
+           BLECharacteristic::PROPERTY_WRITE);
 
   // Start Bluetooth Service
   pService->start();
@@ -164,29 +243,18 @@ void setup()
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
 
-  to_send[5][0] = to_send[5][0] + 1;
-  to_send[5][1] = to_send[5][1] + 10;
-
-  // temp[random(11)] = 0;
-  // pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send) / sizeof(to_send[0]) * 2);
-  // pCharacteristic2->setValue((uint8_t *)temp, 12);
-  // pCharacteristic->notify();
-  // pCharacteristic2->notify();
-
-  byte data[9];  
-  getData(data);
+  byte data[9]; // Stores data entries by second
+  getData(data);// Load data into array
 
 
-  ampsLow->setValue((uint8_t *)to_send, sizeof(to_send) / sizeof(to_send[0]) * 2);
+  if (addData(data)) { // Successful add, array not full
+    // keep adding data to respective arrays until RTS.
+  }
+  else { // Array full, notify iPhone of past minute of recorded data
+    updateData(); // Notify iPhone of changes
+    resetData(); // Clear values with new time points from updated counter.
+  }
 
-  //[TODO] 
-  // 1. Create multiple to_send* arrays for each data point
-  // 2. Fill in to_send* arrays every second until full
-  // 3. Send the to_send* arrays once they are full 
-  // 4. Ensure the data extracted from test box is accurate
-
-
-  delay(1000); // Update every second 
+  delay(1000); // Update every second
 }
