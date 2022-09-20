@@ -74,8 +74,17 @@ void getData(byte data[])
 
 
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define CHARACTERISTIC_UUID_2 "beb5483e-36e1-4688-b7f5-ea07361b26a9"
+#define CHARACTERISTIC_UUID_1 "beb5483e-36e1-4688-b7f5-ea07361b26a1"
+#define CHARACTERISTIC_UUID_2 "beb5483e-36e1-4688-b7f5-ea07361b26a2"
+#define CHARACTERISTIC_UUID_3 "beb5483e-36e1-4688-b7f5-ea07361b26a3"
+#define CHARACTERISTIC_UUID_4 "beb5483e-36e1-4688-b7f5-ea07361b26a4"
+#define CHARACTERISTIC_UUID_5 "beb5483e-36e1-4688-b7f5-ea07361b26a5"
+#define CHARACTERISTIC_UUID_6 "beb5483e-36e1-4688-b7f5-ea07361b26a6"
+#define CHARACTERISTIC_UUID_7 "beb5483e-36e1-4688-b7f5-ea07361b26a7"
+#define CHARACTERISTIC_UUID_8 "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+#define CHARACTERISTIC_UUID_9 "beb5483e-36e1-4688-b7f5-ea07361b26a9"
+
+
 // BLECharacteristic *pCharacteristic;
 // BLECharacteristic *pCharacteristic2;
 BLECharacteristic *ampsLow;
@@ -88,14 +97,14 @@ BLECharacteristic *errLow;
 BLECharacteristic *errHigh;
 BLECharacteristic *mode;
 uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, -1}}; // -1 indicates array is not full.
-uint8_t ampsHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t dout0_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t errLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t errHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
-uint8_t mode_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t ampsHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {7, 0}};
+uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {8, 0}};
+uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {9, 0}};
+uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {10, 0}};
+uint8_t dout0_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {11, 0}};
+uint8_t errLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {12, 0}};
+uint8_t errHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {13, 0}};
+uint8_t mode_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {14, 0}};
 int timeCounter = 7; // next data point counter.
 
 // Updates advertising value
@@ -165,14 +174,14 @@ void resetData() {
     mode_TS[i][0] = c;
     c++;
 
-    ampsLow_TS[i][1] = 0;
-    ampsHigh_TS[i][1] = 0;
-    mergedin0_7_TS[i][1] = 0;
-    mergedin8_12_TS[i][1] = 0;
-    dipSwitches_TS[i][1] = 0;
-    dout0_TS[i][1] = 0;
-    errLow_TS[i][1] = 0;
-    errHigh_TS[i][1] = 0;
+    ampsLow_TS[i][1] = 1;
+    ampsHigh_TS[i][1] = 1;
+    mergedin0_7_TS[i][1] = 1;
+    mergedin8_12_TS[i][1] = 1;
+    dipSwitches_TS[i][1] = 1;
+    dout0_TS[i][1] = 1;
+    errLow_TS[i][1] = 1;
+    errHigh_TS[i][1] = 1;
     mode_TS[i][1] = -1;
   }
   timeCounter = c; 
@@ -189,39 +198,39 @@ void setup()
 
   // Intialize Bluetooth Characteristics
   ampsLow = pService->createCharacteristic(
-              CHARACTERISTIC_UUID,
+              CHARACTERISTIC_UUID_1,
               BLECharacteristic::PROPERTY_READ |
               BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
-               CHARACTERISTIC_UUID,
+               CHARACTERISTIC_UUID_2,
                BLECharacteristic::PROPERTY_READ |
                BLECharacteristic::PROPERTY_WRITE);
   mergedin0_7 = pService->createCharacteristic(
-                  CHARACTERISTIC_UUID,
+                  CHARACTERISTIC_UUID_3,
                   BLECharacteristic::PROPERTY_READ |
                   BLECharacteristic::PROPERTY_WRITE);
   mergedin8_12 = pService->createCharacteristic(
-                   CHARACTERISTIC_UUID,
+                   CHARACTERISTIC_UUID_4,
                    BLECharacteristic::PROPERTY_READ |
                    BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-                  CHARACTERISTIC_UUID,
+                  CHARACTERISTIC_UUID_5,
                   BLECharacteristic::PROPERTY_READ |
                   BLECharacteristic::PROPERTY_WRITE);
   dout0 = pService->createCharacteristic(
-            CHARACTERISTIC_UUID,
+            CHARACTERISTIC_UUID_6,
             BLECharacteristic::PROPERTY_READ |
             BLECharacteristic::PROPERTY_WRITE);
   errLow = pService->createCharacteristic(
-             CHARACTERISTIC_UUID,
+             CHARACTERISTIC_UUID_7,
              BLECharacteristic::PROPERTY_READ |
              BLECharacteristic::PROPERTY_WRITE);
   errHigh = pService->createCharacteristic(
-              CHARACTERISTIC_UUID,
+              CHARACTERISTIC_UUID_8,
               BLECharacteristic::PROPERTY_READ |
               BLECharacteristic::PROPERTY_WRITE);
   mode = pService->createCharacteristic(
-           CHARACTERISTIC_UUID,
+           CHARACTERISTIC_UUID_9,
            BLECharacteristic::PROPERTY_READ |
            BLECharacteristic::PROPERTY_WRITE);
 
@@ -256,5 +265,5 @@ void loop()
     resetData(); // Clear values with new time points from updated counter.
   }
 
-  delay(1000); // Update every second
+  delay(100); // Update every second
 }
