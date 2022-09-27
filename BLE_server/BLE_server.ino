@@ -96,7 +96,7 @@ BLECharacteristic *dout0;
 BLECharacteristic *errLow;
 BLECharacteristic *errHigh;
 BLECharacteristic *mode;
-uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, -1}}; // -1 indicates array is not full.
+uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}; // -1 indicates array is not full.
 uint8_t ampsHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {7, 0}};
 uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {8, 0}};
 uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {9, 0}};
@@ -136,18 +136,18 @@ void sendData() {
 }
 
 bool addData(byte data[]) {
-  if (ampsLow_TS[6][1] == -1) { // If array is not full then add value
+  if (timeCounter%7 != 0) { // If array is not full then add value
 
     int i = timeCounter % 7;
-    ampsLow_TS[i][2] = data[0];
-    ampsHigh_TS[i][2] = data[1];
-    mergedin0_7_TS[i][2] = data[2];
-    mergedin8_12_TS[i][2] = data[3];
-    dipSwitches_TS[i][2] = data[4];
-    dout0_TS[i][2] = data[5];
-    errLow_TS[i][2] = data[6];
-    errHigh_TS[i][2] = data[7];
-    mode_TS[i][2] = data[8];
+    ampsLow_TS[i][1] = data[0];
+    ampsHigh_TS[i][1] = data[1];
+    mergedin0_7_TS[i][1] = data[2];
+    mergedin8_12_TS[i][1] = data[3];
+    dipSwitches_TS[i][1] = data[4];
+    dout0_TS[i][1] = data[5];
+    errLow_TS[i][1] = data[6];
+    errHigh_TS[i][1] = data[7];
+    mode_TS[i][1] = data[8];
     timeCounter++;
     return true;
 
@@ -163,16 +163,15 @@ void resetData() {
 
   for (int i = 0; i < 8; i++) {
 
-    ampsLow_TS[i][0] = c;
-    ampsHigh_TS[i][0] = c;
-    mergedin0_7_TS[i][0] = c;
-    mergedin8_12_TS[i][0] = c;
-    dipSwitches_TS[i][0] = c;
-    dout0_TS[i][0] = c;
-    errLow_TS[i][0] = c;
-    errHigh_TS[i][0] = c;
-    mode_TS[i][0] = c;
-    c++;
+    ampsLow_TS[i][0] = c+i;
+    ampsHigh_TS[i][0] = c+i;
+    mergedin0_7_TS[i][0] = c+i;
+    mergedin8_12_TS[i][0] = c+i;
+    dipSwitches_TS[i][0] = c+i;
+    dout0_TS[i][0] = c+i;
+    errLow_TS[i][0] = c+i;
+    errHigh_TS[i][0] = c+i;
+    mode_TS[i][0] = c+i;
 
     ampsLow_TS[i][1] = 1;
     ampsHigh_TS[i][1] = 1;
@@ -182,7 +181,7 @@ void resetData() {
     dout0_TS[i][1] = 1;
     errLow_TS[i][1] = 1;
     errHigh_TS[i][1] = 1;
-    mode_TS[i][1] = -1;
+    mode_TS[i][1] = 1;
   }
   timeCounter = c; 
 }
@@ -258,12 +257,13 @@ void loop()
 
 
   if (addData(data)) { // Successful add, array not full
-    // keep adding data to respective arrays until RTS.
+//    // keep adding data to respective arrays until RTS.
   }
   else { // Array full, notify iPhone of past minute of recorded data
     updateData(); // Notify iPhone of changes
+    sendData();
     resetData(); // Clear values with new time points from updated counter.
   }
 
-  delay(100); // Update every second
+  delay(1000); // Update every second
 }

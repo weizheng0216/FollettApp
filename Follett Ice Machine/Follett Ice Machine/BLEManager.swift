@@ -14,7 +14,14 @@ struct CBUUIDs{
 
     static let ampsLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
     static let ampsHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
-
+    static let mergedin1UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
+    static let mergedin2_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
+    static let dipSwitches_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
+    static let dout0_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A6"
+    static let errLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A7"
+    static let errHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A8"
+    static let mode_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A9"
+    
 }
 
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
