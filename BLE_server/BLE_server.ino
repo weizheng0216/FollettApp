@@ -7,6 +7,7 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
+#include <EEPROM.h>
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
@@ -17,7 +18,7 @@
    @param data size 8 array that will hold values for mode, amp rate, error states, etc.
 
 */
-void getData(byte data[])
+bool getData(byte data[])
 {
 
   byte request[] = {
@@ -70,6 +71,7 @@ void getData(byte data[])
     data[0] = 255;
     data[1] = 255;
   }
+  return !flag; 
 }
 
 
@@ -136,7 +138,7 @@ void sendData() {
 }
 
 bool addData(byte data[]) {
-  if (timeCounter%7 != 0) { // If array is not full then add value
+  if (timeCounter % 7 != 0) { // If array is not full then add value
 
     int i = timeCounter % 7;
     ampsLow_TS[i][1] = data[0];
@@ -163,15 +165,15 @@ void resetData() {
 
   for (int i = 0; i < 8; i++) {
 
-    ampsLow_TS[i][0] = c+i;
-    ampsHigh_TS[i][0] = c+i;
-    mergedin0_7_TS[i][0] = c+i;
-    mergedin8_12_TS[i][0] = c+i;
-    dipSwitches_TS[i][0] = c+i;
-    dout0_TS[i][0] = c+i;
-    errLow_TS[i][0] = c+i;
-    errHigh_TS[i][0] = c+i;
-    mode_TS[i][0] = c+i;
+    ampsLow_TS[i][0] = c + i;
+    ampsHigh_TS[i][0] = c + i;
+    mergedin0_7_TS[i][0] = c + i;
+    mergedin8_12_TS[i][0] = c + i;
+    dipSwitches_TS[i][0] = c + i;
+    dout0_TS[i][0] = c + i;
+    errLow_TS[i][0] = c + i;
+    errHigh_TS[i][0] = c + i;
+    mode_TS[i][0] = c + i;
 
     ampsLow_TS[i][1] = 1;
     ampsHigh_TS[i][1] = 1;
@@ -183,7 +185,7 @@ void resetData() {
     errHigh_TS[i][1] = 1;
     mode_TS[i][1] = 1;
   }
-  timeCounter = c; 
+  timeCounter = c;
 }
 
 void setup()
@@ -253,17 +255,42 @@ void loop()
 {
 
   byte data[9]; // Stores data entries by second
-  getData(data);// Load data into array
+  bool flag = getData(data);// Load data into array, 1 if valid get 0 if serial not connected.
+  int value = -1;
 
+  EEPROM.write(10, 99);
 
-  if (addData(data)) { // Successful add, array not full
-//    // keep adding data to respective arrays until RTS.
+  if (flag) {
+    EEPROM.write(10, 100);
+
+    for (int i = 0; i < 9; i++) {
+      EEPROM.write(i, data[i]);
+    }
   }
-  else { // Array full, notify iPhone of past minute of recorded data
-    updateData(); // Notify iPhone of changes
-    sendData();
-    resetData(); // Clear values with new time points from updated counter.
+  else {
+    Serial.println("Not connected to ice machine");
+    EEPROM.write(10, 101);
+    for (int i = 0; i < 9; i++) {
+      value = EEPROM.read(i);
+      Serial.print(i);
+      Serial.print("\t");
+      Serial.println((int)value);
+    }
   }
 
+  Serial.println("-----");
+  value = EEPROM.read(10);
+  Serial.println(value);
+
+
+  //
+  //  if (addData(data)) { // Successful add, array not full
+  //    // keep adding data to respective arrays until RTS.
+  //  }
+  //  else { // Array full, notify iPhone of past minute of recorded data
+  //    updateData(); // Notify iPhone of changes
+  //    sendData();
+  //    resetData(); // Clear values with new time points from updated counter.
+  //  }
   delay(1000); // Update every second
 }
