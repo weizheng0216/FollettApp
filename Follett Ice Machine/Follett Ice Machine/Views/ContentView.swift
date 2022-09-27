@@ -35,12 +35,29 @@ struct ContentView: View {
             
             NavigationView{
 
+//                VStack{
+//                    AmpChartView(BTManager: bleManager, entries: $data)
+//                        .navigationTitle("Amp Graph")
+//
+//                    Text("\(passHello)")
+//                }
                 VStack{
-                    AmpChartView(BTManager: bleManager, entries: $data)
-                        .navigationTitle("Amp Graph")
                     
-                    Text("\(passHello)")
+                    Picker("Graph", selection: $selectedGraph) {
+                        Text("Min Amps").tag(0)
+                        Text("Max Amps").tag(1)
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(10)
+                    
+                    Spacer()
+                    
+                    AmpChartView(BTManager: bleManager, entries: $data, graph: selectedGraph)
+                        .frame(width: 300, height: 350, alignment: .center)
+                    
+                    Spacer()
                 }
+                .navigationTitle("Amp Graphs")
             }
             .tabItem { Group{
                 Image(systemName: "waveform.path.ecg")
@@ -75,18 +92,6 @@ struct ContentView: View {
             
             NavigationView {
                 Form {
-//                    Section(header: Text("States")) {
-//
-//                        NavigationLink(
-////                            destination: AmpChartView()
-//                        ) { Text("Mode Detail") }
-//                            .navigationBarTitle("Data")
-//                        NavigationLink(
-////                            destination: AmpChartView()
-//                        ) { Text("Error States") }
-//                            .navigationBarTitle("Data")
-//
-//                    }
                     Section(header: Text("Auger Current")) {
                         
                         NavigationLink(
@@ -95,7 +100,7 @@ struct ContentView: View {
                         ) { Text("Max Auger Current")}
                         
                         NavigationLink(
-                            destination: DataTableView(rawData: minAmpData)
+                            destination: DataTableView(rawData: bleManager.minAmpData)
                                 .navigationBarTitle("Min Auger Current")
                         ) { Text("Min Auger Current")}
                         

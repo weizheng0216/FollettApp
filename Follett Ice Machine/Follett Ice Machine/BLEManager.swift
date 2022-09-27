@@ -1,10 +1,3 @@
-//
-//  BLEManager.swift
-//  Follett Ice Machine
-//
-//  Created by Wei Zheng on 4/28/22.
-//
-
 import Foundation
 
 import CoreBluetooth
@@ -17,35 +10,48 @@ struct Peripheral: Identifiable {
     let cbPerpheral: CBPeripheral
 }
 //
-//struct CBUUIDs{
-//
-//    static let kBLEService_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-//    static let kBLE_Characteristic_uuid_Tx = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
-//    static let kBLE_Characteristic_uuid_Rx = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
-//
-//    static let BLEService_UUID = CBUUID(string: kBLEService_UUID)
-//    static let BLE_Characteristic_uuid_Tx = CBUUID(string: kBLE_Characteristic_uuid_Tx)//(Property = Write without response)
-//    static let BLE_Characteristic_uuid_Rx = CBUUID(string: kBLE_Characteristic_uuid_Rx)// (Property = Read/Notify)
-//
-//}
+struct CBUUIDs{
+
+    static let ampsLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
+    static let ampsHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
+
+}
 
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
 
     var myCentral: CBCentralManager!
     var myPeripheral: CBPeripheral!
     
-    private var txCharacteristic: CBCharacteristic!
-    private var rxCharacteristic: CBCharacteristic!
-    private var txCharacteristic2: CBCharacteristic!
-    private var rxCharacteristic2: CBCharacteristic!
+    private var ampsLow_tx: CBCharacteristic!
+    private var ampsLow_rx: CBCharacteristic!
+    private var ampsHigh_tx: CBCharacteristic!
+    private var ampsHigh_rx: CBCharacteristic!
+    
+    private var mergedin1_tx: CBCharacteristic!
+    private var mergedin1_rx: CBCharacteristic!
+    private var mergedin2_tx: CBCharacteristic!
+    private var mergedin2_rx: CBCharacteristic!
+    
+    private var dipSwitches_tx: CBCharacteristic!
+    private var dipSwitches_rx: CBCharacteristic!
+    private var dout0_tx: CBCharacteristic!
+    private var dout0_rx: CBCharacteristic!
+    
+    private var errLow_tx: CBCharacteristic!
+    private var errLow_rx: CBCharacteristic!
+    private var errHigh_tx: CBCharacteristic!
+    private var errHigh_rx: CBCharacteristic!
+    private var mode_tx: CBCharacteristic!
+    private var mode_rx: CBCharacteristic!
 
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
     
     @Published var maxAmpData: [[Int]] = []
-//    @Published var minAmpData: [[Int]] = []
+    @Published var minAmpData: [[Int]] = []
 //    @ObservedObject var iceMachineState = IceMachineStatus()
-    @Published var entries: [ChartDataEntry] = []
+    @Published var minEntries: [ChartDataEntry] = []
+    @Published var maxEntries: [ChartDataEntry] = []
     var status = IceMachineStatus.shared
     
 
@@ -130,77 +136,67 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         print("Found \(characteristics.count) characteristics.")
         print("\(characteristics[0])")
         print("\(characteristics[1])")
-
-//        for characteristic in characteristics {
+        print("\(characteristics[2])")
+//        print("\(characteristics[3])")
+//        print("\(characteristics[4])")
+//        print("\(characteristics[5])")
+//        print("\(characteristics[6])")
         
-//            if characteristic.uuid.isEqual(CBUUIDs.BLE_Characteristic_uuid_Rx)  {
 
-                rxCharacteristic = characteristics[0]
-                rxCharacteristic2 = characteristics[1]
-
-                peripheral.setNotifyValue(true, for: rxCharacteristic!)
-                peripheral.setNotifyValue(true, for: rxCharacteristic2!)
-                peripheral.readValue(for: characteristics[0])
-                peripheral.readValue(for: characteristics[1])
-
-//                print("RX Characteristic: \(rxCharacteristic.uuid)")
-//            }
+        for characteristic in characteristics {
+            
+            if (characteristic.uuid.uuidString == CBUUIDs.ampsLow_UUID)  {
+                ampsLow_rx = characteristic
+                ampsLow_tx = characteristic
+                peripheral.setNotifyValue(true, for: ampsLow_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.ampsHigh_UUID)  {
+                ampsHigh_rx = characteristic
+                ampsHigh_tx = characteristic
+                peripheral.setNotifyValue(true, for: ampsHigh_rx!)
+                peripheral.readValue(for: characteristic)
+            }
     
 //            if characteristic.uuid.isEqual(CBUUIDs.BLE_Characteristic_uuid_Tx){
 
-                txCharacteristic = characteristics[0]
-                txCharacteristic2 = characteristics[1]
+//                ampsLow_tx = characteristics[0]
+//                ampsHigh_tx = characteristics[1]
                 
 //                print("TX Characteristic: \(txCharacteristic.uuid)")
 //            }
-//        }
+        }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        
-//        var characteristicASCIIValue = NSString()
-//        guard characteristic == rxCharacteristic,
-//
-//        let characteristicValue = characteristic.value,
-//        let ASCIIstring = NSString(data: characteristicValue, encoding: String.Encoding.utf8.rawValue) else { return }
 
-//        characteristicASCIIValue = ASCIIstring
-
-//        hello = (characteristicASCIIValue as String)
-        
-//        ampData = hello.components(separatedBy: ", ").map { Int($0)!}
-
-
-//        print("Value Recieved: \(hello)")
-        
-        
-        
         guard let characteristicValue = characteristic.value else {
             // no data transmitted, handle if needed
             print("error")
             return
         }
         
-        print("This is \(characteristicValue.count)")
-        
-        
-        
-//        let test = characteristicValue
+//        print("This is \(characteristicValue.count)")
+        print("\(characteristic.uuid)")
+        print("\(characteristicValue)")
         var temp: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0];
-        if(characteristicValue.count == 14){
-            
+        if(characteristic.uuid.uuidString == CBUUIDs.ampsLow_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
-                self.entries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "My data"))
+                self.minEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Min Amp data"))
+                self.minAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
+            }
+            
+        } else if (characteristic.uuid.uuidString == CBUUIDs.ampsHigh_UUID){
+            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+                self.maxEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Max Amp data"))
                 self.maxAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
             }
-            
         } else {
 
-            for i in stride(from: 0, through: characteristicValue.count - 1, by: 1) {
-                temp[i] = Int(characteristicValue[i]);
-                status.statusArray = temp;
-                
-            }
+//            for i in stride(from: 0, through: characteristicValue.count - 1, by: 1) {
+//                temp[i] = Int(characteristicValue[i]);
+//                status.statusArray = temp;
+//
+//            }
         }
         
         
@@ -214,7 +210,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if let myPeripheral = myPeripheral {
               
-            if let txCharacteristic = txCharacteristic {
+            if let txCharacteristic = ampsLow_tx {
                 myPeripheral.writeValue(valueString!, for: txCharacteristic, type: CBCharacteristicWriteType.withResponse)
             }
         }
@@ -237,7 +233,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if let peripheralToConnect = peripherals.first(where: {$0.name == peripheralName}) {
             self.myCentral.connect(peripheralToConnect.cbPerpheral, options: nil)
-            peripheralToConnect.cbPerpheral.readValue(for: rxCharacteristic)
+            peripheralToConnect.cbPerpheral.readValue(for: ampsLow_rx)
         }
     }
     
