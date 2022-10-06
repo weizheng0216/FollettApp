@@ -19,17 +19,16 @@ void setup() {
 
   
 
-  Serial.begin(14400); //ht5 - was 14400
+  Serial.begin(14400); //ht5 - was 14400 of ice machine
 
-  Serial1.begin(115200); 
-  
+  Serial2.begin(115200);  // baud rate of printout serial
+ 
   Serial.setTimeout(200); //ht5 
-  digitalWrite(0, LOW);
+//  digitalWrite(0, LOW);
+  digitalWrite(17, LOW); // turns on serial1 output pin. 
   
   mainMillis = millis(); //init start time
-  
 }
- 
 
 void loop() {
 
@@ -65,8 +64,8 @@ void loop() {
       //condense data
       //data[0] = reply[133]; //amps lowbyte was 130
       //data[1] = reply[134]; //amps highbyte was 131
-      data[0] = reply[133]; //amps lowbyte was 130
-      data[1] = reply[134]; //amps highbyte was 131
+      data[0] = reply[144]; //amps lowbyte was 130; => was 133; max auger current 
+      data[1] = reply[145]; //amps highbyte was 131; =>  was 134; min auger current 
       for (i=0; i<8; i++) {bitWrite(data[2], i, reply[135+i]);} //merge din0-7 into 1 byte was 132
       data[3]= 0;
       for (i=0; i<1; i++) {bitWrite(data[3], i, reply[143+i]);} //merge din8-12 into 1 byte was 140 --- only 1st byte still valid, following 4 bytes are new auger current min/max
@@ -78,8 +77,6 @@ void loop() {
       data[8] = reply[155]; //mymode was 152
 
       x = (int) data[2]; 
-//      preferences.putInt(hi_amp, data[0]); // Store locally  
-      
       
     }
     else {
@@ -90,16 +87,7 @@ void loop() {
       // save local error codes
       }
   }
-
-//  digitalWrite(0, HIGH); //led off
-//
-//    for(int i=0; i < 10; i++){
-//      int value = ;// read value 
-//      Serial.print("i: ");
-//      Serial.println(value); 
-//    }
-
-    Serial1.println("a");
+    Serial2.println(x);
 
     delay(1000);
     
