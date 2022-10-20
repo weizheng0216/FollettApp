@@ -190,8 +190,10 @@ void resetData() {
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(14400); // must be 14400 for ice machine (test box)
+  Serial.setTimeout(200); //ht5 
   Serial.println("Starting BLE work!");
+  digitalWrite(17, LOW); // turns on serial1 output pin. 
 
   BLEDevice::init("Follett Ice Machine");
   BLEServer *pServer = BLEDevice::createServer();
@@ -281,16 +283,6 @@ void loop()
   Serial.println("-----");
   value = EEPROM.read(10);
   Serial.println(value);
-
-
-  //
-  //  if (addData(data)) { // Successful add, array not full
-  //    // keep adding data to respective arrays until RTS.
-  //  }
-  //  else { // Array full, notify iPhone of past minute of recorded data
-  //    updateData(); // Notify iPhone of changes
-  //    sendData();
-  //    resetData(); // Clear values with new time points from updated counter.
-  //  }
+  
   delay(1000); // Update every second
 }
