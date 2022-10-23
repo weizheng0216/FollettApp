@@ -97,14 +97,14 @@ BLECharacteristic *errLow;
 BLECharacteristic *errHigh;
 BLECharacteristic *mode;
 uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}; // -1 indicates array is not full.
-uint8_t ampsHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {7, 0}};
-uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {8, 0}};
-uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {9, 0}};
-uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {10, 0}};
-uint8_t dout0_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {11, 0}};
-uint8_t errLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {12, 0}};
-uint8_t errHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {13, 0}};
-uint8_t mode_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {14, 0}};
+uint8_t ampsHigh_TS[7][2] = {{0, 100}, {1, 100}, {2, 100}, {3, 100}, {4, 100}, {5, 100}, {6, 100}};
+uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t mergedin8_12_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t dout0_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t errLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t errHigh_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
+uint8_t mode_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
 int timeCounter = 7; // next data point counter.
 
 // Updates advertising value
@@ -141,13 +141,15 @@ bool addData(byte data[]) {
     int i = timeCounter % 7;
     ampsLow_TS[i][1] = data[0];
     ampsHigh_TS[i][1] = data[1];
-    mergedin0_7_TS[i][1] = data[2];
-    mergedin8_12_TS[i][1] = data[3];
-    dipSwitches_TS[i][1] = data[4];
-    dout0_TS[i][1] = data[5];
-    errLow_TS[i][1] = data[6];
-    errHigh_TS[i][1] = data[7];
-    mode_TS[i][1] = data[8];
+//    Serial.println("data 0 = "+ data[0]);
+//    Serial.print("data 1 = " + data[1]);
+//    mergedin0_7_TS[i][1] = data[2];
+//    mergedin8_12_TS[i][1] = data[3];
+//    dipSwitches_TS[i][1] = data[4];
+//    dout0_TS[i][1] = data[5];
+//    errLow_TS[i][1] = data[6];
+//    errHigh_TS[i][1] = data[7];
+//    mode_TS[i][1] = data[8];
     timeCounter++;
     return true;
 
@@ -159,9 +161,8 @@ bool addData(byte data[]) {
 }
 
 void resetData() {
-  int c = timeCounter;
-
-  for (int i = 0; i < 8; i++) {
+  int c = timeCounter; //7
+  for (int i = 0; i < 7; i++) {
 
     ampsLow_TS[i][0] = c+i;
     ampsHigh_TS[i][0] = c+i;
@@ -183,13 +184,13 @@ void resetData() {
     errHigh_TS[i][1] = 1;
     mode_TS[i][1] = 1;
   }
-  timeCounter = c; 
+  timeCounter++;
 }
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("Starting BLE work!");
+  Serial.begin(14400);
+//  Serial.println("Starting BLE work!");
 
   BLEDevice::init("Follett Ice Machine");
   BLEServer *pServer = BLEDevice::createServer();
@@ -197,7 +198,7 @@ void setup()
 
   // Intialize Bluetooth Characteristics
   ampsLow = pService->createCharacteristic(
-              CHARACTERISTIC_UUID_1,
+              CHARACTERISTIC_UUID_5,
               BLECharacteristic::PROPERTY_READ |
               BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
@@ -213,7 +214,7 @@ void setup()
                    BLECharacteristic::PROPERTY_READ |
                    BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-                  CHARACTERISTIC_UUID_5,
+                  CHARACTERISTIC_UUID_1,
                   BLECharacteristic::PROPERTY_READ |
                   BLECharacteristic::PROPERTY_WRITE);
   dout0 = pService->createCharacteristic(
@@ -232,7 +233,9 @@ void setup()
            CHARACTERISTIC_UUID_9,
            BLECharacteristic::PROPERTY_READ |
            BLECharacteristic::PROPERTY_WRITE);
-
+  Serial.setTimeout(200);
+  digitalWrite(17,LOW);
+  
   // Start Bluetooth Service
   pService->start();
   // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
@@ -242,7 +245,8 @@ void setup()
   pAdvertising->setMinPreferred(0x06); // functions that help with iPhone connections issue
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
-  Serial.println("Characteristic defined! Now you can read it in your phone!");
+//  Serial.println("Hello!");
+//  Serial.println("Characteristic defined! Now you can read it in your phone!");
 
   //  uint8_t to_send[6][2] = {{2,102},{4,100},{5,88},{6,123},{7,99},{8,111}};
   //  pCharacteristic->setValue((uint8_t *)to_send, sizeof(to_send)/sizeof(to_send[0]) * 2);
@@ -265,5 +269,5 @@ void loop()
     resetData(); // Clear values with new time points from updated counter.
   }
 
-  delay(1000); // Update every second
+  delay(100); // Update every second
 }

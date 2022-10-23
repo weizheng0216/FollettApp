@@ -60,7 +60,8 @@ struct ChooseGraphView: View {
     var body: some View {
         switch graph {
         case 0:
-            GanttView(htmlString: $htmlString)
+//            GanttView(htmlString: $htmlString)
+            StateChartView()
         case 1:
             UtilizationChartView()
         default:

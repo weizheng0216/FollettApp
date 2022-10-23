@@ -13,9 +13,8 @@ struct StatusLightView: View {
     
     @ObservedObject var status = IceMachineStatus.shared
     @State private var showingModel = false
-    @Binding var passHello:String
     
-    let statusLight = ["Cleaner Full", "Drain Clog", "High Pres", "High Amps", "Service", "Maint/Clean", "Low Water", "Time Delay", "Sleep Cycle", "Making Ice", "Low Bin", "Power On"]
+    let statusLight = ["Power On", "Low Bin", "Making Ice", "Sleep Cycle", "Time Delay", "Low Water", "Maint/Clean", "Service", "High Amps", "High Pres", "Drain Clog", "Cleaner Full"]
     
     var body: some View {
         VStack(spacing: 40) {
@@ -29,17 +28,17 @@ struct StatusLightView: View {
                 ForEach(Array(zip(statusLight, status.statusArray).enumerated()), id: \.0) { index, item in
                     
                     HStack{
-                        if 0...4 ~= index {
+                        if 0...1 ~= index {
                             Circle()
-                                .fill(item.1==1 ? Color.red : Color.red.opacity(0.2))
+                                .fill(item.1==1 ? Color.green : Color.green.opacity(0.2))
                                 .frame(width: 10, height: 10)
-                        } else if 4...9 ~= index {
+                        } else if 2...6 ~= index {
                             Circle()
                                 .fill(item.1==1 ? Color.yellow : Color.yellow.opacity(0.2))
                                 .frame(width: 10, height: 10)
                         } else {
                             Circle()
-                                .fill(item.1==1 ? Color.green : Color.green.opacity(0.2))
+                                .fill(item.1==1 ? Color.red : Color.red.opacity(0.2))
                                 .frame(width: 10, height: 10)
                         }
                         
@@ -59,7 +58,7 @@ struct StatusLightView: View {
                     self.BTManager.stopScanning()
                     self.BTManager.peripherals.removeAll()
                 }) {
-                    ScanView(BTManager: BTManager, isPresented: $showingModel, passHello: $passHello)
+                    ScanView(BTManager: BTManager, isPresented: $showingModel)
                 }
                 
                 Button(action: {

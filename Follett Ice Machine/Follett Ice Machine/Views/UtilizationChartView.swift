@@ -24,9 +24,3 @@ struct UtilizationChartView: View {
 //        Spacer()
     }
 }
-
-struct ChartsPieChart_Previews: PreviewProvider {
-    static var previews: some View {
-        UtilizationChartView()
-    }
-}
