@@ -7,6 +7,7 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
+#include <EEPROM.h>
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
@@ -17,7 +18,7 @@
    @param data size 8 array that will hold values for mode, amp rate, error states, etc.
 
 */
-void getData(byte data[])
+bool getData(byte data[])
 {
 
   byte request[] = {
@@ -70,6 +71,7 @@ void getData(byte data[])
     data[0] = 255;
     data[1] = 255;
   }
+  return !flag; 
 }
 
 
@@ -136,7 +138,7 @@ void sendData() {
 }
 
 bool addData(byte data[]) {
-  if (timeCounter%7 != 0) { // If array is not full then add value
+  if (timeCounter % 7 != 0) { // If array is not full then add value
 
     int i = timeCounter % 7;
     ampsLow_TS[i][1] = data[0];
@@ -164,15 +166,15 @@ void resetData() {
   int c = timeCounter; //7
   for (int i = 0; i < 7; i++) {
 
-    ampsLow_TS[i][0] = c+i;
-    ampsHigh_TS[i][0] = c+i;
-    mergedin0_7_TS[i][0] = c+i;
-    mergedin8_12_TS[i][0] = c+i;
-    dipSwitches_TS[i][0] = c+i;
-    dout0_TS[i][0] = c+i;
-    errLow_TS[i][0] = c+i;
-    errHigh_TS[i][0] = c+i;
-    mode_TS[i][0] = c+i;
+    ampsLow_TS[i][0] = c + i;
+    ampsHigh_TS[i][0] = c + i;
+    mergedin0_7_TS[i][0] = c + i;
+    mergedin8_12_TS[i][0] = c + i;
+    dipSwitches_TS[i][0] = c + i;
+    dout0_TS[i][0] = c + i;
+    errLow_TS[i][0] = c + i;
+    errHigh_TS[i][0] = c + i;
+    mode_TS[i][0] = c + i;
 
     ampsLow_TS[i][1] = 1;
     ampsHigh_TS[i][1] = 1;
@@ -184,13 +186,15 @@ void resetData() {
     errHigh_TS[i][1] = 1;
     mode_TS[i][1] = 1;
   }
-  timeCounter++;
+  timeCounter = c;
 }
 
 void setup()
 {
-  Serial.begin(14400);
-//  Serial.println("Starting BLE work!");
+  Serial.begin(14400); // must be 14400 for ice machine (test box)
+  Serial.setTimeout(200); //ht5 
+  Serial.println("Starting BLE work!");
+  digitalWrite(17, LOW); // turns on serial1 output pin. 
 
   BLEDevice::init("Follett Ice Machine");
   BLEServer *pServer = BLEDevice::createServer();
@@ -198,7 +202,7 @@ void setup()
 
   // Intialize Bluetooth Characteristics
   ampsLow = pService->createCharacteristic(
-              CHARACTERISTIC_UUID_5,
+              CHARACTERISTIC_UUID_1,
               BLECharacteristic::PROPERTY_READ |
               BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
@@ -214,7 +218,7 @@ void setup()
                    BLECharacteristic::PROPERTY_READ |
                    BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-                  CHARACTERISTIC_UUID_1,
+                  CHARACTERISTIC_UUID_5,
                   BLECharacteristic::PROPERTY_READ |
                   BLECharacteristic::PROPERTY_WRITE);
   dout0 = pService->createCharacteristic(
@@ -257,17 +261,32 @@ void loop()
 {
 
   byte data[9]; // Stores data entries by second
-  getData(data);// Load data into array
+  bool flag = getData(data);// Load data into array, 1 if valid get 0 if serial not connected.
+  int value = -1;
 
+  EEPROM.write(10, 99);
 
-  if (addData(data)) { // Successful add, array not full
-//    // keep adding data to respective arrays until RTS.
+  if (flag) {
+    EEPROM.write(10, 100);
+
+    for (int i = 0; i < 9; i++) {
+      EEPROM.write(i, data[i]);
+    }
   }
-  else { // Array full, notify iPhone of past minute of recorded data
-    updateData(); // Notify iPhone of changes
-    sendData();
-    resetData(); // Clear values with new time points from updated counter.
+  else {
+    Serial.println("Not connected to ice machine");
+    EEPROM.write(10, 101);
+    for (int i = 0; i < 9; i++) {
+      value = EEPROM.read(i);
+      Serial.print(i);
+      Serial.print("\t");
+      Serial.println((int)value);
+    }
   }
 
-  delay(100); // Update every second
+  Serial.println("-----");
+  value = EEPROM.read(10);
+  Serial.println(value);
+  
+  delay(1000); // Update every second
 }
