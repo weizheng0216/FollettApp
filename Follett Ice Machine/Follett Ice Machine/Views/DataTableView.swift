@@ -43,7 +43,7 @@ struct DataTableView: View {
     private func header(ctx: Binding<Context>) -> some View {
         LazyVGrid(columns: gridItems) {
             Text("Time")
-            Text("Name")
+            Text("Value")
         }
     }
     

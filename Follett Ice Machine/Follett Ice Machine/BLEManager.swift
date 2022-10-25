@@ -162,6 +162,41 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 ampsHigh_tx = characteristic
                 peripheral.setNotifyValue(true, for: ampsHigh_rx!)
                 peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.mergedin1UUID) {
+                mergedin1_rx = characteristic
+                mergedin1_tx = characteristic
+                peripheral.setNotifyValue(true, for: mergedin1_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.mergedin2_UUID) {
+                mergedin2_rx = characteristic
+                mergedin2_tx = characteristic
+                peripheral.setNotifyValue(true, for: mergedin2_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.dipSwitches_UUID) {
+                dipSwitches_rx = characteristic
+                dipSwitches_tx = characteristic
+                peripheral.setNotifyValue(true, for: dipSwitches_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.dout0_UUID) {
+                dout0_rx = characteristic
+                dout0_tx = characteristic
+                peripheral.setNotifyValue(true, for: dout0_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.errLow_UUID) {
+                errLow_rx = characteristic
+                errLow_tx = characteristic
+                peripheral.setNotifyValue(true, for: errLow_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.errHigh_UUID) {
+                errLow_rx = characteristic
+                errLow_tx = characteristic
+                peripheral.setNotifyValue(true, for: errHigh_rx!)
+                peripheral.readValue(for: characteristic)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.mode_UUID) {
+                mode_rx = characteristic
+                mode_tx = characteristic
+                peripheral.setNotifyValue(true, for: mode_rx!)
+                peripheral.readValue(for: characteristic)
             }
     
 //            if characteristic.uuid.isEqual(CBUUIDs.BLE_Characteristic_uuid_Tx){
@@ -175,6 +210,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        
 
         guard let characteristicValue = characteristic.value else {
             // no data transmitted, handle if needed
@@ -182,22 +219,80 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             return
         }
         
-//        print("This is \(characteristicValue.count)")
+        print("This is \(characteristicValue.count)")
         print("\(characteristic.uuid)")
         print("\(characteristicValue)")
-        var temp: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0];
+//        var temp: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0];
         if(characteristic.uuid.uuidString == CBUUIDs.ampsLow_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
                 self.minEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Min Amp data"))
+                if (self.minAmpData.count > 50){
+                    self.minAmpData = self.minAmpData.suffix(20)
+                }
                 self.minAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
             }
             
         } else if (characteristic.uuid.uuidString == CBUUIDs.ampsHigh_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
                 self.maxEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Max Amp data"))
+                
+                if (self.maxAmpData.count > 50){
+                    self.maxAmpData = self.maxAmpData.suffix(20)
+                }
                 self.maxAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
             }
-        } else {
+        } else if (characteristic.uuid.uuidString == CBUUIDs.dipSwitches_UUID){
+            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+//                let power: UInt8 = 1
+//                let low_bin: UInt8 = 2
+//                let ice: UInt8 = 4
+//                let sleep: UInt8 = 8
+//                let delay: UInt8 = 16
+//                let low_water: UInt8 = 32
+//                let maintenance: UInt8 = 64
+//                let service: UInt8 = 128
+                status.statusArray = [0,0,0,0,0,0,0,0,0,0,0,0]
+                var masks: [UInt8] = [1,2,4,8,16,32,64,128]
+                
+                let val = UInt8(characteristicValue[i])
+                
+                
+                for i in 0...7 {
+                    if (val&masks[i] >= 1){
+                        status.statusArray[i] = 1
+                    }
+                }
+                
+//                CLEAN_MASK = 0x01,
+//                EXTRA_OUT_MASK = 0x02, // positive
+//                RESERVED_MASK = 0x04,
+//                PM_MASK = 0x08,
+//                DRIP_TRAY_MASK = 0x10,
+//                WATER_LEAK_MASK = 0x20,
+//                HI_PRESSURE_MASK = 0x40,
+//                HI_AMP_MASK = 0x80,
+                
+//                var masks2: [UInt8] = [16,32,64,128]
+//
+//                let val = UInt8(characteristicValue[i])
+//
+//                for i in 0...3 {
+//                    if (val&masks[i] >= 1){
+//                        status.statusArray[i+8] = 1
+//                    }
+//                }
+                
+//                let x: UInt8 = 8
+//                print(Double(characteristicValue[i]))
+//                print(UInt8(characteristicValue[i]))
+//                print(UInt8(characteristicValue[i]).bin)
+//                print((UInt8(characteristicValue[i]) & x).bin)
+//                print((UInt8(characteristicValue[i]) & x)>1)
+//                self.maxEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Max Amp data"))
+//                self.maxAmpData.append([Int(characteristicValue[i]), Int(characteristicValue[i+1])])
+            }
+        }
+        else {
 
 //            for i in stride(from: 0, through: characteristicValue.count - 1, by: 1) {
 //                temp[i] = Int(characteristicValue[i]);
@@ -227,8 +322,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         print("startScanning")
         myCentral.scanForPeripherals(withServices: nil, options: nil)
         Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
-    
-        status.statusArray = [0,0,0,1,0,0,1,0,0,0,1,0]
      }
     
     func stopScanning() {
@@ -277,5 +370,22 @@ extension BLEManager: CBPeripheralManagerDelegate {
         @unknown default:
           print("Error")
         }
+    }
+}
+
+extension UInt8 {
+    var bin: String {
+        String(self, radix: 2).leftPad(with: "0", length: 8)
+    }
+}
+
+fileprivate extension String {
+    
+    func leftPad(with character: Character, length: UInt) -> String {
+        let maxLength = Int(length) - count
+        guard maxLength > 0 else {
+            return self
+        }
+        return String(repeating: String(character), count: maxLength) + self
     }
 }

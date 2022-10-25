@@ -12,7 +12,6 @@ struct ScanView: View {
     @ObservedObject var BTManager: BLEManager
     @Binding var isPresented: Bool
     
-    @Binding var passHello:String
 
     var body: some View {
         

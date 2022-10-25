@@ -11,8 +11,6 @@ struct ContentView: View {
     @ObservedObject var bleManager = BLEManager()
     @ObservedObject var iceMachineState = IceMachineStatus()
     
-    @State private var passHello = ""
-    
     @State private var data: [ChartDataEntry] = []
     
     @State var minAmpData: [[Int]] = []
@@ -24,7 +22,7 @@ struct ContentView: View {
         TabView(selection: $tabIndex) {
         
             NavigationView{
-                StatusLightView(BTManager: self.bleManager, passHello: $passHello)
+                StatusLightView(BTManager: self.bleManager)
             }
             .tabItem {
                 Group{
@@ -35,29 +33,10 @@ struct ContentView: View {
             
             NavigationView{
 
-//                VStack{
-//                    AmpChartView(BTManager: bleManager, entries: $data)
-//                        .navigationTitle("Amp Graph")
-//
-//                    Text("\(passHello)")
-//                }
                 VStack{
-                    
-                    Picker("Graph", selection: $selectedGraph) {
-                        Text("Min Amps").tag(0)
-                        Text("Max Amps").tag(1)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(10)
-                    
-                    Spacer()
-                    
-                    AmpChartView(BTManager: bleManager, entries: $data, graph: selectedGraph)
-                        .frame(width: 300, height: 350, alignment: .center)
-                    
-                    Spacer()
+                    AmpChartView(BTManager: bleManager, entries: $data)
+                        .navigationTitle("Amp Graph")
                 }
-                .navigationTitle("Amp Graphs")
             }
             .tabItem { Group{
                 Image(systemName: "waveform.path.ecg")
