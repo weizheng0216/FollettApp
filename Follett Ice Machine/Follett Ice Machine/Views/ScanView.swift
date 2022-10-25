@@ -29,6 +29,11 @@ struct ScanView: View {
                     
                     // comment out this if dynamic, change in blemanager
 //                    BTManager.connect(peripheralName: peripheral.name)
+//                    if peripheral.name == "Follett Ice Machine" {
+//                        print(true)
+//                        BTManager.stopScanning()
+                        
+//                    }
                 }
             }
             

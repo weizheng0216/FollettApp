@@ -45,7 +45,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet1.valueColors = [.blue]
         dataSet1.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet1.drawCirclesEnabled = true
-        dataSet1.mode = .cubicBezier
+        dataSet1.mode = .linear
         dataSet1.highlightEnabled = false
         
         dataSet2.label = "High Amps"
@@ -53,7 +53,7 @@ struct MultipleLineChart: UIViewRepresentable {
         dataSet2.valueColors = [.blue]
         dataSet2.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet2.drawCirclesEnabled = true
-        dataSet2.mode = .cubicBezier
+        dataSet2.mode = .linear
         dataSet2.highlightEnabled = false
         
         uiView.data = LineChartData(dataSets: [dataSet1, dataSet2])

@@ -56,7 +56,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    ChooseGraphView(graph: selectedGraph)
+                    ChooseGraphView(BTManager: self.bleManager, graph: selectedGraph)
                         .frame(width: 300, height: 350, alignment: .center)
                     
                     Spacer()
@@ -82,6 +82,41 @@ struct ContentView: View {
                             destination: DataTableView(rawData: bleManager.minAmpData)
                                 .navigationBarTitle("Min Auger Current")
                         ) { Text("Min Auger Current")}
+                        
+//                        Spacer()
+                    }
+                    Section(header: Text("LED Reading")){
+                        NavigationLink(
+                            destination: DataTableView(rawData: bleManager.led1Data)
+                                .navigationBarTitle("LED1 Reading")
+                        ) { Text("LED1 Reading")}
+                        
+                        NavigationLink(
+                            destination: DataTableView(rawData: bleManager.led2Data)
+                                .navigationBarTitle("LED2 Reading")
+                        ) { Text("LED2 Reading")}
+                        
+                        
+                    }
+                    
+                    Section(header: Text("Error Reading")){
+//                        Spacer()
+                        NavigationLink(
+                            destination: DataTableView(rawData: bleManager.errLowData)
+                                .navigationBarTitle("Error Low Reading")
+                        ) { Text("Error Low Reading")}
+                        
+                        NavigationLink(
+                            destination: DataTableView(rawData: bleManager.errHighData)
+                                .navigationBarTitle("Error High Readingt")
+                        ) { Text("Error High Reading")}
+                    }
+                    
+                    Section(header: Text("Mode Reading")){
+                        NavigationLink(
+                            destination: DataTableView(rawData: bleManager.modeData)
+                                .navigationBarTitle("Mode Reading")
+                        ) { Text("Mode Reading")}
                         
                     }
                 }

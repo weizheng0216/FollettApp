@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChooseGraphView: View {
+    @ObservedObject var BTManager: BLEManager
     @State var htmlString = """
     <!DOCTYPE html>
     <html>
@@ -61,7 +62,7 @@ struct ChooseGraphView: View {
         switch graph {
         case 0:
 //            GanttView(htmlString: $htmlString)
-            StateChartView()
+            StateChartView(BTManager: BTManager)
         case 1:
             UtilizationChartView()
         default:

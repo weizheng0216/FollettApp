@@ -76,15 +76,15 @@ bool getData(byte data[])
 
 
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID_1 "beb5483e-36e1-4688-b7f5-ea07361b26a1"
+#define CHARACTERISTIC_UUID_1 "beb5483e-36e1-4688-b7f5-ea07361b26b1"
 #define CHARACTERISTIC_UUID_2 "beb5483e-36e1-4688-b7f5-ea07361b26a2"
 #define CHARACTERISTIC_UUID_3 "beb5483e-36e1-4688-b7f5-ea07361b26a3"
 #define CHARACTERISTIC_UUID_4 "beb5483e-36e1-4688-b7f5-ea07361b26a4"
 #define CHARACTERISTIC_UUID_5 "beb5483e-36e1-4688-b7f5-ea07361b26a5"
 #define CHARACTERISTIC_UUID_6 "beb5483e-36e1-4688-b7f5-ea07361b26a6"
 #define CHARACTERISTIC_UUID_7 "beb5483e-36e1-4688-b7f5-ea07361b26a7"
-#define CHARACTERISTIC_UUID_8 "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define CHARACTERISTIC_UUID_9 "beb5483e-36e1-4688-b7f5-ea07361b26a9"
+#define CHARACTERISTIC_UUID_8 "beb5483e-36e1-4688-b7f5-ea07361b26a1"
+#define CHARACTERISTIC_UUID_9 "beb5483e-36e1-4688-b7f5-ea07361b26b2"
 
 
 // BLECharacteristic *pCharacteristic;
@@ -97,7 +97,7 @@ BLECharacteristic *dipSwitches;
 BLECharacteristic *dout0;
 BLECharacteristic *errLow;
 BLECharacteristic *errHigh;
-BLECharacteristic *mode;
+BLECharacteristic *modes;
 uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}; // -1 indicates array is not full.
 uint8_t ampsHigh_TS[7][2] = {{0, 100}, {1, 100}, {2, 100}, {3, 100}, {4, 100}, {5, 100}, {6, 100}};
 uint8_t mergedin0_7_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}};
@@ -119,7 +119,7 @@ int updateData() {
   dout0->setValue((uint8_t *)dout0_TS, sizeof(dout0_TS) / sizeof(dout0_TS[0]) * 2);
   errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
   errHigh->setValue((uint8_t *)errHigh_TS, sizeof(errHigh_TS) / sizeof(errHigh_TS[0]) * 2);
-  mode->setValue((uint8_t *)mode_TS, sizeof(mode_TS) / sizeof(mode_TS[0]) * 2);
+  modes->setValue((uint8_t *)mode_TS, sizeof(mode_TS) / sizeof(mode_TS[0]) * 2);
 }
 
 // Notifies iPhone about information for each data entry
@@ -133,7 +133,7 @@ void sendData() {
   dout0->notify();
   errLow->notify();
   errHigh->notify();
-  mode->notify();
+  modes->notify();
 
 }
 
@@ -225,18 +225,23 @@ void setup()
             CHARACTERISTIC_UUID_6,
             BLECharacteristic::PROPERTY_READ |
             BLECharacteristic::PROPERTY_WRITE);
+  errHigh = pService->createCharacteristic(
+              CHARACTERISTIC_UUID_8,
+             BLECharacteristic::PROPERTY_READ |
+             BLECharacteristic::PROPERTY_WRITE);
   errLow = pService->createCharacteristic(
              CHARACTERISTIC_UUID_7,
              BLECharacteristic::PROPERTY_READ |
              BLECharacteristic::PROPERTY_WRITE);
-  errHigh = pService->createCharacteristic(
-              CHARACTERISTIC_UUID_8,
-              BLECharacteristic::PROPERTY_READ |
-              BLECharacteristic::PROPERTY_WRITE);
-  mode = pService->createCharacteristic(
-           CHARACTERISTIC_UUID_9,
-           BLECharacteristic::PROPERTY_READ |
-           BLECharacteristic::PROPERTY_WRITE);
+  
+//  errHigh = pService->createCharacteristic(
+//              CHARACTERISTIC_UUID_8,
+//              BLECharacteristic::PROPERTY_READ |
+//              BLECharacteristic::PROPERTY_WRITE);
+//  modes = pService->createCharacteristic(
+//           CHARACTERISTIC_UUID_9,
+//           BLECharacteristic::PROPERTY_READ |
+//           BLECharacteristic::PROPERTY_WRITE);
   Serial.setTimeout(200);
   digitalWrite(17,LOW);
   
