@@ -13,8 +13,8 @@ struct ContentView: View {
     
     @State private var data: [ChartDataEntry] = []
     
-    @State var minAmpData: [[Int]] = []
-    @State var maxAmpData: [[Int]] = []
+    @State var minAmpData: [[Double]] = []
+    @State var maxAmpData: [[Double]] = []
     
     var body: some View {
         
@@ -48,8 +48,8 @@ struct ContentView: View {
                 VStack{
                     
                     Picker("Graph", selection: $selectedGraph) {
-                        Text("State").tag(0)
-                        Text("Utilization").tag(1)
+                        Text("Mode").tag(0)
+                        Text("Error State").tag(1)
                     }
                     .pickerStyle(.segmented)
                     .padding(10)

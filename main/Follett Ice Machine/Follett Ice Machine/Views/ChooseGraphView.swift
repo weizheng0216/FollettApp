@@ -64,10 +64,10 @@ struct ChooseGraphView: View {
 //            GanttView(htmlString: $htmlString)
             StateChartView(BTManager: BTManager)
         case 1:
-            UtilizationChartView()
+            ErrorStateChartView(BTManager: BTManager)
         default:
-//            StateChartView()
-            GanttView(htmlString: $htmlString)
+            StateChartView(BTManager: BTManager)
+//            GanttView(htmlString: $htmlString)
         }
     }
         

@@ -28,11 +28,11 @@ struct StatusLightView: View {
                 ForEach(Array(zip(statusLight, status.statusArray).enumerated()), id: \.0) { index, item in
                     
                     HStack{
-                        if 0...1 ~= index {
+                        if 0...3 ~= index {
                             Circle()
                                 .fill(item.1==1 ? Color.green : Color.green.opacity(0.2))
                                 .frame(width: 10, height: 10)
-                        } else if 2...6 ~= index {
+                        } else if 4...6 ~= index {
                             Circle()
                                 .fill(item.1==1 ? Color.yellow : Color.yellow.opacity(0.2))
                                 .frame(width: 10, height: 10)

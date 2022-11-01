@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A18E1B92911BCB800215CC5 /* ErrorStateChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A18E1B82911BCB800215CC5 /* ErrorStateChartView.swift */; };
 		4A32056E28C7DD9600408985 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 4A32056D28C7DD9600408985 /* Charts */; };
 		4A32057128C7DDB300408985 /* Tabler in Frameworks */ = {isa = PBXBuildFile; productRef = 4A32057028C7DDB300408985 /* Tabler */; };
 		4A76E1C5282040FD004A74A9 /* StatusLightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1C4282040FD004A74A9 /* StatusLightView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A18E1B82911BCB800215CC5 /* ErrorStateChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateChartView.swift; sourceTree = "<group>"; };
 		4A76E1C4282040FD004A74A9 /* StatusLightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLightView.swift; sourceTree = "<group>"; };
 		4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceMachineStatus.swift; sourceTree = "<group>"; };
 		4A76E1C8282095CA004A74A9 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */,
 				4A89C832281CAC910022FB97 /* AmpChartView.swift */,
 				4A89C82E281CAC050022FB97 /* StateChartView.swift */,
+				4A18E1B82911BCB800215CC5 /* ErrorStateChartView.swift */,
 				4A89C830281CAC6D0022FB97 /* ScanView.swift */,
 				4A76E1C4282040FD004A74A9 /* StatusLightView.swift */,
 				4A76E1CB28209672004A74A9 /* UtilizationChartView.swift */,
@@ -232,6 +235,7 @@
 				4A76E1DE2821E248004A74A9 /* ChooseGraphView.swift in Sources */,
 				4A76E1C9282095CB004A74A9 /* PieChart.swift in Sources */,
 				4ABB5B9E290591F3003F4D62 /* StackedBarChart.swift in Sources */,
+				4A18E1B92911BCB800215CC5 /* ErrorStateChartView.swift in Sources */,
 				4A89C82F281CAC050022FB97 /* StateChartView.swift in Sources */,
 				4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */,
 				4A76E1E22822D728004A74A9 /* DataTableView.swift in Sources */,
