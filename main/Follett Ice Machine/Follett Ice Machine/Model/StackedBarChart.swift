@@ -31,7 +31,6 @@ struct StackedBarChart: UIViewRepresentable {
         
         stackedBarChart.xAxis.labelPosition = .bottom
         stackedBarChart.xAxis.labelRotationAngle = 45
-        
         stackedBarChart.legend.drawInside = false
         stackedBarChart.legend.verticalAlignment = .top
         stackedBarChart.legend.horizontalAlignment = .right

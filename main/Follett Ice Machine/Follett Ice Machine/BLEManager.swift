@@ -15,7 +15,7 @@ struct CBUUIDs{
     static let mode_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
     static let ampsLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
     static let ampsHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
-    static let errLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
+    static let dipSwitch_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
     static let errHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
     static let led1_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A6"
     static let led2_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A7"
@@ -47,8 +47,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 //    private var dout0_tx: CBCharacteristic!
 //    private var dout0_rx: CBCharacteristic!
     
-    private var errLow_tx: CBCharacteristic!
-    private var errLow_rx: CBCharacteristic!
+    private var dipSwitch_tx: CBCharacteristic!
+    private var dipSwitch_rx: CBCharacteristic!
     private var errHigh_tx: CBCharacteristic!
     private var errHigh_rx: CBCharacteristic!
     private var mode_tx: CBCharacteristic!
@@ -65,7 +65,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var minAmpData: [[Double]] = []
     @Published var modeData: [[Double]] = []
     @Published var errHighData: [[Double]] = []
-    @Published var errLowData: [[Double]] = []
+    @Published var dipSwitchData: [[Double]] = []
     @Published var led1Data: [[Double]] = []
     @Published var led2Data: [[Double]] = []
     
@@ -75,6 +75,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var modeEntries: [ChartDataEntry] = []
     @Published var errorEntries: [BarChartDataEntry] = []
     var status = IceMachineStatus.shared
+    var dpStatus = DipSwitchStatus.dswitch
     var counter = 0
 
     override init() {
@@ -183,10 +184,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 ampsHigh_tx = characteristic
                 peripheral.setNotifyValue(true, for: ampsHigh_rx!)
                 peripheral.readValue(for: characteristic)
-            } else if (characteristic.uuid.uuidString == CBUUIDs.errLow_UUID) {
-                errLow_rx = characteristic
-                errLow_tx = characteristic
-                peripheral.setNotifyValue(true, for: errLow_rx!)
+            } else if (characteristic.uuid.uuidString == CBUUIDs.dipSwitch_UUID) {
+                dipSwitch_rx = characteristic
+                dipSwitch_tx = characteristic
+                peripheral.setNotifyValue(true, for: dipSwitch_rx!)
                 peripheral.readValue(for: characteristic)
             } else if (characteristic.uuid.uuidString == CBUUIDs.errHigh_UUID) {
                 errHigh_rx = characteristic
@@ -285,7 +286,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         } else if (characteristic.uuid.uuidString == CBUUIDs.errHigh_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
                 let val = UInt16(characteristicValue[i])
-                print(val)
                 var errState = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
                 let masks: [UInt16] = [1,2,4,8,16,32,64,128,256,512,32768]
                 let time = Date().timeIntervalSince1970
@@ -299,12 +299,24 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 self.errorEntries.append(BarChartDataEntry(x: Double(time), yValues: errState, data: "Error data"))
                 self.errHighData.append([Double(time), Double(characteristicValue[i+1])])
             }
+        } else if (characteristic.uuid.uuidString == CBUUIDs.dipSwitch_UUID){
+            
+            dpStatus.isOn = [false, false, false, false, false, false, false, false]
+            let masks: [UInt8] = [1,2,4,8,16,32,64,128]
+            let time = Date().timeIntervalSince1970
+            let val = UInt8(characteristicValue[0])
+
+            for i in 0...7 {
+                if (val&masks[i] >= 1){
+                    dpStatus.isOn[i] = true
+                }
+            }
+            
+            self.dipSwitchData.append([Double(time), Double(characteristicValue[0])])
+
         } else {
 
         }
-        
-        
-        
         
     }
     

@@ -10,7 +10,6 @@ import Charts
 
 struct AmpChartView: View {
     @ObservedObject var BTManager: BLEManager
-    @Binding var entries: [ChartDataEntry]
     
     var body: some View {
 

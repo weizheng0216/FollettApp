@@ -28,7 +28,7 @@ struct LineChart: UIViewRepresentable {
         
         lineChart.xAxis.labelPosition = .bottom
         lineChart.xAxis.valueFormatter = DateValueFormatter()
-        lineChart.xAxis.labelRotationAngle = 90
+        lineChart.xAxis.labelRotationAngle = 45
         
         lineChart.legend.enabled = false
         
