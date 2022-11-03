@@ -50,7 +50,7 @@ struct LineChart: UIViewRepresentable {
         dataSet.valueColors = [.blue]
         dataSet.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet.drawCirclesEnabled = true
-        dataSet.mode = .cubicBezier
+        dataSet.mode = .stepped
         dataSet.highlightEnabled = false
         
         uiView.data = LineChartData(dataSet: dataSet)

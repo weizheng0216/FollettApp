@@ -9,21 +9,21 @@ import SwiftUI
 import Tabler
 
 struct DataPoint: Identifiable {
-    var id: Int
-    var value: Int
+    var id: Double
+    var value: Double
 }
 
 struct DataTableView: View {
     
 //    @State private var data: [DataPoint] = []
-    var rawData: [[Int]]
+    var rawData: [[Double]]
     
-    init(rawData: [[Int]]){
+    init(rawData: [[Double]]){
         self.rawData = rawData
     }
     
     
-    func convertToDataPoint(rawData:[[Int]]) -> [DataPoint]{
+    func convertToDataPoint(rawData:[[Double]]) -> [DataPoint]{
         var tempData: [DataPoint] = []
         
         for(_, values) in rawData.enumerated() {
@@ -49,7 +49,7 @@ struct DataTableView: View {
     
     private func row(datapoint: DataPoint) -> some View {
         LazyVGrid(columns: gridItems) {
-            Text(String(format: "%d", datapoint.id))
+            Text(DateValueFormatter().stringForValue(datapoint.id, axis: nil))
             Text(String(format: "%d", datapoint.value))
         }
     }

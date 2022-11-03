@@ -10,15 +10,6 @@ import Charts
 
 
 struct StateChartView: View {
-    @State private var data1: [BarChartDataEntry] = [
-        BarChartDataEntry(x: 1, yValues: [1,10]),
-        BarChartDataEntry(x: 2, yValues: [5,12]),
-        BarChartDataEntry(x: 3, yValues: [7,3]),
-        BarChartDataEntry(x: 4, yValues: [4,9]),
-        BarChartDataEntry(x: 5, yValues: [2,6]),
-        BarChartDataEntry(x: 6, yValues: [4,9]),
-        BarChartDataEntry(x: 7, yValues: [9,15])
-    ]
 //
 //    @State private var data2: [BarChartDataEntry] = [
 //        BarChartDataEntry(x: 1, y: 10, data: "My data"),
@@ -29,17 +20,14 @@ struct StateChartView: View {
 //        BarChartDataEntry(x: 6, y: 9, data: "My data"),
 //        BarChartDataEntry(x: 7, y: 15, data: "My data")
 //    ]
+    
+    @ObservedObject var BTManager: BLEManager
+//    @Binding var entries: [ChartDataEntry]
 
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
-//            Form {
-            BarChart(entries: data1 ).frame(height: 300)
-//                Button("Add data") {
-//                    let max = data.map(\.x).max() ?? 1628071200
-//                    data.append(ChartDataEntry(x: max + 86400, y: Double.random(in: 1 ..< 500)))
-//                }
-//            }
+            LineChart(entries: BTManager.modeEntries).frame(width: 300, height: 300, alignment: .center)
         }
     }
 }
