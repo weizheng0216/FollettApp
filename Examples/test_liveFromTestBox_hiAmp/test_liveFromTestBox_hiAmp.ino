@@ -5,20 +5,23 @@
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define ampsLow_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
 #define ampsHigh_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
-#define errLow_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
-#define errHigh_UUID  "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
+#define dip_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
+#define err_UUID  "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
 #define mode_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
 #define led1_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A6"
 #define led2_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A7"
+
+
 
 BLECharacteristic *ampsLow;
 BLECharacteristic *ampsHigh;
 //BLECharacteristic *mergedin0_7;
 //BLECharacteristic *mergedin8_12;
-//BLECharacteristic *dipSwitches;
+BLECharacteristic *dipSwitches;
 //BLECharacteristic *dout0;
-BLECharacteristic *errLow;
-BLECharacteristic *errHigh;
+//BLECharacteristic *errLow;
+//BLECharacteristic *errHigh;
+BLECharacteristic *err;
 BLECharacteristic *mode;
 BLECharacteristic *led1;
 BLECharacteristic *led2;
@@ -96,8 +99,8 @@ void sendData() {
   //  mergedin8_12->notify();
   //  dipSwitches->notify();
   //  dout0->notify();
-  errLow->notify();
-  errHigh->notify();
+  //  errLow->notify();
+  //  errHigh->notify();
   mode->notify();
 
 }
@@ -131,22 +134,27 @@ void setup() {
   //                   CHARACTERISTIC_UUID_4,
   //                   BLECharacteristic::PROPERTY_READ |
   //                   BLECharacteristic::PROPERTY_WRITE);
-  //  dipSwitches = pService->createCharacteristic(
-  //                  CHARACTERISTIC_UUID_5,
-  //                  BLECharacteristic::PROPERTY_READ |
-  //                  BLECharacteristic::PROPERTY_WRITE);
+  dipSwitches = pService->createCharacteristic(
+                  dip_UUID,
+                  BLECharacteristic::PROPERTY_READ |
+                  BLECharacteristic::PROPERTY_WRITE);
   //  dout0 = pService->createCharacteristic(
   //            CHARACTERISTIC_UUID_6,
   //            BLECharacteristic::PROPERTY_READ |
   //            BLECharacteristic::PROPERTY_WRITE);
-  errLow = pService->createCharacteristic(
-             errLow_UUID,
-             BLECharacteristic::PROPERTY_READ |
-             BLECharacteristic::PROPERTY_WRITE);
-  errHigh = pService->createCharacteristic(
-              errHigh_UUID,
-              BLECharacteristic::PROPERTY_READ |
-              BLECharacteristic::PROPERTY_WRITE);
+  //  errLow = pService->createCharacteristic(
+  //             errLow_UUID,
+  //             BLECharacteristic::PROPERTY_READ |
+  //             BLECharacteristic::PROPERTY_WRITE);
+  //  errHigh = pService->createCharacteristic(
+  //              errHigh_UUID,
+  //              BLECharacteristic::PROPERTY_READ |
+  //              BLECharacteristic::PROPERTY_WRITE);
+
+  err = pService->createCharacteristic(
+          err_UUID,
+          BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
   mode = pService->createCharacteristic(
            mode_UUID,
            BLECharacteristic::PROPERTY_READ |
@@ -195,8 +203,9 @@ void loop() {
   //  uint8_t mdin812 = 0;
   //  uint8_t ds = 0;
   //  uint8_t dout = 0;
-  uint8_t errLowv = 0;
-  uint8_t errHighv = 0;
+  //  uint8_t errLowv = 0;
+  //  uint8_t errHighv = 0;
+  int errv = 0;
   uint8_t modev = 0;
   uint8_t led1v = 0;
   uint8_t led2v = 0;
@@ -249,21 +258,23 @@ void loop() {
       //      for (i = 0; i < 1; i++) {
       //        bitWrite(data[3], i, reply[143 + i]); //merge din8-12 into 1 byte was 140 --- only 1st byte still valid, following 4 bytes are new auger current min/max
       //      }
-      //      data[4] = reply[148]; //dipswitches was 145
+      data[4] = reply[148]; //dipswitches was 145
       //      data[5] = reply[149]; //dout0 was 146 -- ERROR: getting twice
 
 
       //ignore dout8,16,24
       data[6] = reply[153]; //errors lowbyte was 150
       data[7] = reply[154]; //errors highbyte was 151 // ERROR: Empty
+      errv = data[6] + ((int)data[7] << 8);
+
       data[8] = reply[155]; //mymode was 152 -- ERROR: empty
 
 
-      minAmp = minAmpLB + ((int)minAmpRB << 8);// 
-      maxAmp = maxAmpLB + ((int)maxAmpRB << 8);// 
+      minAmp = minAmpLB + ((int)minAmpRB << 8);//
+      maxAmp = maxAmpLB + ((int)maxAmpRB << 8);//
 
-      errLowv = (uint8_t)data[6];
-      errHighv = (uint8_t)data[7];
+      //      errLowv = (uint8_t)data[6];
+      //      errHighv = (uint8_t)data[7];
       modev = (uint8_t)data[8];
       led1v = reply[150];
       led2v = reply[151];
@@ -279,17 +290,18 @@ void loop() {
     // Update array
 
 
-//    uint8_t ampsLow_TS[1][2] = {{minAmpLB, minAmpRB}}; // -1 indicates array is not full.
-//    uint8_t ampsHigh_TS[1][2] = {{maxAmpLB, maxAmpRB}};
+    //    uint8_t ampsLow_TS[1][2] = {{minAmpLB, minAmpRB}}; // -1 indicates array is not full.
+    //    uint8_t ampsHigh_TS[1][2] = {{maxAmpLB, maxAmpRB}};
     uint8_t ampsLow_TS[1][2] = {{minAmp}}; // -1 indicates array is not full.
     uint8_t ampsHigh_TS[1][2] = {{maxAmp}};
 
     //    uint8_t mdin07_TS[1][2] = {{counter, mdin07}};
     //    uint8_t mdin812_TS[1][2] = {{counter, mdin812}};
-    //    uint8_t dipSwitches_TS[1][2] = {{counter, 9}};
+    uint8_t dipSwitches_TS[1][2] = {{(int)data[4]}};
     //    uint8_t dout_TS[1][2] = {{counter, dout}};
-    uint8_t errLow_TS[1][2] = {{counter, errLowv}};
-    uint8_t errHigh_TS[1][2] = {{counter, errHighv}};
+    //    uint8_t errLow_TS[1][2] = {{counter, errLowv}};
+    //    uint8_t errHigh_TS[1][2] = {{counter, errHighv}};
+    uint8_t err_TS[1][2] = {{errv}};
     uint8_t mode_TS[1][2] = {{counter, modev}};
     uint8_t led1_TS[1][2] = {{counter, led1v }};
     uint8_t led2_TS[1][2] = {{counter, led2v }};
@@ -300,11 +312,17 @@ void loop() {
     ampsHigh->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
     ampsHigh->notify();
 
-    errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
-    errLow->notify();
+    //    errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
+    //    errLow->notify();
+    //
+    //    errHigh->setValue((uint8_t *)errHigh_TS, sizeof(errHigh_TS) / sizeof(errHigh_TS[0]) * 2);
+    //    errHigh->notify();
 
-    errHigh->setValue((uint8_t *)errHigh_TS, sizeof(errHigh_TS) / sizeof(errHigh_TS[0]) * 2);
-    errHigh->notify();
+    dipSwitches->setValue((uint8_t *)dipSwitches_TS, sizeof(dipSwitches_TS) / sizeof(dipSwitches_TS[0]) * 2);
+    dipSwitches->notify();
+
+    err->setValue((uint8_t *)err_TS, sizeof(err_TS) / sizeof(err_TS[0]) * 2);
+    err->notify();
 
     mode->setValue((uint8_t *)mode_TS, sizeof(mode_TS) / sizeof(mode_TS[0]) * 2);
     mode->notify();
