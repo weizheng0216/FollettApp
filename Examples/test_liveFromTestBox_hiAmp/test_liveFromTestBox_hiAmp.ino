@@ -314,10 +314,12 @@ void loop() {
     uint8_t led1_TS[1][2] = {{counter, led1v }};
     uint8_t led2_TS[1][2] = {{counter, led2v }};
 
-    ampsLow->setValue((uint8_t *)ampsHigh_TS, sizeof(ampsHigh_TS) / sizeof(ampsHigh_TS[0]) * 2);
+    //ampsLow->setValue((uint8_t *)ampsHigh_TS, sizeof(ampsHigh_TS) / sizeof(ampsHigh_TS[0]) * 2);
+    ampsLow->setValue(minAmp);
     ampsLow->notify();
 
-    ampsHigh->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
+    //ampsHigh->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
+    ampsHigh->setValue(minAmp);
     ampsHigh->notify();
 
     //    errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
