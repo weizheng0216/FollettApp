@@ -243,10 +243,15 @@ void loop() {
       //condense data
       //data[0] = reply[133]; //amps lowbyte was 130
       //data[1] = reply[134]; //amps highbyte was 131
-      minAmpLB = reply[144]; //amps lowbyte was 130; => was 133; max auger current
-      minAmpRB = reply[145]; // right byte of max amp
-      maxAmpLB = reply[146]; // left byte of max amp
-      maxAmpRB = reply[147]; // right byte of max amp
+      //      maxAmpLB = reply[145]; // left byte of max amp
+      //      maxAmpRB = reply[144]; // right byte of max amp
+      //      minAmpLB = reply[146]; //amps lowbyte was 130; => was 133; max auger current
+      //      minAmpRB = reply[147]; // right byte of max amp
+
+      maxAmpRB = reply[144];
+      maxAmpLB = reply[145];
+      minAmpRB = reply[146];
+      minAmpLB = reply[147];
 
       data[1] = reply[145]; //amps highbyte was 131; =>  was 134; min auger current
 
@@ -269,6 +274,9 @@ void loop() {
 
       data[8] = reply[155]; //mymode was 152 -- ERROR: empty
 
+//
+//      minAmp = minAmpRB + ((int)minAmpLB << 8);//
+//      maxAmp = maxAmpRB + ((int)maxAmpLB << 8);//
 
       minAmp = minAmpLB + ((int)minAmpRB << 8);//
       maxAmp = maxAmpLB + ((int)maxAmpRB << 8);//
