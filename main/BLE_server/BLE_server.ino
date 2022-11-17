@@ -3,6 +3,7 @@
 #include <BLEServer.h>
 
 // Used to establish unique BT advertisements
+#define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define ampsLow_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
 #define ampsHigh_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
 #define dip_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
