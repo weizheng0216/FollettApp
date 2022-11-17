@@ -11,22 +11,13 @@
 #define led1_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A6"
 #define led2_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A7"
 
-
-
 BLECharacteristic *ampsLow;
 BLECharacteristic *ampsHigh;
-//BLECharacteristic *mergedin0_7;
-//BLECharacteristic *mergedin8_12;
 BLECharacteristic *dipSwitches;
-//BLECharacteristic *dout0;
-//BLECharacteristic *errLow;
-//BLECharacteristic *errHigh;
 BLECharacteristic *err;
 BLECharacteristic *mode;
 BLECharacteristic *led1;
 BLECharacteristic *led2;
-
-
 
 unsigned long mainMillis = millis();
 uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}; // -1 indicates array is not full.
@@ -95,12 +86,6 @@ void sendData() {
 
   ampsLow->notify();
   ampsHigh->notify();
-  //  mergedin0_7->notify();
-  //  mergedin8_12->notify();
-  //  dipSwitches->notify();
-  //  dout0->notify();
-  //  errLow->notify();
-  //  errHigh->notify();
   mode->notify();
 
 }
@@ -126,30 +111,10 @@ void setup() {
                ampsHigh_UUID,
                BLECharacteristic::PROPERTY_READ |
                BLECharacteristic::PROPERTY_WRITE);
-  //  mergedin0_7 = pService->createCharacteristic(
-  //                  CHARACTERISTIC_UUID_3,
-  //                  BLECharacteristic::PROPERTY_READ |
-  //                  BLECharacteristic::PROPERTY_WRITE);
-  //  mergedin8_12 = pService->createCharacteristic(
-  //                   CHARACTERISTIC_UUID_4,
-  //                   BLECharacteristic::PROPERTY_READ |
-  //                   BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
                   dip_UUID,
                   BLECharacteristic::PROPERTY_READ |
                   BLECharacteristic::PROPERTY_WRITE);
-  //  dout0 = pService->createCharacteristic(
-  //            CHARACTERISTIC_UUID_6,
-  //            BLECharacteristic::PROPERTY_READ |
-  //            BLECharacteristic::PROPERTY_WRITE);
-  //  errLow = pService->createCharacteristic(
-  //             errLow_UUID,
-  //             BLECharacteristic::PROPERTY_READ |
-  //             BLECharacteristic::PROPERTY_WRITE);
-  //  errHigh = pService->createCharacteristic(
-  //              errHigh_UUID,
-  //              BLECharacteristic::PROPERTY_READ |
-  //              BLECharacteristic::PROPERTY_WRITE);
 
   err = pService->createCharacteristic(
           err_UUID,
@@ -181,8 +146,6 @@ void setup() {
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
   Serial.println("Characteristic defined! Now you can read it in your phone!");
-
-
   Serial2.begin(9600);
   Serial2.println("Second serial begins.");
 
@@ -196,15 +159,9 @@ void loop() {
   byte maxAmpLB = 0;
   byte maxAmpRB = 0;
 
-  int minAmp = 0 ;
-  int maxAmp = 0 ;
-
-  //  uint8_t mdin07 = 0;
-  //  uint8_t mdin812 = 0;
-  //  uint8_t ds = 0;
-  //  uint8_t dout = 0;
-  //  uint8_t errLowv = 0;
-  //  uint8_t errHighv = 0;
+  unsigned int minAmp = 0 ;
+  unsigned int maxAmp = 0 ;
+  
   int errv = 0;
   uint8_t modev = 0;
   uint8_t led1v = 0;
@@ -241,48 +198,22 @@ void loop() {
 
     if (!flag) { // extract informaiton from ice machine
       //condense data
-      //data[0] = reply[133]; //amps lowbyte was 130
-      //data[1] = reply[134]; //amps highbyte was 131
-      //      maxAmpLB = reply[145]; // left byte of max amp
-      //      maxAmpRB = reply[144]; // right byte of max amp
-      //      minAmpLB = reply[146]; //amps lowbyte was 130; => was 133; max auger current
-      //      minAmpRB = reply[147]; // right byte of max amp
-
+      
       maxAmpRB = reply[144];
       maxAmpLB = reply[145];
       minAmpRB = reply[146];
       minAmpLB = reply[147];
 
       data[1] = reply[145]; //amps highbyte was 131; =>  was 134; min auger current
-
-
-      //      for (i = 0; i < 8; i++) {
-      //        bitWrite(data[2], i, reply[135 + i]); //merge din0-7 into 1 byte was 132
-      //      }
-      //      data[3] = 0;
-      //      for (i = 0; i < 1; i++) {
-      //        bitWrite(data[3], i, reply[143 + i]); //merge din8-12 into 1 byte was 140 --- only 1st byte still valid, following 4 bytes are new auger current min/max
-      //      }
       data[4] = reply[148]; //dipswitches was 145
-      //      data[5] = reply[149]; //dout0 was 146 -- ERROR: getting twice
-
-
       //ignore dout8,16,24
       data[6] = reply[153]; //errors lowbyte was 150
       data[7] = reply[154]; //errors highbyte was 151 // ERROR: Empty
       errv = data[6] + ((int)data[7] << 8);
-
       data[8] = reply[155]; //mymode was 152 -- ERROR: empty
-
-//
-//      minAmp = minAmpRB + ((int)minAmpLB << 8);//
-//      maxAmp = maxAmpRB + ((int)maxAmpLB << 8);//
-
-      minAmp = minAmpLB + ((int)minAmpRB << 8);//
-      maxAmp = maxAmpLB + ((int)maxAmpRB << 8);//
-
-      //      errLowv = (uint8_t)data[6];
-      //      errHighv = (uint8_t)data[7];
+      minAmp =  minAmpLB | ((int)minAmpRB << 8);//
+      maxAmp =  maxAmpLB | ((int)maxAmpRB << 8);//
+      
       modev = (uint8_t)data[8];
       led1v = reply[150];
       led2v = reply[151];
@@ -296,35 +227,19 @@ void loop() {
     }
 
     // Update array
-
-
-    //    uint8_t ampsLow_TS[1][2] = {{minAmpLB, minAmpRB}}; // -1 indicates array is not full.
-    //    uint8_t ampsHigh_TS[1][2] = {{maxAmpLB, maxAmpRB}};
-    uint8_t ampsLow_TS[1][2] = {{minAmp}}; // -1 indicates array is not full.
-    uint8_t ampsHigh_TS[1][2] = {{maxAmp}};
-
-    //    uint8_t mdin07_TS[1][2] = {{counter, mdin07}};
-    //    uint8_t mdin812_TS[1][2] = {{counter, mdin812}};
+    uint32_t ampsLow_TS= minAmp; // -1 indicates array is not full.
+    uint32_t ampsHigh_TS = maxAmp;
     uint8_t dipSwitches_TS[1][2] = {{(int)data[4]}};
-    //    uint8_t dout_TS[1][2] = {{counter, dout}};
-    //    uint8_t errLow_TS[1][2] = {{counter, errLowv}};
-    //    uint8_t errHigh_TS[1][2] = {{counter, errHighv}};
     uint8_t err_TS[1][2] = {{errv}};
     uint8_t mode_TS[1][2] = {{counter, modev}};
     uint8_t led1_TS[1][2] = {{counter, led1v }};
     uint8_t led2_TS[1][2] = {{counter, led2v }};
 
-    ampsLow->setValue((uint8_t *)ampsHigh_TS, sizeof(ampsHigh_TS) / sizeof(ampsHigh_TS[0]) * 2);
+    ampsLow->setValue(minAmp);
     ampsLow->notify();
 
-    ampsHigh->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
+    ampsHigh->setValue(maxAmp);
     ampsHigh->notify();
-
-    //    errLow->setValue((uint8_t *)errLow_TS, sizeof(errLow_TS) / sizeof(errLow_TS[0]) * 2);
-    //    errLow->notify();
-    //
-    //    errHigh->setValue((uint8_t *)errHigh_TS, sizeof(errHigh_TS) / sizeof(errHigh_TS[0]) * 2);
-    //    errHigh->notify();
 
     dipSwitches->setValue((uint8_t *)dipSwitches_TS, sizeof(dipSwitches_TS) / sizeof(dipSwitches_TS[0]) * 2);
     dipSwitches->notify();
@@ -340,7 +255,6 @@ void loop() {
 
     led2->setValue((uint8_t *)led2_TS, sizeof(led2_TS) / sizeof(led2_TS[0]) * 2);
     led2->notify();
-
 
 
   }
