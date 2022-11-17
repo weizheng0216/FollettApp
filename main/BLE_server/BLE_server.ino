@@ -49,7 +49,6 @@ void setup()
       dip_UUID,
       BLECharacteristic::PROPERTY_READ |
           BLECharacteristic::PROPERTY_WRITE);
-
   err = pService->createCharacteristic(
       err_UUID,
       BLECharacteristic::PROPERTY_READ |
@@ -69,16 +68,12 @@ void setup()
 
   // Start Bluetooth Service
   pService->start();
-  // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->setScanResponse(true);
   pAdvertising->setMinPreferred(0x06); // functions that help with iPhone connections issue
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
-  Serial.println("Characteristic defined! Now you can read it in your phone!");
-  Serial2.begin(9600);
-  Serial2.println("Second serial begins.");
 }
 
 void loop()
