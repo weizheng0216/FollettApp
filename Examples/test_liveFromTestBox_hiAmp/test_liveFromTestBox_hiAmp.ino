@@ -235,19 +235,10 @@ void loop() {
     uint8_t led1_TS[1][2] = {{counter, led1v }};
     uint8_t led2_TS[1][2] = {{counter, led2v }};
 
-<<<<<<< HEAD
     ampsLow->setValue(minAmp);
     ampsLow->notify();
 
     ampsHigh->setValue(maxAmp);
-=======
-    //ampsLow->setValue((uint8_t *)ampsHigh_TS, sizeof(ampsHigh_TS) / sizeof(ampsHigh_TS[0]) * 2);
-    ampsLow->setValue(minAmp);
-    ampsLow->notify();
-
-    //ampsHigh->setValue((uint8_t *)ampsLow_TS, sizeof(ampsLow_TS) / sizeof(ampsLow_TS[0]) * 2);
-    ampsHigh->setValue(minAmp);
->>>>>>> 17438ff9f0e02b7f10c64fc5eae963f7dd2ca6c0
     ampsHigh->notify();
 
     dipSwitches->setValue((uint8_t *)dipSwitches_TS, sizeof(dipSwitches_TS) / sizeof(dipSwitches_TS[0]) * 2);
