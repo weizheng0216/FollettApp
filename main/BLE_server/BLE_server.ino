@@ -2,15 +2,16 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 
-#define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+// Used to establish unique BT advertisements
 #define ampsLow_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
 #define ampsHigh_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
 #define dip_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A4"
-#define err_UUID  "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
+#define err_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A5"
 #define mode_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
 #define led1_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A6"
 #define led2_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A7"
 
+// Define different characteristics for each data.
 BLECharacteristic *ampsLow;
 BLECharacteristic *ampsHigh;
 BLECharacteristic *dipSwitches;
@@ -20,83 +21,16 @@ BLECharacteristic *led1;
 BLECharacteristic *led2;
 
 unsigned long mainMillis = millis();
-uint8_t ampsLow_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}}; // -1 indicates array is not full.
-uint8_t dipSwitches_TS[7][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {10, 0}};
 uint8_t counter = 0;
 
-// [TODO] Change to send only hiamp data point
-bool getData(byte data[])
+void setup()
 {
-
-  byte request[] = {
-    90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171
-  };
-  byte reply[170]; // was 167
-  byte i;
-  bool flag = false;
-
-  Serial.write(request, 105); // was 102
-
-  unsigned long currentMillis = millis();
-  while (!Serial.available())
-  {
-    if (millis() - currentMillis >= 500)
-    {
-      flag = true;
-      break;
-    }
-    delay(0);
-  }
-
-  Serial.readBytes(reply, 170); // was 167
-
-  if (!flag)
-  {
-    // condense data
-    // data[0] = reply[133]; //amps lowbyte was 130
-    // data[1] = reply[134]; //amps highbyte was 131
-    data[0] = reply[133]; // amps lowbyte was 130
-    data[1] = reply[134]; // amps highbyte was 131
-    for (i = 0; i < 8; i++)
-    {
-      bitWrite(data[2], i, reply[135 + i]);
-    } // merge din0-7 into 1 byte was 132
-    data[3] = 0;
-    for (i = 0; i < 1; i++)
-    {
-      bitWrite(data[3], i, reply[143 + i]);
-    }                     // merge din8-12 into 1 byte was 140 --- only 1st byte still valid, following 4 bytes are new auger current min/max
-    data[4] = reply[148]; // dipswitches was 145
-    data[5] = reply[149]; // dout0 was 146
-    // ignore dout8,16,24
-    data[6] = reply[153]; // errors lowbyte was 150
-    data[7] = reply[154]; // errors highbyte was 151
-    data[8] = reply[155]; // mymode was 152
-  }
-  else
-  {
-    data[0] = 255;
-    data[1] = 255;
-  }
-  return !flag;
-}
-
-// Notifies iPhone about information for each data entry
-void sendData() {
-
-  ampsLow->notify();
-  ampsHigh->notify();
-  mode->notify();
-
-}
-
-void setup() {
   Serial.begin(14400);
-  Serial.setTimeout(200); //ht5
-  digitalWrite(17, LOW); // turns on serial1 output pin.
+  Serial.setTimeout(200); // ht5
+  digitalWrite(17, LOW);  // turns on serial1 output pin.
 
   Serial.println("Starting BLE work!");
-  mainMillis = millis(); //init start time
+  mainMillis = millis(); // init start time
 
   BLEDevice::init("Follett Ice Machine");
   BLEServer *pServer = BLEDevice::createServer();
@@ -104,37 +38,34 @@ void setup() {
 
   // Intialize Bluetooth Characteristics
   ampsLow = pService->createCharacteristic(
-              ampsLow_UUID,
-              BLECharacteristic::PROPERTY_READ |
-              BLECharacteristic::PROPERTY_WRITE);
+      ampsLow_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
-               ampsHigh_UUID,
-               BLECharacteristic::PROPERTY_READ |
-               BLECharacteristic::PROPERTY_WRITE);
+      ampsHigh_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-                  dip_UUID,
-                  BLECharacteristic::PROPERTY_READ |
-                  BLECharacteristic::PROPERTY_WRITE);
+      dip_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
 
   err = pService->createCharacteristic(
-          err_UUID,
-          BLECharacteristic::PROPERTY_READ |
+      err_UUID,
+      BLECharacteristic::PROPERTY_READ |
           BLECharacteristic::PROPERTY_WRITE);
   mode = pService->createCharacteristic(
-           mode_UUID,
-           BLECharacteristic::PROPERTY_READ |
-           BLECharacteristic::PROPERTY_WRITE);
+      mode_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
   led1 = pService->createCharacteristic(
-           led1_UUID,
-           BLECharacteristic::PROPERTY_READ |
-           BLECharacteristic::PROPERTY_WRITE);
+      led1_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
   led2 = pService->createCharacteristic(
-           led2_UUID,
-           BLECharacteristic::PROPERTY_READ |
-           BLECharacteristic::PROPERTY_WRITE);
-
-
-
+      led2_UUID,
+      BLECharacteristic::PROPERTY_READ |
+          BLECharacteristic::PROPERTY_WRITE);
 
   // Start Bluetooth Service
   pService->start();
@@ -148,78 +79,78 @@ void setup() {
   Serial.println("Characteristic defined! Now you can read it in your phone!");
   Serial2.begin(9600);
   Serial2.println("Second serial begins.");
-
 }
 
-void loop() {
+void loop()
+{
 
   byte minAmpLB = 0; // left byte
-  byte minAmpRB =  0; // right byte
-
+  byte minAmpRB = 0; // right byte
   byte maxAmpLB = 0;
   byte maxAmpRB = 0;
 
-  unsigned int minAmp = 0 ;
-  unsigned int maxAmp = 0 ;
-  
+  unsigned int minAmp = 0;
+  unsigned int maxAmp = 0;
   int errv = 0;
   uint8_t modev = 0;
   uint8_t led1v = 0;
   uint8_t led2v = 0;
 
-
-
-  // Extraction
-  if (millis() - mainMillis >= 250) {
+  // Extraction from ice machine
+  if (millis() - mainMillis >= 250)
+  {
 
     mainMillis = millis();
-    digitalWrite(0, LOW); //led on
+    digitalWrite(0, LOW); // led on
 
     byte request[] = {
-      90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171
-    };
-    byte reply[170]; //was 167
+        90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171};
+    byte reply[170]; // was 167
     byte data[9];
     byte i;
     bool flag = false;
 
-    Serial.write(request, 105); //was 102
+    Serial.write(request, 105); // Request information from ice machine and
 
     unsigned long currentMillis = millis();
-    while (!Serial.available()) {
-      if (millis() - currentMillis >= 500) {
+    while (!Serial.available())
+    {
+      if (millis() - currentMillis >= 500)
+      {
         flag = true;
         break;
       }
       delay(0);
     }
 
-    Serial.readBytes(reply, 170); // was 167
+    Serial.readBytes(reply, 170); // Write the response to reply array
 
-    if (!flag) { // extract informaiton from ice machine
-      //condense data
-      
+    if (!flag)
+    { // extract informaiton from ice machine
+      // condense data
+
       maxAmpRB = reply[144];
       maxAmpLB = reply[145];
       minAmpRB = reply[146];
       minAmpLB = reply[147];
 
-      data[1] = reply[145]; //amps highbyte was 131; =>  was 134; min auger current
-      data[4] = reply[148]; //dipswitches was 145
-      //ignore dout8,16,24
-      data[6] = reply[153]; //errors lowbyte was 150
-      data[7] = reply[154]; //errors highbyte was 151 // ERROR: Empty
+      data[1] = reply[145]; // amps highbyte was 131; =>  was 134; min auger current
+      data[4] = reply[148]; // dipswitches was 145
+      // ignore dout8,16,24
+      data[6] = reply[153]; // errors lowbyte was 150
+      data[7] = reply[154]; // errors highbyte was 151 // ERROR: Empty
       errv = data[6] + ((int)data[7] << 8);
-      data[8] = reply[155]; //mymode was 152 -- ERROR: empty
-      minAmp =  minAmpLB | ((int)minAmpRB << 8);//
-      maxAmp =  maxAmpLB | ((int)maxAmpRB << 8);//
-      
+      data[8] = reply[155];                     // mymode was 152 -- ERROR: empty
+      minAmp = minAmpLB | ((int)minAmpRB << 8); //
+      maxAmp = maxAmpLB | ((int)maxAmpRB << 8); //
+
       modev = (uint8_t)data[8];
       led1v = reply[150];
       led2v = reply[151];
       counter++;
     }
-    else {
+    else
+    {
       data[0] = 255;
       data[1] = 255;
       data[2] = 0;
@@ -227,14 +158,15 @@ void loop() {
     }
 
     // Update array
-    uint32_t ampsLow_TS= minAmp; // -1 indicates array is not full.
+    uint32_t ampsLow_TS = minAmp;
     uint32_t ampsHigh_TS = maxAmp;
     uint8_t dipSwitches_TS[1][2] = {{(int)data[4]}};
     uint8_t err_TS[1][2] = {{errv}};
     uint8_t mode_TS[1][2] = {{counter, modev}};
-    uint8_t led1_TS[1][2] = {{counter, led1v }};
-    uint8_t led2_TS[1][2] = {{counter, led2v }};
+    uint8_t led1_TS[1][2] = {{counter, led1v}};
+    uint8_t led2_TS[1][2] = {{counter, led2v}};
 
+    // Update advertisment objects and send to BT server to iPhone
     ampsLow->setValue(minAmp);
     ampsLow->notify();
 
@@ -255,10 +187,7 @@ void loop() {
 
     led2->setValue((uint8_t *)led2_TS, sizeof(led2_TS) / sizeof(led2_TS[0]) * 2);
     led2->notify();
-
-
   }
 
   delay(1000);
-
 }
