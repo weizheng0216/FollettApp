@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 10/23/22.
-//
+//  Support for SwiftUI, ability to display bar chart, not being used in the app
 
 import Charts
 import SwiftUI

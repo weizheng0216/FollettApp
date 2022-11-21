@@ -3,15 +3,13 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 10/23/22.
-//
+//  Support for SwiftUI, ability to display stacked bar chart, used for error st
 
 import Charts
 import SwiftUI
 
 struct StackedBarChart: UIViewRepresentable {
     
-//    var power: [ChartDataEntry]
-//    var low: [ChartDataEntry]
     var yVals: [BarChartDataEntry]
     
     let stackedBarChart = BarChartView()
@@ -36,6 +34,7 @@ struct StackedBarChart: UIViewRepresentable {
         stackedBarChart.legend.horizontalAlignment = .right
         stackedBarChart.scaleXEnabled = true
         stackedBarChart.scaleYEnabled = false
+        stackedBarChart.xAxis.valueFormatter = DateValueFormatter()
         stackedBarChart.isUserInteractionEnabled = true
         
         return stackedBarChart
@@ -43,10 +42,11 @@ struct StackedBarChart: UIViewRepresentable {
     
     func updateUIView(_ uiView: BarChartView, context: Context) {
         
-        
+        // yVals format -> [x, [data]]
         let set = BarChartDataSet(entries: yVals, label: "Error State")
         
         set.valueFormatter = DefaultValueFormatter(decimals: 0)
+        // each color is used for differnt mode
         set.colors = [  .gray,
                         .blue,
                         .yellow,

@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 5/3/22.
-//
+//  3-in-1 graph view that select different charts
 
 import SwiftUI
 

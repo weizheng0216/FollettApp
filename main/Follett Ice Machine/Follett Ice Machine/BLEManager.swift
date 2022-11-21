@@ -9,9 +9,10 @@ struct Peripheral: Identifiable {
     let rssi: Int
     let cbPerpheral: CBPeripheral
 }
-//
+
 struct CBUUIDs{
 
+    // list all of the characteristics UUID as constant for easier reference
     static let mode_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A1"
     static let ampsLow_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A2"
     static let ampsHigh_UUID = "BEB5483E-36E1-4688-B7F5-EA07361B26A3"
@@ -32,6 +33,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     var myCentral: CBCentralManager!
     var myPeripheral: CBPeripheral!
     
+    // init all the tx and rx vairables for all the characteristics
     private var ampsLow_tx: CBCharacteristic!
     private var ampsLow_rx: CBCharacteristic!
     private var ampsHigh_tx: CBCharacteristic!
@@ -61,22 +63,26 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var isSwitchedOn = false
     @Published var peripherals = [Peripheral]()
     
-    @Published var maxAmpData: [[Double]] = []
+    // arraies for data tables
+    @Published var maxAmpData: [[Double]] = [[1669065590.0, 10.0]]
     @Published var minAmpData: [[Double]] = []
     @Published var modeData: [[Double]] = []
-    @Published var errHighData: [[Double]] = []
+    @Published var errorData: [[Double]] = []
     @Published var dipSwitchData: [[Double]] = []
     @Published var led1Data: [[Double]] = []
     @Published var led2Data: [[Double]] = []
     
-//    @ObservedObject var iceMachineState = IceMachineStatus()
+    // arraies for graphes
     @Published var minEntries: [ChartDataEntry] = []
     @Published var maxEntries: [ChartDataEntry] = []
     @Published var modeEntries: [ChartDataEntry] = []
     @Published var errorEntries: [BarChartDataEntry] = []
+    
+    // led and dip switches
     var status = IceMachineStatus.shared
     var dpStatus = DipSwitchStatus.dswitch
-    var counter = 0
+    
+//    var counter = 0
 
     override init() {
         super.init()
@@ -156,14 +162,14 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
               return
         }
             
-        print("Found \(characteristics.count) characteristics.")
-        print("\(characteristics[0])")
-        print("\(characteristics[1])")
-        print("\(characteristics[2])")
-        print("\(characteristics[3])")
-        print("\(characteristics[4])")
-        print("\(characteristics[5])")
-        print("\(characteristics[6])")
+//        print("Found \(characteristics.count) characteristics.")
+//        print("\(characteristics[0])")
+//        print("\(characteristics[1])")
+//        print("\(characteristics[2])")
+//        print("\(characteristics[3])")
+//        print("\(characteristics[4])")
+//        print("\(characteristics[5])")
+//        print("\(characteristics[6])")
         
         
 
@@ -223,33 +229,56 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 //        print("\(characteristicValue)")
         
         if (characteristic.uuid.uuidString == CBUUIDs.mode_UUID){
-            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
-                counter = Int(characteristicValue[i])
-                self.modeEntries.append(ChartDataEntry(x: Double(characteristicValue[i]), y: Double(characteristicValue[i+1]), data: "Mode data"))
-                self.modeData.append([Double(characteristicValue[i]), Double(characteristicValue[i+1])])
-            }
+//            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+                let time = Date().timeIntervalSince1970
+                let mode = Double(characteristicValue[1])
+//                counter = Int(characteristicValue[i])
+                self.modeEntries.append(ChartDataEntry(x: Double(time), y: Double(mode), data: "Mode data"))
+                self.modeData.append([Double(time), Double(mode)])
+                if (self.modeData.count > 80){
+                    self.modeData = self.modeData.suffix(50)
+                }
+                if (self.modeEntries.count > 80){
+                    self.modeEntries = self.modeEntries.suffix(50)
+                }
+//            }
         } else if(characteristic.uuid.uuidString == CBUUIDs.ampsLow_UUID){
             let time = Date().timeIntervalSince1970
-//                let value = [UInt8](characteristic.value!)
-            self.minEntries.append(ChartDataEntry(x: Double(time), y: Double(characteristicValue[0]), data: "Min Amp data"))
-//                print(characteristicValue[0])
-//                print(characteristicValue[1])
+            let minAmp = Double(characteristicValue[0])
+            let val = Int(characteristicValue[0])
+            self.minEntries.append(ChartDataEntry(x: Double(time), y: minAmp, data: "Min Amp data"))
             
-            if (self.minAmpData.count > 50){
-                self.minAmpData = self.minAmpData.suffix(20)
+            if (self.minAmpData.count > 80){
+                self.minAmpData = self.minAmpData.suffix(50)
             }
-            self.minAmpData.append([Double(time), Double(characteristicValue[0])])
+            if (self.minEntries.count > 80){
+                self.minEntries = self.minEntries.suffix(50)
+            }
+            self.minAmpData.append([Double(time), minAmp])
+            
+            print("Amp")
+            print(minAmp)
+            print(val)
+            
             
         } else if (characteristic.uuid.uuidString == CBUUIDs.ampsHigh_UUID){
             let time = Date().timeIntervalSince1970
         //                let value = [UInt8](characteristic.value!)
-            self.maxEntries.append(ChartDataEntry(x: Double(time), y: Double(characteristicValue[0]), data: "Max Amp data"))
+            let maxAmp = Double(characteristicValue[0])
+            let val = UInt16(characteristicValue[0])
             
-            if (self.maxAmpData.count > 50){
-                self.maxAmpData = self.maxAmpData.suffix(20)
+            self.maxEntries.append(ChartDataEntry(x: Double(time), y: maxAmp, data: "Max Amp data"))
+            
+            if (self.maxAmpData.count > 80){
+                self.maxAmpData = self.maxAmpData.suffix(50)
             }
+            if (self.minEntries.count > 80){
+                self.maxEntries = self.maxEntries.suffix(50)
+            }
+            
+            print(val)
 
-            self.maxAmpData.append([Double(time), Double(characteristicValue[0])])
+            self.maxAmpData.append([Double(time), maxAmp])
             
         } else if (characteristic.uuid.uuidString == CBUUIDs.led1_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
@@ -264,7 +293,11 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                         status.statusArray[i] = 1
                     }
                 }
+                
                 self.led1Data.append([Double(time), Double(characteristicValue[i+1])])
+                if (self.led1Data.count > 80){
+                    self.led1Data = self.led1Data.suffix(50)
+                }
             }
         } else if (characteristic.uuid.uuidString == CBUUIDs.led2_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
@@ -281,11 +314,14 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                     }
                 }
                 self.led2Data.append([Double(time), Double(characteristicValue[i+1])])
+                if (self.led1Data.count > 80){
+                    self.led1Data = self.led1Data.suffix(50)
+                }
             }
 
         } else if (characteristic.uuid.uuidString == CBUUIDs.errHigh_UUID){
-            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
-                let val = UInt16(characteristicValue[i])
+//            for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
+                let val = UInt16(characteristicValue[0])
                 var errState = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
                 let masks: [UInt16] = [1,2,4,8,16,32,64,128,256,512,32768]
                 let time = Date().timeIntervalSince1970
@@ -295,24 +331,35 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                         errState[i] = 1.0
                     }
                 }
+            
                 
                 self.errorEntries.append(BarChartDataEntry(x: Double(time), yValues: errState, data: "Error data"))
-                self.errHighData.append([Double(time), Double(characteristicValue[i+1])])
-            }
+                self.errorData.append([Double(time), Double(val)])
+                if (self.errorData.count > 80){
+                    self.errorData = self.maxAmpData.suffix(50)
+                }
+                if (self.errorEntries.count > 80){
+                    self.errorEntries = self.errorEntries.suffix(50)
+                }
+//            }
         } else if (characteristic.uuid.uuidString == CBUUIDs.dipSwitch_UUID){
             
-            dpStatus.isOn = [false, false, false, false, false, false, false, false]
+//            dpStatus.isOn = [false, false, false, false, false, false, false, false]
+            dpStatus.isOn = [true, true, true, true, true, true, true, true]
             let masks: [UInt8] = [1,2,4,8,16,32,64,128]
             let time = Date().timeIntervalSince1970
             let val = UInt8(characteristicValue[0])
 
             for i in 0...7 {
                 if (val&masks[i] >= 1){
-                    dpStatus.isOn[i] = true
+                    dpStatus.isOn[i] = false
                 }
             }
             
             self.dipSwitchData.append([Double(time), Double(characteristicValue[0])])
+            if (self.dipSwitchData.count > 80){
+                self.dipSwitchData = self.dipSwitchData.suffix(50)
+            } 
 
         } else {
 

@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 5/2/22.
-//
+//  Support for SwiftUI, ability to display pie chart, intended to used for the utilization summary, but not used in the current app
 
 import Foundation
 import Charts

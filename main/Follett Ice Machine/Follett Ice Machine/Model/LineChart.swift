@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 4/2/22.
-//
+//  Support for SwiftUI, ability to display line chart, used for mode values
 
 import Charts
 import SwiftUI
@@ -50,6 +50,7 @@ struct LineChart: UIViewRepresentable {
         dataSet.valueColors = [.blue]
         dataSet.valueFormatter = DefaultValueFormatter(decimals: 0)
         dataSet.drawCirclesEnabled = true
+        // the graph would be straight up and down instead of smoothing the data
         dataSet.mode = .stepped
         dataSet.highlightEnabled = false
         
