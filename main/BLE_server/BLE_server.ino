@@ -39,33 +39,33 @@ void setup()
 
   // Intialize Bluetooth Characteristics
   ampsLow = pService->createCharacteristic(
-      ampsLow_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+              ampsLow_UUID,
+              BLECharacteristic::PROPERTY_READ |
+              BLECharacteristic::PROPERTY_WRITE);
   ampsHigh = pService->createCharacteristic(
-      ampsHigh_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+               ampsHigh_UUID,
+               BLECharacteristic::PROPERTY_READ |
+               BLECharacteristic::PROPERTY_WRITE);
   dipSwitches = pService->createCharacteristic(
-      dip_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+                  dip_UUID,
+                  BLECharacteristic::PROPERTY_READ |
+                  BLECharacteristic::PROPERTY_WRITE);
   err = pService->createCharacteristic(
-      err_UUID,
-      BLECharacteristic::PROPERTY_READ |
+          err_UUID,
+          BLECharacteristic::PROPERTY_READ |
           BLECharacteristic::PROPERTY_WRITE);
   mode = pService->createCharacteristic(
-      mode_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+           mode_UUID,
+           BLECharacteristic::PROPERTY_READ |
+           BLECharacteristic::PROPERTY_WRITE);
   led1 = pService->createCharacteristic(
-      led1_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+           led1_UUID,
+           BLECharacteristic::PROPERTY_READ |
+           BLECharacteristic::PROPERTY_WRITE);
   led2 = pService->createCharacteristic(
-      led2_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+           led2_UUID,
+           BLECharacteristic::PROPERTY_READ |
+           BLECharacteristic::PROPERTY_WRITE);
 
   // Start Bluetooth Service
   pService->start();
@@ -80,13 +80,8 @@ void setup()
 void loop()
 {
 
-  byte minAmpLB = 0; // left byte
-  byte minAmpRB = 0; // right byte
-  byte maxAmpLB = 0;
-  byte maxAmpRB = 0;
-
-  unsigned int minAmp = 0;
-  unsigned int maxAmp = 0;
+  uint8_t minAmp_TS[2];
+  uint8_t maxAmp_TS[2];
   int errv = 0;
   uint8_t modev = 0;
   uint8_t led1v = 0;
@@ -100,7 +95,8 @@ void loop()
     digitalWrite(0, LOW); // led on
 
     byte request[] = {
-        90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171};
+      90, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 171
+    };
     byte reply[170]; // was 167
     byte data[9];
     byte i;
@@ -120,25 +116,23 @@ void loop()
     }
 
     Serial.readBytes(reply, 170); // Write the response to reply array
+    int testVal = 5;
 
     if (!flag)
     { // extract informaiton from ice machine
       // condense data
 
-      maxAmpRB = reply[144];
-      maxAmpLB = reply[145];
-      minAmpRB = reply[146];
-      minAmpLB = reply[147];
+      maxAmp_TS[0] = reply[144]; // max amp right byte
+      maxAmp_TS[1] = reply[145]; // max amp left byte
+      minAmp_TS[0] = reply[146]; // min amp right byte
+      minAmp_TS[1] = reply[147]; // min amp left byte
 
-      data[1] = reply[145]; // amps highbyte was 131; =>  was 134; min auger current
+
       data[4] = reply[148]; // dipswitches was 145
-      // ignore dout8,16,24
       data[6] = reply[153]; // errors lowbyte was 150
       data[7] = reply[154]; // errors highbyte was 151 // ERROR: Empty
       errv = data[6] + ((int)data[7] << 8);
-      data[8] = reply[155];                     // mymode was 152 -- ERROR: empty
-      minAmp = minAmpLB | ((int)minAmpRB << 8); //
-      maxAmp = maxAmpLB | ((int)maxAmpRB << 8); //
+      data[8] = reply[155]; // mymode was 152 -- ERROR: empty
 
       modev = (uint8_t)data[8];
       led1v = reply[150];
@@ -154,8 +148,6 @@ void loop()
     }
 
     // Update array
-    uint32_t ampsLow_TS = minAmp;
-    uint32_t ampsHigh_TS = maxAmp;
     uint8_t dipSwitches_TS[1][2] = {{(int)data[4]}};
     uint8_t err_TS[1][2] = {{errv}};
     uint8_t mode_TS[1][2] = {{counter, modev}};
@@ -163,10 +155,10 @@ void loop()
     uint8_t led2_TS[1][2] = {{counter, led2v}};
 
     // Update advertisment objects and send to BT server to iPhone
-    ampsLow->setValue(minAmp);
+    ampsLow->setValue(minAmp_TS, sizeof(minAmp_TS) / sizeof(minAmp_TS[0]) * 2);
     ampsLow->notify();
 
-    ampsHigh->setValue(maxAmp);
+    ampsHigh->setValue(maxAmp_TS, sizeof(maxAmp_TS) / sizeof(maxAmp_TS[0]) * 2);
     ampsHigh->notify();
 
     dipSwitches->setValue((uint8_t *)dipSwitches_TS, sizeof(dipSwitches_TS) / sizeof(dipSwitches_TS[0]) * 2);
