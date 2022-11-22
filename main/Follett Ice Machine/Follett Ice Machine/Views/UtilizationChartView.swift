@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 5/2/22.
-//
+//  Intented to be used for the utilization pie chart, not used in the current app
 
 import Charts
 import SwiftUI

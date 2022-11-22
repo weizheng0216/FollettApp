@@ -21,6 +21,7 @@
 		4A76E1E02821E67E004A74A9 /* GanttView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1DF2821E67D004A74A9 /* GanttView.swift */; };
 		4A76E1E22822D728004A74A9 /* DataTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76E1E12822D727004A74A9 /* DataTableView.swift */; };
 		4A76E1E52822D763004A74A9 /* Tabler in Frameworks */ = {isa = PBXBuildFile; productRef = 4A76E1E42822D763004A74A9 /* Tabler */; };
+		4A819F5E292C10D8000DF88E /* DataReadings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A819F5D292C10D8000DF88E /* DataReadings.swift */; };
 		4A89C822281ADA930022FB97 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C821281ADA930022FB97 /* BLEManager.swift */; };
 		4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A89C828281C71E90022FB97 /* MultipleLineChart.swift */; };
 		4A89C82B281C73D70022FB97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A89C82A281C73D70022FB97 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		4A76E1DD2821E247004A74A9 /* ChooseGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGraphView.swift; sourceTree = "<group>"; };
 		4A76E1DF2821E67D004A74A9 /* GanttView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GanttView.swift; sourceTree = "<group>"; };
 		4A76E1E12822D727004A74A9 /* DataTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableView.swift; sourceTree = "<group>"; };
+		4A819F5D292C10D8000DF88E /* DataReadings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReadings.swift; sourceTree = "<group>"; };
 		4A89C821281ADA930022FB97 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		4A89C823281AF9BD0022FB97 /* Follett-Ice-Machine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Follett-Ice-Machine-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4A89C828281C71E90022FB97 /* MultipleLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleLineChart.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				4A76E1C62820441A004A74A9 /* IceMachineStatus.swift */,
 				4A18E1BC2911F0C600215CC5 /* DipSwitchStatus.swift */,
 				4A89C821281ADA930022FB97 /* BLEManager.swift */,
+				4A819F5D292C10D8000DF88E /* DataReadings.swift */,
 				4A76E1CA282095D9004A74A9 /* Model */,
 				4A89C834281CADC80022FB97 /* Views */,
 				4A93ABDB2808AA1B00ACAB72 /* Follett_Ice_MachineApp.swift */,
@@ -236,6 +239,7 @@
 				4A89C829281C71E90022FB97 /* MultipleLineChart.swift in Sources */,
 				4A76E1CC28209672004A74A9 /* UtilizationChartView.swift in Sources */,
 				4A76E1E02821E67E004A74A9 /* GanttView.swift in Sources */,
+				4A819F5E292C10D8000DF88E /* DataReadings.swift in Sources */,
 				4ABB5B9C29058EF3003F4D62 /* BarChart.swift in Sources */,
 				4A93ABDE2808AA1B00ACAB72 /* ContentView.swift in Sources */,
 				4A18E1BD2911F0C600215CC5 /* DipSwitchStatus.swift in Sources */,
@@ -386,6 +390,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Follett-Ice-Machine-Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The will use the bluetooth to scan the ice machine";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -417,6 +422,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Follett-Ice-Machine-Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The will use the bluetooth to scan the ice machine";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

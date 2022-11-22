@@ -3,7 +3,7 @@
 //  Follett Ice Machine
 //
 //  Created by Wei Zheng on 5/3/22.
-//
+//  Timeline graph implementation, not used in current app
 import SwiftUI
 import WebKit
 
