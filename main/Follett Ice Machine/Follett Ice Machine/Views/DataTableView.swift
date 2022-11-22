@@ -89,7 +89,10 @@ struct DataTableView: View {
 
     }
 
+//    @State var didTap:Bool = false
+    @State private var exportDone = false
     var body: some View {
+        
         ZStack {
             
             TablerList(header: header,
@@ -102,6 +105,12 @@ struct DataTableView: View {
                     Spacer()
                     Button(action: {
                         createCSV()
+                        exportDone = true
+                        // delay 2s for pop up tp disappear
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            self.exportDone = false
+                        }
+                        
                     }, label: {
                         Image(systemName: "square.and.arrow.up")
                             .frame(width: 70, height: 70)
@@ -116,7 +125,29 @@ struct DataTableView: View {
                             y: 3)
                 }
             }
+            
+            if (exportDone) {
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundColor(Color.gray)
+                    .frame(width: 250, height: 250)
+                    .overlay(
+                        VStack {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 90))
+                                .padding(.bottom, 10)
+                            
+                            Text("Export Succeed")
+                                .font(.system(size: 25))
+                                .padding(.bottom, 5)
+                            Text("Files->Follett Ice Machine->\(tableName).csv")
+                                .font(.system(size: 10))
+                        }
+                    )
+            }
         }
+        
+        
+        
     }
 }
 
