@@ -64,7 +64,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var peripherals = [Peripheral]()
     
     // arraies for data tables
-    @Published var maxAmpData: [[Double]] = [[1669065590.0, 10.0]]
+    @Published var maxAmpData: [[Double]] = []
     @Published var minAmpData: [[Double]] = []
     @Published var modeData: [[Double]] = []
     @Published var errorData: [[Double]] = []
@@ -244,8 +244,13 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 //            }
         } else if(characteristic.uuid.uuidString == CBUUIDs.ampsLow_UUID){
             let time = Date().timeIntervalSince1970
-            let minAmp = Double(characteristicValue[0])
-            let val = Int(characteristicValue[0])
+            
+            let minAmpRB = UInt8(characteristicValue[0])
+            let minAmpLB = UInt8(characteristicValue[1])
+            let minAmp = Double(UInt16(minAmpLB) << 8 | UInt16(minAmpRB))
+            let minAmpInt = Int(UInt16(minAmpLB) << 8 | UInt16(minAmpRB))
+            let minAmpU16 = UInt16(minAmpLB) << 8 | UInt16(minAmpRB)
+            
             self.minEntries.append(ChartDataEntry(x: Double(time), y: minAmp, data: "Min Amp data"))
             
             if (self.minAmpData.count > 80){
@@ -255,17 +260,20 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                 self.minEntries = self.minEntries.suffix(50)
             }
             self.minAmpData.append([Double(time), minAmp])
-            
-            print("Amp")
+            print("min")
             print(minAmp)
-            print(val)
+            print(minAmpInt)
+            print(minAmpU16)
             
             
         } else if (characteristic.uuid.uuidString == CBUUIDs.ampsHigh_UUID){
             let time = Date().timeIntervalSince1970
-        //                let value = [UInt8](characteristic.value!)
-            let maxAmp = Double(characteristicValue[0])
-            let val = UInt16(characteristicValue[0])
+            
+            let maxAmpRB = UInt8(characteristicValue[0])
+            let maxAmpLB = UInt8(characteristicValue[1])
+            let maxAmp = Double(UInt16(maxAmpLB) << 8 | UInt16(maxAmpRB))
+            let maxAmpInt = Int(UInt16(maxAmpLB) << 8 | UInt16(maxAmpRB))
+            let maxAmpU16 = UInt16(maxAmpLB) << 8 | UInt16(maxAmpRB)
             
             self.maxEntries.append(ChartDataEntry(x: Double(time), y: maxAmp, data: "Max Amp data"))
             
@@ -275,10 +283,12 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             if (self.minEntries.count > 80){
                 self.maxEntries = self.maxEntries.suffix(50)
             }
-            
-            print(val)
 
             self.maxAmpData.append([Double(time), maxAmp])
+            print("amp")
+            print(maxAmp)
+            print(maxAmpInt)
+            print(maxAmpU16)
             
         } else if (characteristic.uuid.uuidString == CBUUIDs.led1_UUID){
             for i in stride(from: 0, through: characteristicValue.count - 1, by: 2) {
